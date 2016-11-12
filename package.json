@@ -7,8 +7,10 @@
     "test": "jest"
   },
   "dependencies": {
+    "babel-relay-plugin": "^0.9.3",
     "react": "15.3.2",
-    "react-native": "0.36.1"
+    "react-native": "0.36.1",
+    "react-relay": "^0.9.3"
   },
   "jest": {
     "preset": "jest-react-native"
