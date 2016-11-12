@@ -26,8 +26,6 @@ const {
 } = NavigationExperimental;
 
 import createAppNavigationContainer from './CreateNavigationContainer';
-import NavigationExampleRow from '../NavigationExampleRow'
-
 
 const TabsNavigator = createAppNavigationContainer(class extends Component {
   static propTypes = {
