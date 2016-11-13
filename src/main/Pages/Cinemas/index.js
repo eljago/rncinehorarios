@@ -1,6 +1,6 @@
 //@flow
 'use strict'
 
-import Comp from './container'
+import Cinemas from './container/Cinemas'
 
-export default Comp
+export default Cinemas

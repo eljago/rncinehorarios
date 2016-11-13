@@ -4,11 +4,12 @@
 import React, { PropTypes } from 'react'
 import ReactNative, { NavigationExperimental } from 'react-native'
 const { PropTypes: NavigationPropTypes } = NavigationExperimental;
+import _ from 'lodash'
 
 import createAppNavigationContainer from '../../../Navigation/CreateNavigationContainer';
 import GetRoute from '../../../Navigation/GetRoute'
-
-import Cinemas from '../components/Cinemas'
+import MyGiftedListView from '../../../../components/MyGiftedListView'
+import CinemaCell from '../components/CinemaCell'
 import CINEMAS from '../../../../../data/Cinemas'
 
 export default createAppNavigationContainer(class extends React.Component {
@@ -21,16 +22,33 @@ export default createAppNavigationContainer(class extends React.Component {
     super(props);
     this.state = {
       dataRows: CINEMAS,
-    }
+    };
+    _.bindAll(this, [
+      '_renderRow',
+      '_onPress',
+    ]);
   }
 
   render() {
     return (
-      <Cinemas 
-        onPress={this._onPress.bind(this)}
+      <MyGiftedListView
+        renderRow={this._renderRow}
         dataRows={this.state.dataRows}
       />
-    )
+    );
+  }
+
+  _renderRow(rowData, sectionID, rowID, highlightRow) {
+    const images = rowData.images;
+    const image = images.length > 0 ? images[Math.floor(Math.random()*images.length)] : null;
+    return (
+      <CinemaCell
+        rowNumber={rowData.rowNumber}
+        title={rowData.name}
+        image={image}
+        onPress={this._onPress}
+      />
+    );
   }
 
   _onPress(rowData) {
