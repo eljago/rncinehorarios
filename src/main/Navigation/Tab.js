@@ -14,6 +14,7 @@ const {
 } = NavigationExperimental;
 
 import createAppNavigationContainer from './CreateNavigationContainer';
+import Colors from '../../../data/Colors'
 
 export default createAppNavigationContainer(class extends React.Component {
 
@@ -30,13 +31,20 @@ export default createAppNavigationContainer(class extends React.Component {
 
   render(): React.Element {
     const style = [styles.tabText];
+    const styleTab = [styles.tab];
     if (this.props.selected) {
-      style.push(styles.tabSelected);
+      style.push(styles.tabTextSelected);
+      styleTab.push(styles.tabSelected);
     }
+    const route = this.props.route;
     return (
-      <TouchableOpacity style={styles.tab} onPress={this._onPress}>
+      <TouchableOpacity
+        activeOpacity={0.9}
+        style={styleTab}
+        onPress={this._onPress}
+      >
         <Text style={style}>
-          {this.props.route.key}
+          {route.title ? route.title : route.key}
         </Text>
       </TouchableOpacity>
     );
@@ -50,15 +58,18 @@ export default createAppNavigationContainer(class extends React.Component {
 const styles = StyleSheet.create({
   tab: {
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: Colors.tabBar,
     flex: 1,
     justifyContent: 'center',
   },
+  tabSelected: {
+    backgroundColor: Colors.tabBarSelected,
+  },
   tabText: {
-    color: '#222',
+    color: Colors.tabBarIcon,
     fontWeight: '500',
   },
-  tabSelected: {
-    color: 'blue',
+  tabTextSelected: {
+    color: Colors.tabBarIconSelected,
   },
 });
