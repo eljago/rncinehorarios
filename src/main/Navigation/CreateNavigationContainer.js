@@ -1,15 +1,10 @@
 
-import React from 'react';
-
-const {
-  Component,
-  PropTypes,
-} = React;
+import React, { PropTypes } from 'react';
 
 function createAppNavigationContainer(ComponentClass) {
   const key = '_yourAppNavigationContainerNavigateCall';
 
-  class Container extends Component {
+  class Container extends React.Component {
     static contextTypes = {
       [key]: PropTypes.func,
     };

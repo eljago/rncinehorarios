@@ -1,22 +1,18 @@
 // @flow
-'use strict';
+'use strict'
 
-const React = require('react');
-const ReactNative = require('react-native');
-
-const { Component, PropTypes } = React;
-const { NavigationExperimental, StyleSheet, View } = ReactNative;
+import React, { PropTypes } from 'react';
+import ReactNative, { NavigationExperimental, StyleSheet, View } from 'react-native'
 
 const {
   CardStack: NavigationCardStack,
-  Header: NavigationHeader,
   PropTypes: NavigationPropTypes,
 } = NavigationExperimental;
 
 import {createAppNavigationState, updateAppNavigationState} from './Navigation/NavigationState';
 import createAppNavigationContainer from './Navigation/CreateNavigationContainer'
 
-export default class CineHorariosApp extends Component {
+export default class CineHorariosApp extends React.Component {
 
   constructor(props, context) {
     super(props, context);
@@ -52,7 +48,7 @@ export default class CineHorariosApp extends Component {
 }
 
 // Main Navigator of the app. Receives the whole app navigaiton state passed from props.
-const SuperNavigator = createAppNavigationContainer(class extends Component {
+const SuperNavigator = createAppNavigationContainer(class extends React.Component {
   static propTypes = {
     appNavigationState: NavigationPropTypes.navigationState.isRequired,
     navigate: PropTypes.func.isRequired,
@@ -85,10 +81,14 @@ const SuperNavigator = createAppNavigationContainer(class extends Component {
   _renderScene(sceneProps: Object): React.Element {
     const {index} = sceneProps.scene;
     const {scenes} = sceneProps;
+    const scene = scenes[index];
     const Comp = scenes[index].route.component;
+    console.log("SCENE:");
+    console.log(scene);
     return (
       <Comp
-        navigationState={scenes[index].route}
+        navigationState={scene.route}
+        {...scene.props}
       />
     );
   }
