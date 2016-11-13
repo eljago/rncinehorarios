@@ -47,12 +47,14 @@ function GetRoute(key: String): Object {
       return {
         key: 'cinemas',
         component: Cinemas,
+        title: "Cinemas",
       }
       break;
     case 'Billboard':
       return {
         key: 'billboard',
         component: Billboard,
+        title: 'Cartelera',
       }
       break;
     default:
