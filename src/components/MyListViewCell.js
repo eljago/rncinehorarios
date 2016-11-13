@@ -19,7 +19,7 @@ export default class MyListViewCell extends React.Component {
     return (
       <TouchableHighlight
         onPress={onPress}
-        underlayColor={'transparent'}
+        underlayColor={'black'}
       >
         <View style={[styles.rowContainer, {backgroundColor: cellBackgroundColor}]}>
           <View style={styles.childrenContainer}>
