@@ -14,7 +14,7 @@ const {
 } = NavigationExperimental;
 
 import createAppNavigationContainer from './CreateNavigationContainer';
-import Colors from '../../../data/Colors'
+import Colors from '../../data/Colors'
 
 export default createAppNavigationContainer(class extends React.Component {
 

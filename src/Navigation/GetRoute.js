@@ -4,11 +4,13 @@
 import TabsNavigator from './TabsNavigator'
 import Cinemas from '../Pages/Cinemas'
 import Billboard from '../Pages/Billboard'
+import Theaters from '../Pages/Theaters'
 
-function GetRoute(key: String): Object {
+function GetRoute(key: String, extraProps: Object = null): Object {
+  let route = {};
   switch (key) {
     case 'MainTabs':
-      return {
+      route = {
         index: 0,
         routes: [{
           key: 'tabs',
@@ -44,22 +46,30 @@ function GetRoute(key: String): Object {
       }
       break;
     case 'Cinemas':
-      return {
+      route = {
         key: 'cinemas',
         component: Cinemas,
         title: "Cinemas",
       }
       break;
     case 'Billboard':
-      return {
+      route = {
         key: 'billboard',
         component: Billboard,
         title: 'Cartelera',
       }
       break;
+    case 'Theaters':
+      route = {
+        key: 'theaters',
+        component: Theaters,
+      }
+      break;
     default:
-      return;
+      break;
+    route = {...route, ...extraProps};
   }
+  return route;
 }
 
 export default GetRoute;

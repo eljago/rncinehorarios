@@ -8,7 +8,7 @@ import {
   StyleSheet
 } from 'react-native';
 
-import MyListViewCell from '../../../../components/MyListViewCell';
+import MyListViewCell from '../../../components/MyListViewCell';
 
 export default class CinemaCell extends React.Component {
 
