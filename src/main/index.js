@@ -2,7 +2,12 @@
 'use strict'
 
 import React, { PropTypes } from 'react';
-import ReactNative, { NavigationExperimental, StyleSheet, View } from 'react-native'
+import ReactNative, {
+  NavigationExperimental,
+  StyleSheet,
+  View,
+  StatusBar,
+} from 'react-native'
 
 const {
   CardStack: NavigationCardStack,
@@ -36,11 +41,7 @@ export default class CineHorariosApp extends React.Component {
 
   // NAVIGATE
   _navigate(action: Object): void {
-    console.log('BEFORE:');
-    console.log(this.state);
     const state = updateAppNavigationState(this.state, action);
-    console.log('AFTER:');
-    console.log(state);
     if (this.state !== state) {
       this.setState(state);
     }
@@ -83,14 +84,22 @@ const SuperNavigator = createAppNavigationContainer(class extends React.Componen
     const {scenes} = sceneProps;
     const scene = scenes[index];
     const Comp = scenes[index].route.component;
-    console.log("SCENE:");
-    console.log(scene);
     return (
-      <Comp
-        navigationState={scene.route}
-        {...scene.props}
-      />
+      <View style={styles.navigator}>
+        {this._getStatusBar(scene.route)}
+        <Comp
+          navigationState={scene.route}
+          {...scene.props}
+        />
+      </View>
     );
+  }
+
+  _getStatusBar(route) {
+    return route.getStatusBar ? route.getStatusBar() :
+      <StatusBar
+        barStyle="light-content"
+      />;
   }
 });
 
