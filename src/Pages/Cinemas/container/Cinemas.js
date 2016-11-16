@@ -5,17 +5,17 @@ import React, { PropTypes } from 'react'
 import ReactNative, { NavigationExperimental } from 'react-native'
 import _ from 'lodash'
 
-const { PropTypes: NavigationPropTypes } = NavigationExperimental;
-import createAppNavigationContainer from '../../../Navigation/CreateNavigationContainer';
-import GetRoute from '../../../Navigation/GetRoute'
+const {
+  PropTypes: NavigationPropTypes
+} = NavigationExperimental;
+
 import MyGiftedListView from '../../../components/MyGiftedListView'
 import CinemaCell from '../components/CinemaCell'
 import CINEMAS from '../../../../data/Cinemas'
 
-export default createAppNavigationContainer(class extends React.Component {
+export default class extends React.Component {
   static propTypes = {
-    ...NavigationPropTypes.SceneRendererProps,
-    navigate: PropTypes.func.isRequired,
+    onPushRoute: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -52,10 +52,7 @@ export default createAppNavigationContainer(class extends React.Component {
   }
 
   _onPress(rowData) {
-    const route = GetRoute('Theaters', {
-      name: rowData.name,
-      cinema_id: rowData.cinema_id,
-    });
-    this.props.navigate({type: 'push', route});
+    const route = {};
+    this.props.onPushRoute(route);
   }
-});
+}

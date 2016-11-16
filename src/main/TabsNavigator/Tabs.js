@@ -1,28 +1,29 @@
 // @flow
 'use strict';
 
-import React, { PropTypes } from 'react'
+import React, { PropTypes } from 'react';
+import _ from 'lodash';
 import ReactNative, {
   StyleSheet,
   View,
   NavigationExperimental,
-} from 'react-native'
+} from 'react-native';
 
 const {
   PropTypes: NavigationPropTypes,
 } = NavigationExperimental;
 
-import createAppNavigationContainer from './CreateNavigationContainer';
-import Tab from './Tab'
+import Tab from './Tab';
 
-export default createAppNavigationContainer(class extends React.Component {
+export default class extends React.Component {
   static propTypes = {
     navigationState: NavigationPropTypes.navigationState.isRequired,
-    navigate: PropTypes.func.isRequired,
+    onSelectTab: PropTypes.func.isRequired,
   };
 
   constructor(props: Object, context: any) {
     super(props, context);
+    _.bindAll(this, '_renderTab')
   }
 
   render(): React.Element {
@@ -39,10 +40,11 @@ export default createAppNavigationContainer(class extends React.Component {
         key={route.key}
         route={route}
         selected={this.props.navigationState.index === index}
+        onSelectTab={this.props.onSelectTab}
       />
     );
   }
-});
+}
 
 const styles = StyleSheet.create({
   tabs: {

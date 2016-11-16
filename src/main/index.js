@@ -14,12 +14,12 @@ Relay.injectNetworkLayer(
   })
 );
 
-import MainComponent from './MainComponent';
+import SuperNavigator from './SuperNavigator';
 
 export default class CineHorariosApp extends React.Component {
   render() {
     return (
-      <MainComponent />
+      <SuperNavigator />
     );
   }
 }
