@@ -6,31 +6,29 @@ import ReactNative, { NavigationExperimental } from 'react-native'
 import _ from 'lodash'
 
 const { PropTypes: NavigationPropTypes } = NavigationExperimental;
-import createAppNavigationContainer from '../../../Navigation/CreateNavigationContainer';
 
 import MyGiftedListView from '../../../components/MyGiftedListView';
 import SimpleCell from '../../../components/SimpleCell';
 
-const ContainerTheaters = createAppNavigationContainer(class extends React.Component {
+class Theaters extends React.Component {
   static propTypes = {
-    ...NavigationPropTypes.SceneRendererProps,
-    navigate: PropTypes.func.isRequired,
+    onPushRoute: PropTypes.func,
+    onPopRoute: PropTypes.func,
   };
 
   constructor(props) {
     super(props);
-    _.bindall(this, [
+    _.bindAll(this, [
       '_renderRow',
-      '_onPress',
     ]);
   }
 
   render() {
     const viewer = this.props.viewer;
-    const dataRows = viewer ? viewer.api_theaters : [];
+    const dataRows = viewer ? viewer.theaters : [];
     return (
       <MyGiftedListView
-        renderRow={this._renderRow.bind(this)}
+        renderRow={this._renderRow}
         dataRows={dataRows}
       />
     );
@@ -41,7 +39,7 @@ const ContainerTheaters = createAppNavigationContainer(class extends React.Compo
       <SimpleCell
         rowNumber={rowData.rowNumber}
         title={rowData.name}
-        onPress={() => this.props.onPress(rowData)}
+        onPress={() => this._onPress(rowData)}
       />
     );
   }
@@ -52,9 +50,9 @@ const ContainerTheaters = createAppNavigationContainer(class extends React.Compo
     // const functionsRoute = getFunctionsRoute(name, theater_id);
     // this.props.navigator.push(functionsRoute);
   }
-});
+}
 
-export default Relay.createContainer(ContainerTheaters, {
+export default Relay.createContainer(Theaters, {
 
   initialVariables: {
     cinema_id: 0
@@ -63,9 +61,7 @@ export default Relay.createContainer(ContainerTheaters, {
   fragments: {
     viewer: () => Relay.QL`
       fragment on Viewer {
-        api_theaters(cinema_id: $cinema_id) {
-          cinema_id
-          theater_id
+        theaters(cinema_id: $cinema_id) {
           name
           address
         }

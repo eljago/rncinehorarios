@@ -18,14 +18,14 @@ const {
 import MyHeader from './MyHeader'
 import Tabs from './Tabs'
 
-import TabsRoutes from './routes';
+import {getTabBarRoute} from '../../../data/routes';
 
 export default class TabsNavigator extends React.Component {
 
   constructor(props: any, context: any) {
     super(props, context);
     this.state = {
-      navigationState: TabsRoutes.initialRoute,
+      navigationState: getTabBarRoute(),
     }
     _.bindAll(this,[
       '_onPushRoute',
@@ -76,8 +76,8 @@ export default class TabsNavigator extends React.Component {
   _onPopRoute() {
     const {navigationState} = this.state;
     const {tabs} = navigationState;
-    const tabKey = navigationState.routes[tabs.index].key;
-    const scenes = state[tabKey];
+    const tabKey = tabs.routes[tabs.index].key;
+    const scenes = navigationState[tabKey];
     const nextScenes = NavigationStateUtils.pop(scenes);
     if (scenes !== nextScenes) {
       this.setState({
@@ -118,6 +118,7 @@ export default class TabsNavigator extends React.Component {
           {...sceneProps}
           onPushRoute={this._onPushRoute}
           onPopRoute={this._onPopRoute}
+          {...route.props}
         />
       </View>
     );

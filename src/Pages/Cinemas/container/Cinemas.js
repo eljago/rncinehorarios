@@ -12,6 +12,7 @@ const {
 import MyGiftedListView from '../../../components/MyGiftedListView'
 import CinemaCell from '../components/CinemaCell'
 import CINEMAS from '../../../../data/Cinemas'
+import {getTheatersRoute} from '../../../../data/routes'
 
 export default class extends React.Component {
   static propTypes = {
@@ -25,7 +26,6 @@ export default class extends React.Component {
     };
     _.bindAll(this, [
       '_renderRow',
-      '_onPress',
     ]);
   }
 
@@ -46,13 +46,15 @@ export default class extends React.Component {
         rowNumber={rowData.rowNumber}
         title={rowData.name}
         image={image}
-        onPress={this._onPress}
+        onPress={() => {
+          this._onPress(rowData);
+        }}
       />
     );
   }
 
   _onPress(rowData) {
-    const route = {};
+    const route = getTheatersRoute(rowData.cinema_id, rowData.name);
     this.props.onPushRoute(route);
   }
 }

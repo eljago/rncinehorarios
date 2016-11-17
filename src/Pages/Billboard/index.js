@@ -1,6 +1,6 @@
 //@flow
 'use strict'
 
-import Comp from './container'
+import Billboard from './container/Billboard'
 
-export default Comp
+export default Billboard

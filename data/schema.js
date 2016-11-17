@@ -40,7 +40,7 @@ module.exports = {
               "deprecationReason": null
             },
             {
-              "name": "root",
+              "name": "viewer",
               "description": "Root object to get viewer related collections",
               "args": [],
               "type": {
@@ -213,7 +213,7 @@ module.exports = {
                     "name": "String",
                     "ofType": null
                   },
-                  "defaultValue": "\"2016-11-12\""
+                  "defaultValue": "\"2016-11-17\""
                 },
                 {
                   "name": "aditional_days",
