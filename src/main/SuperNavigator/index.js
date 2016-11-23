@@ -8,10 +8,12 @@ import ReactNative, {
   StyleSheet,
   View,
   StatusBar,
+  BackAndroid,
 } from 'react-native'
 
 const {
   CardStack: NavigationCardStack,
+  StateUtils: NavigationStateUtils,
 } = NavigationExperimental;
 
 import TabsNavigator from '../TabsNavigator'
@@ -35,6 +37,7 @@ export default class SuperNavigator extends React.Component {
       '_onPopRoute',
       '_renderScene',
     ]);
+    BackAndroid.addEventListener('hardwareBackPress', this._onPopRoute);
   }
 
   render(): React.Element {
@@ -59,11 +62,12 @@ export default class SuperNavigator extends React.Component {
   }
 
   _onPopRoute() {
-    this._onNavigationChange({type: 'pop'});
     const navigationState = NavigationStateUtils.pop(this.state.navigationState);
     if (this.state.navigationState !== navigationState) {
       this.setState({navigationState});
+      return true;
     }
+    return false;
   }
 
   _renderScene(sceneProps: Object): React.Element {

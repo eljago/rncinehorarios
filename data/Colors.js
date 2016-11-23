@@ -15,6 +15,8 @@ export default {
   scrollIconActive: 'white',
   scrollIconInactive: '#FEBBAA',
 
-  titleText: '#801515'
+  titleText: 'black',
+  functionTypes: 'gray',
+  showtimes: 'black',
 };
 

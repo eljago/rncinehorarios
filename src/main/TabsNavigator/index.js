@@ -8,6 +8,7 @@ import ReactNative, {
   StyleSheet,
   View,
   StatusBar,
+  BackAndroid,
 } from 'react-native';
 
 const {
@@ -34,6 +35,7 @@ export default class TabsNavigator extends React.Component {
       '_renderHeader',
       '_renderScene',
     ]);
+    BackAndroid.addEventListener('hardwareBackPress', this._onPopRoute);
   }
 
   render(): React.Element {
@@ -86,7 +88,9 @@ export default class TabsNavigator extends React.Component {
           [tabKey]: nextScenes,
         }
       });
+      return true;
     }
+    return false;
   }
 
   _onSelectTab(tabKey: String) {

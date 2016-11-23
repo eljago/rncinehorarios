@@ -1,16 +1,14 @@
 'use strict';
 
 import React, { PropTypes } from 'react'
-import Relay from 'react-relay'
-import ReactNative, { NavigationExperimental } from 'react-native'
+import ReactNative from 'react-native'
 import _ from 'lodash'
-
-const { PropTypes: NavigationPropTypes } = NavigationExperimental;
 
 import MyGiftedListView from '../../../components/MyGiftedListView';
 import SimpleCell from '../../../components/SimpleCell';
+import {getFunctionsRoute} from '../../../../data/routes'
 
-class Theaters extends React.Component {
+export default class Theaters extends React.Component {
   static propTypes = {
     onPushRoute: PropTypes.func,
     onPopRoute: PropTypes.func,
@@ -45,27 +43,7 @@ class Theaters extends React.Component {
   }
 
   _onPress(rowData) {
-    const theater_id = rowData.theater_id;
-    const name = rowData.name;
-    // const functionsRoute = getFunctionsRoute(name, theater_id);
-    // this.props.navigator.push(functionsRoute);
+    const functionsRoute = getFunctionsRoute(rowData.theater_id, rowData.name);
+    this.props.onPushRoute(functionsRoute);
   }
 }
-
-export default Relay.createContainer(Theaters, {
-
-  initialVariables: {
-    cinema_id: 0
-  },
-
-  fragments: {
-    viewer: () => Relay.QL`
-      fragment on Viewer {
-        theaters(cinema_id: $cinema_id) {
-          name
-          address
-        }
-      }
-    `
-  },
-});

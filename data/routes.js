@@ -3,6 +3,7 @@
 
 import Cinemas from '../src/Pages/Cinemas'
 import Theaters from '../src/Pages/Theaters'
+import Functions from '../src/Pages/Functions'
 import RelayContainer from '../src/components/RelayContainer'
 
 function getTabBarRoute() {
@@ -33,10 +34,10 @@ function getTabBarRoute() {
   });
 }
 
-function getTheatersRoute(cinemaId, theaterName) {
+function getTheatersRoute(cinemaId, cinemaName) {
   return({
     key: 'Theaters',
-    title: theaterName,
+    title: cinemaName,
     component: RelayContainer,
     props: {
       component: Theaters,
@@ -45,10 +46,28 @@ function getTheatersRoute(cinemaId, theaterName) {
       },
       extraProps: {
         cinemaId: cinemaId,
+        cinemaName: cinemaName,
+      }
+    }
+  });
+}
+
+function getFunctionsRoute(theaterId, theaterName) {
+  return({
+    key: 'Functions',
+    title: theaterName,
+    component: RelayContainer,
+    props: {
+      component: Functions,
+      relayParams: {
+        theater_id: theaterId
+      },
+      extraProps: {
+        theaterId: theaterId,
         theaterName: theaterName,
       }
     }
   });
 }
 
-export {getTabBarRoute, getTheatersRoute};
+export {getTabBarRoute, getTheatersRoute, getFunctionsRoute};
