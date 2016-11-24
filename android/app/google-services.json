@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "871154582809",
+    "firebase_url": "https://cinehorarios-c242d.firebaseio.com",
+    "project_id": "cinehorarios-c242d",
+    "storage_bucket": "cinehorarios-c242d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:871154582809:android:d81d3216b4a83120",
+        "android_client_info": {
+          "package_name": "com.jagochile.cinehorarios"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "871154582809-jtv4elnvm0jrng80g4ao905s9skesb9u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAEf9DG00wtuou22Db9tuM1Hj0TAVaEuc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

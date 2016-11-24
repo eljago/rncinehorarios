@@ -14,9 +14,22 @@ Relay.injectNetworkLayer(
   })
 );
 
+import Firestack from 'react-native-firestack'
+
 import SuperNavigator from './SuperNavigator';
 
 export default class CineHorariosApp extends React.Component {
+
+  constructor(props) {
+    super(props);
+    const firestack = new Firestack();
+    firestack.analytics.logEventWithName("launch", {
+      'screen': 'Main screen'
+    })
+    .then(res => console.log('Sent event named launch'))
+    .catch(err => console.error('You should never end up here'));
+  }
+
   render() {
     return (
       <SuperNavigator />
