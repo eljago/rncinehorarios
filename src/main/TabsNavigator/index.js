@@ -25,6 +25,7 @@ export default class TabsNavigator extends React.Component {
 
   constructor(props: any, context: any) {
     super(props, context);
+    this.components = {};
     this.state = {
       navigationState: getTabBarRoute(),
     }
@@ -54,7 +55,9 @@ export default class TabsNavigator extends React.Component {
           renderScene={this._renderScene}
           style={styles.navigatorCardStack}
         />
-        <Tabs navigationState={tabs} onSelectTab={this._onSelectTab}/>
+        <View style={{height: 40}}>
+          <Tabs navigationState={tabs} onSelectTab={this._onSelectTab}/>
+        </View>
       </View>
     );
   }
@@ -108,7 +111,16 @@ export default class TabsNavigator extends React.Component {
 
   _renderHeader(sceneProps: Object): React.Element {
     return (
-      <MyHeader {...sceneProps} onPopRoute={this._onPopRoute}/>
+      <MyHeader
+        {...sceneProps}
+        onPopRoute={this._onPopRoute}
+        onRightAction={() => {
+          const component = this.components[sceneProps.scene.index];
+          if (component && component.onRightAction) {
+            component.onRightAction();
+          }
+        }}
+      />
     );
   }
 
@@ -119,6 +131,7 @@ export default class TabsNavigator extends React.Component {
       <View style={styles.navigator}>
         {this._getStatusBar(route)}
         <Component
+          ref={(comp) => { this.components[sceneProps.scene.index] = comp; }}
           {...sceneProps}
           onPushRoute={this._onPushRoute}
           onPopRoute={this._onPopRoute}

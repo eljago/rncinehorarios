@@ -23,10 +23,12 @@ export default class MyHeader extends React.Component {
   static propTypes = {
     ...NavigationPropTypes.SceneRendererProps,
     onPopRoute: PropTypes.func.isRequired,
+    onRightAction: PropTypes.func,
   };
 
   constructor(props: Object, context: any) {
     super(props, context);
+    _.bindAll(this, '_renderRightComponent');
   }
 
   render(): React.Element {
@@ -34,8 +36,9 @@ export default class MyHeader extends React.Component {
       <NavigationHeader
         style={styles.header}
         {...this.props}
-        renderLeftComponent={this._renderLeftComponent}
         renderTitleComponent={this._renderTitleComponent}
+        renderLeftComponent={this._renderLeftComponent}
+        renderRightComponent={this._renderRightComponent}
         onNavigateBack={this.props.onPopRoute}
       />
     );
@@ -56,6 +59,18 @@ export default class MyHeader extends React.Component {
     }
     return (
       <TouchableOpacity style={styles.buttonContainer} onPress={props.onNavigateBack}>
+        <Image style={styles.button} source={require('../../../assets/back-icon.png')} />
+      </TouchableOpacity>
+    );
+  }
+
+  _renderRightComponent(props: Object) {
+    return (
+      <TouchableOpacity style={styles.buttonContainer} onPress={() => {
+        if (this.props.onRightAction) {
+          this.props.onRightAction();
+        }
+      }}>
         <Image style={styles.button} source={require('../../../assets/back-icon.png')} />
       </TouchableOpacity>
     );

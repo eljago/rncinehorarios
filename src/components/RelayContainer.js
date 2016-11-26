@@ -14,8 +14,8 @@ import LoadingIndicator from './LoadingIndicator'
 
 export default class RelayContainer extends React.Component {
   static propTypes = {
-    component: PropTypes.func.isRequired,
-    relayParams: PropTypes.object,
+    component: Relay.PropTypes.Container,
+    queryConfig: Relay.PropTypes.QueryConfig.isRequired,
     extraProps: PropTypes.object,
     onPushRoute: PropTypes.func,
     onPopRoute: PropTypes.func,
@@ -24,69 +24,56 @@ export default class RelayContainer extends React.Component {
   render() {
     const {
       component: Component,
-      relayParams,
+      queryConfig,
       extraProps,
       onPushRoute,
       onPopRoute,
     } = this.props;
     
     return (
-      <Relay.RootContainer
-        Component={Component}
-        route={new ViewerQueryConfig(relayParams)}
-        forceFetch={false}
-        onReadyStateChange={(currentReadyState) => {
-          
-        }}
-        renderFetched={(data, readyState) => {
-          return (
-            <View style={styles.container}>
-              <Component
-                onPushRoute={onPushRoute}
-                onPopRoute={onPopRoute}
-                {...extraProps}
-                {...data}
-              />
-            </View>
-          )
-        }}
-        renderFailure={(error, retry) => {
-          return (
-            <View>
-              <Text>{error.message}</Text>
-              <TouchableHighlight
-                underlayColor={'red'}
-                onPress={retry}>
-                <Text>
-                  Retry?
-                </Text>
-              </TouchableHighlight>
-            </View>
-          )
-        }}
-        renderLoading={() => {
-          return(
-            <LoadingIndicator />
-          )
+      <Relay.Renderer
+        Container={Component}
+        queryConfig={queryConfig}
+        environment={Relay.Store}
+        render={({done, error, props, retry, stale}) => {
+          if (error) {
+            return (
+              <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                <Text>{error.message}</Text>
+                <TouchableHighlight
+                  underlayColor={'red'}
+                  onPress={retry}>
+                  <Text>
+                    Retry?
+                  </Text>
+                </TouchableHighlight>
+              </View>
+            );
+          }
+          else if (props) {
+            return (
+              <View style={{flex: 1}}>
+                <Component
+                  ref={(comp) => { this.comp = comp; }}
+                  onPushRoute={onPushRoute}
+                  onPopRoute={onPopRoute}
+                  {...extraProps}
+                  {...props}
+                />
+              </View>
+            );
+          }
+          else {
+            return <LoadingIndicator />;
+          }
         }}
       />
     );
   }
-}
 
-const styles = StyleSheet.create({
-  container: {
-    flex:1,
+  onRightAction() {
+    if (this.comp.refs.component.onRightAction) {
+      this.comp.refs.component.onRightAction();
+    }
   }
-})
-
-class ViewerQueryConfig extends Relay.Route {
-  static routeName = 'ViewerQueryConfig';
-  static queries = {
-    viewer: () => Relay.QL`
-      query Query {
-        viewer
-      }
-    `
-  };
 }

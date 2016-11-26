@@ -1,35 +1,48 @@
 //@flow
 'use strict'
 
+import Relay from 'react-relay';
+
 import Cinemas from '../src/Pages/Cinemas'
 import Theaters from '../src/Pages/Theaters'
 import Functions from '../src/Pages/Functions'
 import RelayContainer from '../src/components/RelayContainer'
+
+class ViewerQueryConfig extends Relay.Route {
+  static routeName = 'ViewerQueryConfig';
+  static queries = {
+    viewer: () => Relay.QL`
+      query Query {
+        viewer
+      }
+    `
+  };
+}
 
 function getTabBarRoute() {
   return({
     tabs: {
       index: 0,
       routes: [
-        {key: 'cinemas'},
-        {key: 'billboard'},
-        {key: 'coming_soon'},
+        {key: 'cinemas', title: 'Cines'},
+        {key: 'billboard', title: 'Cartelera'},
+        {key: 'coming_soon', title: 'Próximamente'},
       ],
     },
     // Scenes for the `apple` tab.
     cinemas: {
       index: 0,
-      routes: [{key: 'Cines', component: Cinemas}],
+      routes: [{key: 'cinemas', component: Cinemas}],
     },
     // Scenes for the `banana` tab.
     billboard: {
       index: 0,
-      routes: [{key: 'Cartelera', component: Cinemas}],
+      routes: [{key: 'billboard', component: Cinemas}],
     },
     // Scenes for the `orange` tab.
     coming_soon: {
       index: 0,
-      routes: [{key: 'Próximamente', component: Cinemas}],
+      routes: [{key: 'coming_soon', component: Cinemas}],
     },
   });
 }
@@ -41,9 +54,9 @@ function getTheatersRoute(cinemaId, cinemaName) {
     component: RelayContainer,
     props: {
       component: Theaters,
-      relayParams: {
+      queryConfig: new ViewerQueryConfig({
         cinema_id: cinemaId,
-      },
+      }),
       extraProps: {
         cinemaId: cinemaId,
         cinemaName: cinemaName,
@@ -59,14 +72,14 @@ function getFunctionsRoute(theaterId, theaterName) {
     component: RelayContainer,
     props: {
       component: Functions,
-      relayParams: {
+      queryConfig: new ViewerQueryConfig({
         theater_id: theaterId
-      },
+      }),
       extraProps: {
         theaterId: theaterId,
         theaterName: theaterName,
       }
-    }
+    },
   });
 }
 

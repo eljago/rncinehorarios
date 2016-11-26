@@ -4,9 +4,9 @@
 import Relay from 'react-relay'
 import moment from 'moment'
 
-import FunctionsTabs from './containers/FunctionsTabs'
+import Functions from './containers/Functions'
 
-export default Relay.createContainer(FunctionsTabs, {
+export default Relay.createContainer(Functions, {
   
   initialVariables: {
     theater_id: 0,
