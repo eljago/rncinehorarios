@@ -1,7 +1,7 @@
 'use strict'
 
 import React, { PropTypes } from 'react'
-import { View, Text, Animated, Dimensions, ScrollView, TouchableOpacity } from 'react-native'
+import { View, Animated, Dimensions, ScrollView } from 'react-native'
 import moment from 'moment'
 const esLocale = require('moment/locale/es');
 import _ from 'lodash'
@@ -9,6 +9,7 @@ import _ from 'lodash'
 import TabBar from '../components/TabBar'
 import MyGiftedListView from '../../../components/MyGiftedListView'
 import FunctionsCell from '../components/FunctionsCell'
+import MenuItem from '../components/MenuItem';
 import Colors from '../../../../data/Colors'
 
 const PICKER_OFFSET = 100;
@@ -26,7 +27,11 @@ export default class Functions extends React.Component {
       currentDate: moment().format('YYYY-MM-DD'),
       pickerRight: new Animated.Value(0),
     }
-    _.bindAll(this, ['_renderRow', '_onPress'])
+    _.bindAll(this, [
+      '_renderRow',
+      '_onPress',
+      '_onPressMenuItem',
+    ])
   }
 
   componentDidMount() {
@@ -44,7 +49,7 @@ export default class Functions extends React.Component {
     const {width} = Dimensions.get('window');
     return (
       <View style={{flex: 1, flexDirection: 'row'}}>
-        {this._getPickerView()}
+        {this._getMenu()}
         <Animated.View
           style={{
             position: 'absolute',
@@ -66,7 +71,7 @@ export default class Functions extends React.Component {
     );
   }
 
-  _getPickerView() {
+  _getMenu() {
     return(
       <View style={{
         position: 'absolute',
@@ -117,27 +122,21 @@ export default class Functions extends React.Component {
       dates.push(moment().add(i, 'days'));
     }
     return dates.map((date) => 
-      <TouchableOpacity key={date.format('YYYY-MM-DD')} style={{
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginLeft: 50,
-      }} onPress={() => {
-        this.setState({currentDate: date.format('YYYY-MM-DD')})
-        this.onRightAction();
-        this.props.getHeader().rightComp.setup({
-          title: _.upperFirst(date.format('ddd DD')),
-        });
-      }} activeOpacity={0.6}>
-        <Text style={{
-          color: date.format('YYYY-MM-DD') === this.state.currentDate ? 'white' : '#909090',
-          fontSize: 20,
-          marginTop: 10,
-          marginBottom: 10,
-        }}>
-          {_.upperFirst(date.format('ddd DD'))}
-        </Text>
-      </TouchableOpacity>
+      <MenuItem
+        key={date.format('YYYY-MM-DD')}
+        onPress={this._onPressMenuItem}
+        selected={date.format('YYYY-MM-DD') === this.state.currentDate}
+        title={_.upperFirst(date.format('ddd DD'))}
+      />
     );
+  }
+
+  _onPressMenuItem() {
+    this.setState({currentDate: date.format('YYYY-MM-DD')})
+    this.onRightAction();
+    this.props.getHeader().rightComp.setup({
+      title: _.upperFirst(date.format('ddd DD')),
+    });
   }
 }
 
