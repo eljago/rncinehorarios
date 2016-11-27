@@ -31,7 +31,10 @@ export default class Functions extends React.Component {
 
   componentDidMount() {
     this.props.getHeader().rightComp.setup({
-      children: <Text>hola</Text>,
+      title: _.upperFirst(moment().format('dddd DD')),
+      onPress: () => {
+        this.onRightAction();
+      }
     });
   }
 
@@ -121,6 +124,9 @@ export default class Functions extends React.Component {
       }} onPress={() => {
         this.setState({currentDate: date.format('YYYY-MM-DD')})
         this.onRightAction();
+        this.props.getHeader().rightComp.setup({
+          title: _.upperFirst(date.format('dddd DD')),
+        });
       }} activeOpacity={0.6}>
         <Text style={{
           color: date.format('YYYY-MM-DD') === this.state.currentDate ? 'white' : '#909090',
