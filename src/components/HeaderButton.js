@@ -35,9 +35,7 @@ export default class HeaderButton extends React.Component {
   }
 
   setup(options) {
-    this.setState({
-      ...options
-    });
+    this.setState(options);
   }
 }
 
@@ -51,7 +49,7 @@ const styles = StyleSheet.create({
   image: {
     tintColor: 'white',
     height: 24,
-    width: 100,
+    width: 24,
     margin: Platform.OS === 'ios' ? 10 : 16,
     resizeMode: 'contain',
     transform: [{scaleX: I18nManager.isRTL ? -1 : 1}],
