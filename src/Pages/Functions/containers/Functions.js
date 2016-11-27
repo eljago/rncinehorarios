@@ -29,6 +29,12 @@ export default class Functions extends React.Component {
     _.bindAll(this, ['_renderRow', '_onPress'])
   }
 
+  componentDidMount() {
+    this.props.getHeader().rightComp.setup({
+      children: <Text>hola</Text>,
+    });
+  }
+
   render() {
     const date = this.state.currentDate;
     const dataRows = getDataRows(date, this.props.viewer.shows_functions);

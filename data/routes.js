@@ -1,12 +1,16 @@
 //@flow
 'use strict'
 
+import React from 'react';
 import Relay from 'react-relay';
+import {Text} from 'react-native';
 
 import Cinemas from '../src/Pages/Cinemas'
 import Theaters from '../src/Pages/Theaters'
 import Functions from '../src/Pages/Functions'
 import RelayContainer from '../src/components/RelayContainer'
+
+import HeaderButton from '../src/components/HeaderButton'
 
 class ViewerQueryConfig extends Relay.Route {
   static routeName = 'ViewerQueryConfig';
@@ -80,6 +84,7 @@ function getFunctionsRoute(theaterId, theaterName) {
         theaterName: theaterName,
       }
     },
+    rightComponent: HeaderButton,
   });
 }
 

@@ -19,6 +19,7 @@ export default class RelayContainer extends React.Component {
     extraProps: PropTypes.object,
     onPushRoute: PropTypes.func,
     onPopRoute: PropTypes.func,
+    getHeader: PropTypes.func,
   };
 
   render() {
@@ -28,6 +29,7 @@ export default class RelayContainer extends React.Component {
       extraProps,
       onPushRoute,
       onPopRoute,
+      getHeader,
     } = this.props;
     
     return (
@@ -57,6 +59,7 @@ export default class RelayContainer extends React.Component {
                   ref={(comp) => { this.comp = comp; }}
                   onPushRoute={onPushRoute}
                   onPopRoute={onPopRoute}
+                  getHeader={getHeader}
                   {...extraProps}
                   {...props}
                 />
@@ -69,11 +72,5 @@ export default class RelayContainer extends React.Component {
         }}
       />
     );
-  }
-
-  onRightAction() {
-    if (this.comp.refs.component.onRightAction) {
-      this.comp.refs.component.onRightAction();
-    }
   }
 }
