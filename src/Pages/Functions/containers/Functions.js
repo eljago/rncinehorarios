@@ -30,7 +30,6 @@ export default class Functions extends React.Component {
     _.bindAll(this, [
       '_renderRow',
       '_onPress',
-      '_onPressMenuItem',
     ])
   }
 
@@ -124,14 +123,16 @@ export default class Functions extends React.Component {
     return dates.map((date) => 
       <MenuItem
         key={date.format('YYYY-MM-DD')}
-        onPress={this._onPressMenuItem}
+        onPress={() => {
+          this._onPressMenuItem(date)
+        }}
         selected={date.format('YYYY-MM-DD') === this.state.currentDate}
         title={_.upperFirst(date.format('ddd DD'))}
       />
     );
   }
 
-  _onPressMenuItem() {
+  _onPressMenuItem(date) {
     this.setState({currentDate: date.format('YYYY-MM-DD')})
     this.onRightAction();
     this.props.getHeader().rightComp.setup({
