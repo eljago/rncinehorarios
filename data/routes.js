@@ -40,6 +40,7 @@ function getTabBarRoute() {
       index: 0,
       routes: [{
         key: 'cinemas',
+        title: 'Cines',
         component: Cinemas
       }],
     },
@@ -48,6 +49,7 @@ function getTabBarRoute() {
       index: 0,
       routes: [{
         key: 'billboard',
+        title: 'Cartelera',
         component: RelayContainer,
         props: {
           component: Billboard,
@@ -60,6 +62,7 @@ function getTabBarRoute() {
       index: 0,
       routes: [{
         key: 'coming_soon',
+        title: 'Próximamente',
         component: RelayContainer,
         props: {
           component: ComingSoon,
