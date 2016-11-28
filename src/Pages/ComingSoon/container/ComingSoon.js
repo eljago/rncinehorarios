@@ -6,7 +6,7 @@ import _ from 'lodash';
 import MyGiftedListView from '../../../components/MyGiftedListView'
 import MovieCell from '../../../components/MovieCell';
 
-export default class Billboard extends React.Component {
+export default class ComingSoon extends React.Component {
 
   constructor(props) {
     super(props);
@@ -20,7 +20,7 @@ export default class Billboard extends React.Component {
     return (
       <MyGiftedListView
         renderRow={this._renderRow}
-        dataRows={this.props.viewer.billboard}
+        dataRows={this.props.viewer.coming_soon}
       />
     );
   }
@@ -36,9 +36,7 @@ export default class Billboard extends React.Component {
         rowNumber={rowData.rowNumber}
         onPress={this._onPress}
         showName={rowData.name}
-        showGenres={rowData.genres}
-        showDuration={rowData.duration}
-        showRating={rowData.rating}
+        showDebut={rowData.debut}
         showCover={rowData.cover}
         showImdbCode={rowData.imdb_code}
         showImdbScore={rowData.imdb_score}
@@ -47,7 +45,7 @@ export default class Billboard extends React.Component {
         showRottenTomatoesUrl={rowData.rotten_tomatoes_url}
         showRottenTomatoesScore={rowData.rotten_tomatoes_score}
         showingScores={this.props.viewType === 'scores'}
-        isBillboard={true}
+        isBillboard={false}
       />
     );
   }

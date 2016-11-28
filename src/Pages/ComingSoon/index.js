@@ -2,19 +2,17 @@
 'use strict'
 
 import Relay from 'react-relay'
-import Billboard from './container/Billboard'
+import ComingSoon from './container/ComingSoon'
 
-export default Relay.createContainer(Billboard, {
+export default Relay.createContainer(ComingSoon, {
   fragments: {
     viewer: () => Relay.QL`
       fragment on Viewer {
-        billboard {
+        coming_soon{
           show_id
           name
+          debut
           cover
-          genres
-          rating
-          duration
           imdb_code
           imdb_score
           metacritic_url

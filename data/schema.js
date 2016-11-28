@@ -117,7 +117,7 @@ module.exports = {
                     "name": "String",
                     "ofType": null
                   },
-                  "defaultValue": "\"2016-11-20\""
+                  "defaultValue": "\"2016-11-27\""
                 }
               ],
               "type": {
@@ -144,7 +144,7 @@ module.exports = {
                     "name": "String",
                     "ofType": null
                   },
-                  "defaultValue": "\"2016-11-20\""
+                  "defaultValue": "\"2016-11-27\""
                 }
               ],
               "type": {
@@ -187,7 +187,7 @@ module.exports = {
                     "name": "String",
                     "ofType": null
                   },
-                  "defaultValue": "\"2016-11-20\""
+                  "defaultValue": "\"2016-11-27\""
                 },
                 {
                   "name": "theater_id",
@@ -438,6 +438,18 @@ module.exports = {
               "deprecationReason": null
             },
             {
+              "name": "genres",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "id",
               "description": null,
               "args": [],
@@ -538,6 +550,18 @@ module.exports = {
               "deprecationReason": null
             },
             {
+              "name": "rating",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "rotten_tomatoes_score",
               "description": null,
               "args": [],
@@ -556,6 +580,18 @@ module.exports = {
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "show_id",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
                 "ofType": null
               },
               "isDeprecated": false,

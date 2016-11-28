@@ -6,6 +6,8 @@ import Relay from 'react-relay';
 import {Text} from 'react-native';
 
 import Cinemas from '../src/Pages/Cinemas'
+import Billboard from '../src/Pages/Billboard'
+import ComingSoon from '../src/Pages/ComingSoon'
 import Theaters from '../src/Pages/Theaters'
 import Functions from '../src/Pages/Functions'
 import RelayContainer from '../src/components/RelayContainer'
@@ -36,17 +38,34 @@ function getTabBarRoute() {
     // Scenes for the `apple` tab.
     cinemas: {
       index: 0,
-      routes: [{key: 'cinemas', component: Cinemas}],
+      routes: [{
+        key: 'cinemas',
+        component: Cinemas
+      }],
     },
     // Scenes for the `banana` tab.
     billboard: {
       index: 0,
-      routes: [{key: 'billboard', component: Cinemas}],
+      routes: [{
+        key: 'billboard',
+        component: RelayContainer,
+        props: {
+          component: Billboard,
+          queryConfig: new ViewerQueryConfig(),
+        },
+      }],
     },
     // Scenes for the `orange` tab.
     coming_soon: {
       index: 0,
-      routes: [{key: 'coming_soon', component: Cinemas}],
+      routes: [{
+        key: 'coming_soon',
+        component: RelayContainer,
+        props: {
+          component: ComingSoon,
+          queryConfig: new ViewerQueryConfig(),
+        },
+      }],
     },
   });
 }
