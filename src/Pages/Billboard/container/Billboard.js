@@ -6,6 +6,8 @@ import _ from 'lodash';
 import MyGiftedListView from '../../../components/MyGiftedListView'
 import MovieCell from '../../../components/MovieCell';
 
+import {getShowRoute} from '../../../../data/routes'
+
 export default class Billboard extends React.Component {
 
   constructor(props) {
@@ -26,15 +28,16 @@ export default class Billboard extends React.Component {
   }
 
   _onPress(rowData) {
-    // const showRoute = getShowRoute(rowData.get('show_id'))
-    // this.props.navigator.push(showRoute)
+    console.log(rowData);
+    const showRoute = getShowRoute(rowData.show_id, rowData.name);
+    this.props.onPushRoute(showRoute);
   }
 
   _renderRow(rowData, sectionID, rowID, highlightRow) {
     return (
       <MovieCell
         rowNumber={rowData.rowNumber}
-        onPress={this._onPress}
+        onPress={() => this._onPress(rowData)}
         showName={rowData.name}
         showGenres={rowData.genres}
         showDuration={rowData.duration}

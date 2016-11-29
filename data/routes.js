@@ -10,6 +10,7 @@ import Billboard from '../src/Pages/Billboard'
 import ComingSoon from '../src/Pages/ComingSoon'
 import Theaters from '../src/Pages/Theaters'
 import Functions from '../src/Pages/Functions'
+import Show from '../src/Pages/Show'
 import RelayContainer from '../src/components/RelayContainer'
 
 import HeaderButton from '../src/components/HeaderButton'
@@ -110,4 +111,22 @@ function getFunctionsRoute(theaterId, theaterName) {
   });
 }
 
-export {getTabBarRoute, getTheatersRoute, getFunctionsRoute};
+function getShowRoute(showId, showName) {
+  return({
+    key: 'Functions',
+    title: showName,
+    component: RelayContainer,
+    props: {
+      component: Show,
+      queryConfig: new ViewerQueryConfig({
+        show_id: showId
+      }),
+      extraProps: {
+        showId: showId,
+        showName: showName,
+      }
+    },
+  });
+}
+
+export {getTabBarRoute, getTheatersRoute, getFunctionsRoute, getShowRoute};
