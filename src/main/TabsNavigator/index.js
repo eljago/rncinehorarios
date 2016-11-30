@@ -16,12 +16,17 @@ const {
   StateUtils: NavigationStateUtils,
 } = NavigationExperimental;
 
-import MyHeader from './MyHeader'
 import Tabs from './Tabs'
 
 import {getTabBarRoute} from '../../../data/routes';
+import {renderHeader, renderScene} from '../NavigatorHelpers/CardStackHelpers'
 
 export default class TabsNavigator extends React.Component {
+
+  static propTypes = {
+    onPushRoute: PropTypes.func,
+    onPopRoute: PropTypes.func,
+  };
 
   constructor(props: any, context: any) {
     super(props, context);
@@ -32,8 +37,6 @@ export default class TabsNavigator extends React.Component {
       '_onPushRoute',
       '_onPopRoute',
       '_onSelectTab',
-      '_renderHeader',
-      '_renderScene',
     ]);
     BackAndroid.addEventListener('hardwareBackPress', this._onPopRoute);
   }
@@ -50,8 +53,8 @@ export default class TabsNavigator extends React.Component {
           key={'stack_' + tabKey}
           onNavigateBack={this._onPopRoute}
           navigationState={scenes}
-          renderHeader={this._renderHeader}
-          renderScene={this._renderScene}
+          renderHeader={renderHeader.bind(this)}
+          renderScene={renderScene.bind(this)}
           style={styles.navigatorCardStack}
         />
         <View style={{height: 40}}>
@@ -61,36 +64,46 @@ export default class TabsNavigator extends React.Component {
     );
   }
 
-  _onPushRoute(route) {
-    const {navigationState} = this.state;
-    const {tabs} = navigationState;
-    const tabKey = tabs.routes[tabs.index].key;
-    const scenes = navigationState[tabKey];
-    const nextScenes = NavigationStateUtils.push(scenes, route);
-    if (scenes !== nextScenes) {
-      this.setState({
-        navigationState: {
-          ...navigationState,
-          [tabKey]: nextScenes,
-        }
-      });
+  _onPushRoute(route, superPush = false) {
+    if (superPush) {
+      this.props.onPushRoute(route);
+    }
+    else {
+      const {navigationState} = this.state;
+      const {tabs} = navigationState;
+      const tabKey = tabs.routes[tabs.index].key;
+      const scenes = navigationState[tabKey];
+      const nextScenes = NavigationStateUtils.push(scenes, route);
+      if (scenes !== nextScenes) {
+        this.setState({
+          navigationState: {
+            ...navigationState,
+            [tabKey]: nextScenes,
+          }
+        });
+      }
     }
   }
 
-  _onPopRoute() {
-    const {navigationState} = this.state;
-    const {tabs} = navigationState;
-    const tabKey = tabs.routes[tabs.index].key;
-    const scenes = navigationState[tabKey];
-    const nextScenes = NavigationStateUtils.pop(scenes);
-    if (scenes !== nextScenes) {
-      this.setState({
-        navigationState: {
-          ...navigationState,
-          [tabKey]: nextScenes,
-        }
-      });
-      return true;
+  _onPopRoute(superPop = false) {
+    if (superPop) {
+      this.props.onPopRoute();
+    }
+    else {
+      const {navigationState} = this.state;
+      const {tabs} = navigationState;
+      const tabKey = tabs.routes[tabs.index].key;
+      const scenes = navigationState[tabKey];
+      const nextScenes = NavigationStateUtils.pop(scenes);
+      if (scenes !== nextScenes) {
+        this.setState({
+          navigationState: {
+            ...navigationState,
+            [tabKey]: nextScenes,
+          }
+        });
+        return true;
+      }
     }
     return false;
   }
@@ -106,38 +119,6 @@ export default class TabsNavigator extends React.Component {
         }
       });
     }
-  }
-
-  _renderHeader(sceneProps: Object): React.Element {
-    return (
-      <MyHeader
-        ref={(header) => { this.header = header; }}
-        {...sceneProps}
-        onPopRoute={this._onPopRoute}
-      />
-    );
-  }
-
-  _renderScene(sceneProps: Object): React.Element {
-    const route = sceneProps.scene.route;
-    const Component = route.component;
-    return (
-      <View style={styles.navigator}>
-        {this._getStatusBar(route)}
-        <Component
-          {...sceneProps}
-          onPushRoute={this._onPushRoute}
-          onPopRoute={this._onPopRoute}
-          getHeader={() => this.header}
-          {...route.props}
-        />
-      </View>
-    );
-  }
-
-  _getStatusBar(route: Object): React.Element {
-    return route.getStatusBar ? route.getStatusBar() :
-      <StatusBar barStyle="light-content" />;
   }
 }
 

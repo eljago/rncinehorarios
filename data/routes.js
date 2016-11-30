@@ -31,8 +31,8 @@ function getTabBarRoute() {
     tabs: {
       index: 0,
       routes: [
-        {key: 'cinemas', title: 'Cines'},
         {key: 'billboard', title: 'Cartelera'},
+        {key: 'cinemas', title: 'Cines'},
         {key: 'coming_soon', title: 'Próximamente'},
       ],
     },
@@ -113,7 +113,7 @@ function getFunctionsRoute(theaterId, theaterName) {
 
 function getShowRoute(showId, showName) {
   return({
-    key: 'Functions',
+    key: 'Show',
     title: showName,
     component: RelayContainer,
     props: {

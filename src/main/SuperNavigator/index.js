@@ -17,6 +17,7 @@ const {
 } = NavigationExperimental;
 
 import TabsNavigator from '../TabsNavigator'
+import {renderScene} from '../NavigatorHelpers/CardStackHelpers'
 
 // Main Navigator of the app. Receives the whole app navigaiton state passed from props.
 export default class SuperNavigator extends React.Component {
@@ -35,7 +36,6 @@ export default class SuperNavigator extends React.Component {
     _.bindAll(this, [
       '_onPushRoute',
       '_onPopRoute',
-      '_renderScene',
     ]);
     BackAndroid.addEventListener('hardwareBackPress', this._onPopRoute);
   }
@@ -47,7 +47,7 @@ export default class SuperNavigator extends React.Component {
           key={'super_stack'}
           onNavigateBack={this._onPopRoute}
           navigationState={this.state.navigationState}
-          renderScene={this._renderScene}
+          renderScene={renderScene.bind(this)}
           style={styles.navigatorCardStack}
         />
       </View>
@@ -68,28 +68,6 @@ export default class SuperNavigator extends React.Component {
       return true;
     }
     return false;
-  }
-
-  _renderScene(sceneProps: Object): React.Element {
-    const route = sceneProps.scene.route;
-    const Component = route.component;
-    return (
-      <View style={styles.navigator}>
-        {this._getStatusBar(route)}
-        <Component
-          route={route}
-          onPushRoute={this._onPushRoute}
-          onPopRoute={this._onPopRoute}
-        />
-      </View>
-    );
-  }
-
-  _getStatusBar(route) {
-    return route.getStatusBar ? route.getStatusBar() :
-      <StatusBar
-        barStyle="light-content"
-      />;
   }
 }
 

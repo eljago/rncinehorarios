@@ -28,9 +28,8 @@ export default class Billboard extends React.Component {
   }
 
   _onPress(rowData) {
-    console.log(rowData);
     const showRoute = getShowRoute(rowData.show_id, rowData.name);
-    this.props.onPushRoute(showRoute);
+    this.props.onPushRoute(showRoute, true);
   }
 
   _renderRow(rowData, sectionID, rowID, highlightRow) {
