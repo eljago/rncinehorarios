@@ -46,6 +46,7 @@ export default class ShowImagesRow extends React.Component {
         <Image
           style={styles.image}
           source={{uri: getImageVersion(image.image, 'smaller')}}
+          resizeMode='cover'
         />
       </TouchableOpacity>
     );
