@@ -22,7 +22,7 @@ export default class ShowHeader extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.buttonContainer} onPress={this.props.onNavigateBack}>
           <Image style={styles.button} source={require('../../../../assets/back-icon.png')} />
         </TouchableOpacity>
@@ -39,10 +39,10 @@ export default class ShowHeader extends React.Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'transparent',
-    paddingTop: 20,
     flexDirection: 'row',
   },
   buttonContainer: {
+    paddingTop: 10,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -57,14 +57,13 @@ const styles = StyleSheet.create({
   },
   titleView: {
     flex: 1,
-    alignItems: 'center',
+    paddingTop: 10,
     justifyContent: 'center',
-    marginRight: Platform.OS === 'ios' ? 44 : 50,
-    paddingBottom: 5,
+    marginLeft: 10,
   },
   showName: {
     color: 'white',
-    fontSize: 25,
+    fontSize: 22,
   },
   showOriginalName: {
     color: 'white',
