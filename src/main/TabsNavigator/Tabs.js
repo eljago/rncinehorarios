@@ -13,6 +13,8 @@ const {
   PropTypes: NavigationPropTypes,
 } = NavigationExperimental;
 
+import Colors from '../../../data/Colors'
+
 import Tab from './Tab';
 
 export default class extends React.Component {
@@ -50,6 +52,7 @@ const styles = StyleSheet.create({
   tabs: {
     flex: 1,
     flexDirection: 'row',
-    height: 44
+    height: 44,
+    backgroundColor: Colors.tabBar,
   },
 });

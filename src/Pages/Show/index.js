@@ -32,9 +32,32 @@ export default Relay.createContainer(Show, {
           active
           rating
           cover
-          images
-          cast
-          videos
+          images {
+            image_id
+            width
+            height
+            poster
+            backdrop
+            image
+          }
+          cast {
+            person_id
+            actor
+            director
+            character
+            position
+            person {
+              name
+              image
+              imdb_code
+            }
+          }
+          videos {
+            name
+            code
+            outstanding
+            image
+          }
         }
       }
     `

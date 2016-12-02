@@ -2,10 +2,13 @@
 'use strict'
 
 import React, { PropTypes } from 'react'
-import {View, Text} from 'react-native'
+import {Image, StyleSheet, View, ScrollView} from 'react-native'
 
-import ShowScrollView from '../components/ShowScrollView'
-import ShowContent from '../components/ShowContent'
+import ShowData from '../components/ShowData'
+import ShowHeader from '../components/ShowHeader'
+import ShowImagesRow from '../components/ShowImagesRow'
+import ShowCastRow from '../components/ShowCastRow'
+import ShowVideosRow from '../components/ShowVideosRow'
 
 import {getImageVersion} from '../../../utils/ImageHelper'
 
@@ -13,18 +16,49 @@ export default class Show extends React.Component {
 
   render() {
     const show = this.props.viewer.show;
+    console.log(show)
     return (
-      <View style={{flex: 1}}>
-        <ShowScrollView
-          image={getImageVersion(show.cover)}
-        >
-          <ShowContent
+      <Image
+        style={styles.imageContainer}
+        source={{uri: getImageVersion(show.cover)}}
+        resizeMode='cover'
+      >
+        <View style={styles.imageContent}>
+          <ShowHeader
             showName={show.name}
             showOriginalName={show.name_original}
             showYear={show.year}
+            onNavigateBack={this.props.onPopRoute}
           />
-        </ShowScrollView>
-      </View>
+          <ScrollView>
+            <ShowData
+              showInformation={show.information}
+              showDuration={show.duration}
+              showDebut={show.debut}
+              showGenres={show.genres}
+            />
+            <ShowImagesRow
+              images={show.images}
+            />
+            <ShowCastRow
+              cast={show.cast}
+            />
+            <ShowVideosRow
+              videos={show.videos}
+            />
+          </ScrollView>
+        </View>
+      </Image>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  imageContainer: {
+    flex: 1,
+  },
+  imageContent: {
+    flex: 1,
+    backgroundColor: 'rgba(1,1,1,0.85)',
+  }
+});
