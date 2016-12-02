@@ -39,6 +39,7 @@ export default class Show extends React.Component {
             />
             <ShowImagesRow
               images={show.images}
+              onPushRoute={this.props.onPushRoute}
             />
             <ShowCastRow
               cast={show.cast}

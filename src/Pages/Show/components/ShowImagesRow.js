@@ -6,10 +6,12 @@ import {ListView, TouchableOpacity, Image, StyleSheet} from 'react-native'
 import _ from 'lodash'
 
 import {getImageVersion} from '../../../utils/ImageHelper'
+import {getImageViewerRoute} from '../../../../data/routes'
 
 export default class ShowImagesRow extends React.Component {
   static propTypes = {
     images: PropTypes.array,
+    onPushRoute: PropTypes.func,
   };
 
   constructor(props) {
@@ -19,7 +21,8 @@ export default class ShowImagesRow extends React.Component {
       dataSource: dataSource.cloneWithRows(props.images)
     }
     _.bindAll(this,[
-      '_renderRow'
+      '_renderRow',
+      '_onPress',
     ]);
   }
 
@@ -42,7 +45,10 @@ export default class ShowImagesRow extends React.Component {
 
   _renderRow(image) {
     return (
-      <TouchableOpacity style={styles.cellContainer}>
+      <TouchableOpacity
+        style={styles.cellContainer}
+        onPress={this._onPress}
+      >
         <Image
           style={styles.image}
           source={{uri: getImageVersion(image.image, 'smaller')}}
@@ -50,6 +56,12 @@ export default class ShowImagesRow extends React.Component {
         />
       </TouchableOpacity>
     );
+  }
+
+  _onPress() {
+    console.log(this.props.images);
+    const photoBrowserRoute = getImageViewerRoute(this.props.images);
+    this.props.onPushRoute(photoBrowserRoute);
   }
 }
 

@@ -12,6 +12,7 @@ import Theaters from '../src/Pages/Theaters'
 import Functions from '../src/Pages/Functions'
 import Show from '../src/Pages/Show'
 import RelayContainer from '../src/components/RelayContainer'
+import PhotoBrowser from '../src/components/PhotoBrowser'
 
 import HeaderButton from '../src/components/HeaderButton'
 
@@ -129,4 +130,21 @@ function getShowRoute(showId, showName) {
   });
 }
 
-export {getTabBarRoute, getTheatersRoute, getFunctionsRoute, getShowRoute};
+function getImageViewerRoute(images) {
+  return ({
+    key: 'PhotoBrowser',
+    title: 'Imágenes',
+    component: PhotoBrowser,
+    props: {
+      images: images
+    }
+  });
+}
+
+export {
+  getTabBarRoute,
+  getTheatersRoute,
+  getFunctionsRoute,
+  getShowRoute,
+  getImageViewerRoute,
+};
