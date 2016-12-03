@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Image,
   Dimensions,
+  PixelRatio,
 } from 'react-native';
 
 import {getImageVersion} from '../utils/ImageHelper'
@@ -19,6 +20,7 @@ export default class PhotoBrowser extends React.Component {
   static defaultProps = {
     index: "0",
   };
+  _pixelRatio = PixelRatio.get();
 
   componentDidMount() {
     const {width} = Dimensions.get('window');
@@ -38,6 +40,8 @@ export default class PhotoBrowser extends React.Component {
         ref={(scrollView) => {this._scrollView = scrollView;}}
         horizontal={true}
         pagingEnabled={true}
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
         style={styles.scrollView}
         contentContainerStyle={[styles.scrollContent, {
           width: width * this.props.images.length,
@@ -51,24 +55,28 @@ export default class PhotoBrowser extends React.Component {
 
   _getImageViews() {
     const {width, height} = Dimensions.get('window');
-    const imageCount = this.props.images.length;
+    const windowWidthHeightRatio = width / height;
+
     return this.props.images.map((image, index) => {
-      const isHorizontal = image.width > image.height;
-      const actualWidth = isHorizontal ? height : width;
-      const actualHeight = isHorizontal ? width : height;
+      const imageWidth = image.width / this._pixelRatio;
+      const imageHeight = image.height / this._pixelRatio;
+      const imageWidthHeightRatio = imageWidth / imageHeight;
+      const scale = imageWidthHeightRatio > (width / height) ?
+        (width / imageWidth) : (height / imageHeight);
+
       return (
         <Image
           key={image.image_id}
-          style={{
+          style={[styles.image, {
             position: 'absolute',
-            left: width * index - actualWidth / 2 + width / 2,
-            top: height / 2 - actualHeight / 2,
-            width: actualWidth,
-            height: actualHeight,
+            left: width * index - imageWidth / 2 + width / 2,
+            top: height / 2 - imageHeight / 2,
+            width: imageWidth,
+            height: imageHeight,
             transform: [{
-              rotate: image.width > image.height ? '-90deg' : '0deg',
+              scale: scale,
             }]
-          }}
+          }]}
           source={{uri: getImageVersion(image.image)}}
           resizeMode='contain'
         />
@@ -84,4 +92,7 @@ const styles = StyleSheet.create({
   scrollContent: {
     backgroundColor: 'black',
   },
+  image: {
+    backgroundColor: 'black',
+  }
 })
