@@ -14,7 +14,19 @@ import {getImageVersion} from '../utils/ImageHelper'
 export default class PhotoBrowser extends React.Component {
   static propTypes = {
     images: PropTypes.array,
+    index: PropTypes.string,
   };
+  static defaultProps = {
+    index: "0",
+  };
+
+  componentDidMount() {
+    const {width} = Dimensions.get('window');
+    this._scrollView.scrollTo({
+      x: width * parseInt(this.props.index),
+      animated: false,
+    })
+  }
 
   render() {
     const formattedImages = this.props.images.map((image) => {
@@ -23,6 +35,7 @@ export default class PhotoBrowser extends React.Component {
     const {width, height} = Dimensions.get('window');
     return (
       <ScrollView
+        ref={(scrollView) => {this._scrollView = scrollView;}}
         horizontal={true}
         pagingEnabled={true}
         style={styles.scrollView}

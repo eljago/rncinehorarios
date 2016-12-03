@@ -130,13 +130,14 @@ function getShowRoute(showId, showName) {
   });
 }
 
-function getImageViewerRoute(images) {
+function getImageViewerRoute(images, index = 0) {
   return ({
     key: 'PhotoBrowser',
     title: 'Imágenes',
     component: PhotoBrowser,
     props: {
-      images: images
+      images: images,
+      index: index,
     }
   });
 }

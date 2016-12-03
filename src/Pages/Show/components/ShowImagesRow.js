@@ -43,11 +43,11 @@ export default class ShowImagesRow extends React.Component {
     );
   }
 
-  _renderRow(image) {
+  _renderRow(image: string, sectionID: number, rowID: number) {
     return (
       <TouchableOpacity
         style={styles.cellContainer}
-        onPress={this._onPress}
+        onPress={() => {this._onPress(rowID)}}
       >
         <Image
           style={styles.image}
@@ -58,9 +58,8 @@ export default class ShowImagesRow extends React.Component {
     );
   }
 
-  _onPress() {
-    console.log(this.props.images);
-    const photoBrowserRoute = getImageViewerRoute(this.props.images);
+  _onPress(index: number) {
+    const photoBrowserRoute = getImageViewerRoute(this.props.images, index);
     this.props.onPushRoute(photoBrowserRoute);
   }
 }
