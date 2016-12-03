@@ -38,17 +38,24 @@ export default class PhotoBrowser extends React.Component {
 
   _getImageViews() {
     const {width, height} = Dimensions.get('window');
-    return this.props.images.map((image) => {
+    const imageCount = this.props.images.length;
+    return this.props.images.map((image, index) => {
+      const isHorizontal = image.width > image.height;
+      const actualWidth = isHorizontal ? height : width;
+      const actualHeight = isHorizontal ? width : height;
       return (
         <Image
           key={image.image_id}
-          style={[styles.image, {
+          style={{
+            position: 'absolute',
+            left: width * index - actualWidth / 2 + width / 2,
+            top: height / 2 - actualHeight / 2,
+            width: actualWidth,
+            height: actualHeight,
             transform: [{
               rotate: image.width > image.height ? '-90deg' : '0deg',
-            }, {
-              scale: image.width > image.height ? image.width / image.height : 1,
             }]
-          }]}
+          }}
           source={{uri: getImageVersion(image.image)}}
           resizeMode='contain'
         />
@@ -64,7 +71,4 @@ const styles = StyleSheet.create({
   scrollContent: {
     backgroundColor: 'black',
   },
-  image: {
-    flex: 1,
-  }
 })
