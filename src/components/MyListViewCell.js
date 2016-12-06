@@ -1,9 +1,9 @@
-'use strict';
+'use strict'
 
-import React, { PropTypes } from 'react';
+import React, { PropTypes } from 'react'
 import { TouchableHighlight, StyleSheet, View } from 'react-native'
 
-import RightAccessoryView from './RightAccessoryView';
+import RightAccessoryView from './RightAccessoryView'
 
 export default class MyListViewCell extends React.Component {
 
@@ -12,9 +12,9 @@ export default class MyListViewCell extends React.Component {
     onPress: PropTypes.func
   };
 
-  render() {
-    const {rowNumber, onPress, children} = this.props;
-    const cellBackgroundColor = rowNumber % 2 == 0 ? 'white' :  '#ECF0F1';
+  render () {
+    const {rowNumber, onPress, children} = this.props
+    const cellBackgroundColor = rowNumber % 2 === 0 ? 'white' : '#ECF0F1'
 
     return (
       <TouchableHighlight
@@ -28,7 +28,7 @@ export default class MyListViewCell extends React.Component {
           <RightAccessoryView />
         </View>
       </TouchableHighlight>
-    );
+    )
   }
 }
 
@@ -42,4 +42,4 @@ const styles = StyleSheet.create({
   childrenContainer: {
     flex: 1
   }
-});
+})

@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
-import React, { PropTypes } from 'react';
-import { Text, View, StyleSheet, TouchableHighlight, Image } from 'react-native';
+import React, { PropTypes } from 'react'
+import { Text, View, StyleSheet, TouchableHighlight, Image } from 'react-native'
 
 export class ScoreButton extends React.Component {
 
@@ -11,8 +11,8 @@ export class ScoreButton extends React.Component {
     color: PropTypes.string
   };
 
-  render() {
-    return(
+  render () {
+    return (
       <TouchableHighlight
         style={styles.scoreButton}
         underlayColor={'transparent'}
@@ -20,26 +20,26 @@ export class ScoreButton extends React.Component {
       >
         {this._getContent()}
       </TouchableHighlight>
-    );
+    )
   }
 
-  _onPress() {
+  _onPress () {
 
   }
 
-  _getContent() {
-    return(
+  _getContent () {
+    return (
       <View style={styles.scoreView}>
         <Image
           style={styles.scoreLogo}
-          source={this.props.source}/>
+          source={this.props.source} />
         <View style={{flexDirection: 'row'}}>
           <Text style={[styles.scoreText, {color: this.props.color}]}>
             {this.props.text}
           </Text>
         </View>
       </View>
-    );
+    )
   }
 }
 
@@ -61,4 +61,4 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 12
   }
-});
+})

@@ -1,4 +1,4 @@
-//@flow
+// @flow
 'use strict'
 
 import Relay from 'react-relay'
@@ -20,5 +20,5 @@ export default Relay.createContainer(Theaters, {
         }
       }
     `
-  },
-});
+  }
+})

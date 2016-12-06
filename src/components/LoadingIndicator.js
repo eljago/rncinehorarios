@@ -2,21 +2,20 @@
 
 import React from 'react'
 import {
-  Platform,
   ActivityIndicator,
   StyleSheet,
-  View,
+  View
 } from 'react-native'
 
 export default class LoadingIndicator extends React.Component {
 
-  render() {
-    return(
+  render () {
+    return (
       <View style={styles.loadingContainer}>
         <View style={styles.activityContainer}>
           <ActivityIndicator
             style={styles.activityIndicator}
-            size="large"
+            size='large'
             color='white'
           />
         </View>

@@ -1,4 +1,4 @@
-//@flow
+// @flow
 'use strict'
 
 import Relay from 'react-relay'
@@ -6,9 +6,9 @@ import Relay from 'react-relay'
 import Show from './containers/Show'
 
 export default Relay.createContainer(Show, {
-  
+
   initialVariables: {
-    show_id: 0,
+    show_id: 0
   },
 
   fragments: {
@@ -61,5 +61,5 @@ export default Relay.createContainer(Show, {
         }
       }
     `
-  },
+  }
 })

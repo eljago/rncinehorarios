@@ -1,9 +1,7 @@
-//@flow
+// @flow
 'use strict'
 
-import React from 'react';
-import Relay from 'react-relay';
-import {Text} from 'react-native';
+import Relay from 'react-relay'
 
 import Cinemas from '../src/Pages/Cinemas'
 import Billboard from '../src/Pages/Billboard'
@@ -27,15 +25,15 @@ class ViewerQueryConfig extends Relay.Route {
   };
 }
 
-function getTabBarRoute() {
-  return({
+function getTabBarRoute () {
+  return ({
     tabs: {
       index: 0,
       routes: [
         {key: 'billboard', title: 'Cartelera'},
         {key: 'cinemas', title: 'Cines'},
-        {key: 'coming_soon', title: 'Próximamente'},
-      ],
+        {key: 'coming_soon', title: 'Próximamente'}
+      ]
     },
     // Scenes for the `apple` tab.
     cinemas: {
@@ -44,7 +42,7 @@ function getTabBarRoute() {
         key: 'cinemas',
         title: 'Cines',
         component: Cinemas
-      }],
+      }]
     },
     // Scenes for the `banana` tab.
     billboard: {
@@ -55,9 +53,9 @@ function getTabBarRoute() {
         component: RelayContainer,
         props: {
           component: Billboard,
-          queryConfig: new ViewerQueryConfig(),
-        },
-      }],
+          queryConfig: new ViewerQueryConfig()
+        }
+      }]
     },
     // Scenes for the `orange` tab.
     coming_soon: {
@@ -68,33 +66,33 @@ function getTabBarRoute() {
         component: RelayContainer,
         props: {
           component: ComingSoon,
-          queryConfig: new ViewerQueryConfig(),
-        },
-      }],
-    },
-  });
+          queryConfig: new ViewerQueryConfig()
+        }
+      }]
+    }
+  })
 }
 
-function getTheatersRoute(cinemaId, cinemaName) {
-  return({
+function getTheatersRoute (cinemaId, cinemaName) {
+  return ({
     key: 'Theaters',
     title: cinemaName,
     component: RelayContainer,
     props: {
       component: Theaters,
       queryConfig: new ViewerQueryConfig({
-        cinema_id: cinemaId,
+        cinema_id: cinemaId
       }),
       extraProps: {
         cinemaId: cinemaId,
-        cinemaName: cinemaName,
+        cinemaName: cinemaName
       }
     }
-  });
+  })
 }
 
-function getFunctionsRoute(theaterId, theaterName) {
-  return({
+function getFunctionsRoute (theaterId, theaterName) {
+  return ({
     key: 'Functions',
     title: theaterName,
     component: RelayContainer,
@@ -105,15 +103,15 @@ function getFunctionsRoute(theaterId, theaterName) {
       }),
       extraProps: {
         theaterId: theaterId,
-        theaterName: theaterName,
+        theaterName: theaterName
       }
     },
-    rightComponent: HeaderButton,
-  });
+    rightComponent: HeaderButton
+  })
 }
 
-function getShowRoute(showId, showName) {
-  return({
+function getShowRoute (showId, showName) {
+  return ({
     key: 'Show',
     title: showName,
     component: RelayContainer,
@@ -124,22 +122,22 @@ function getShowRoute(showId, showName) {
       }),
       extraProps: {
         showId: showId,
-        showName: showName,
+        showName: showName
       }
-    },
-  });
+    }
+  })
 }
 
-function getImageViewerRoute(images, index = 0) {
+function getImageViewerRoute (images, index = 0) {
   return ({
     key: 'PhotoBrowser',
     title: 'Imágenes',
     component: PhotoBrowser,
     props: {
       images: images,
-      index: index,
+      index: index
     }
-  });
+  })
 }
 
 export {
@@ -147,5 +145,5 @@ export {
   getTheatersRoute,
   getFunctionsRoute,
   getShowRoute,
-  getImageViewerRoute,
-};
+  getImageViewerRoute
+}

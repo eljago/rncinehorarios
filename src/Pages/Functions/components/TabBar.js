@@ -1,27 +1,27 @@
 'use strict'
 
-import React, {PropTypes} from 'react';
+import React, {PropTypes} from 'react'
 import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
-} from 'react-native';
+  TouchableOpacity
+} from 'react-native'
 
-import Colors from '../../../../data/Colors';
+import Colors from '../../../../data/Colors'
 
 export default class TabBar extends React.Component {
 
   static propTypes = {
     goToPage: PropTypes.func,
     activeTab: PropTypes.number,
-    tabs: PropTypes.array,
+    tabs: PropTypes.array
   };
 
-  render() {
+  render () {
     return (
       <View>
-        <View style={[styles.tabs, this.props.style, ]}>
+        <View style={[styles.tabs, this.props.style]}>
           {this.props.tabs.map((tab, i) => {
             return (
               <TouchableOpacity
@@ -30,17 +30,17 @@ export default class TabBar extends React.Component {
                 style={styles.tab}
               >
                 <Text style={{
-                  color: this.props.activeTab == i ? Colors.scrollIconActive : Colors.scrollIconInactive,
-                  fontWeight: this.props.activeTab == i ? '600' : 'normal'
+                  color: this.props.activeTab === i ? Colors.scrollIconActive : Colors.scrollIconInactive,
+                  fontWeight: this.props.activeTab === i ? '600' : 'normal'
                 }}>
                   {tab}
                 </Text>
               </TouchableOpacity>
-            );
+            )
           })}
         </View>
       </View>
-    );
+    )
   }
 }
 
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingBottom: 10,
+    paddingBottom: 10
   },
   tabs: {
     height: 25,
@@ -60,6 +60,6 @@ const styles = StyleSheet.create({
     borderTopWidth: 0,
     borderLeftWidth: 0,
     borderRightWidth: 0,
-    borderBottomColor: 'rgba(0,0,0,0.05)',
-  },
-});
+    borderBottomColor: 'rgba(0,0,0,0.05)'
+  }
+})

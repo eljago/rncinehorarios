@@ -3,49 +3,48 @@
 import React, { PropTypes } from 'react'
 import { View, Animated, Dimensions, ScrollView } from 'react-native'
 import moment from 'moment'
-const esLocale = require('moment/locale/es');
+const esLocale = require('moment/locale/es')
 import _ from 'lodash'
 
-import TabBar from '../components/TabBar'
 import MyGiftedListView from '../../../components/MyGiftedListView'
 import FunctionsCell from '../components/FunctionsCell'
-import MenuItem from '../components/MenuItem';
+import MenuItem from '../components/MenuItem'
 import Colors from '../../../../data/Colors'
 
-const PICKER_OFFSET = 100;
+const PICKER_OFFSET = 100
 
 export default class Functions extends React.Component {
   static propTypes = {
-    onPushRoute: PropTypes.func.isRequired,
+    onPushRoute: PropTypes.func.isRequired
   };
 
-  constructor(props) {
-    super(props);
-    moment.updateLocale('es', esLocale);
-    this.pickerHidden = true;
+  constructor (props) {
+    super(props)
+    moment.updateLocale('es', esLocale)
+    this.pickerHidden = true
     this.state = {
       currentDate: moment().format('YYYY-MM-DD'),
-      pickerRight: new Animated.Value(0),
+      pickerRight: new Animated.Value(0)
     }
     _.bindAll(this, [
       '_renderRow',
-      '_onPress',
+      '_onPress'
     ])
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.props.getHeader().rightComp.setup({
       title: _.upperFirst(moment().format('ddd DD')),
       onPress: () => {
-        this.onRightAction();
+        this.onRightAction()
       }
-    });
+    })
   }
 
-  render() {
-    const date = this.state.currentDate;
-    const dataRows = getDataRows(date, this.props.viewer.shows_functions);
-    const {width} = Dimensions.get('window');
+  render () {
+    const date = this.state.currentDate
+    const dataRows = getDataRows(date, this.props.viewer.shows_functions)
+    const {width} = Dimensions.get('window')
     return (
       <View style={{flex: 1, flexDirection: 'row'}}>
         {this._getMenu()}
@@ -67,11 +66,11 @@ export default class Functions extends React.Component {
           />
         </Animated.View>
       </View>
-    );
+    )
   }
 
-  _getMenu() {
-    return(
+  _getMenu () {
+    return (
       <View style={{
         position: 'absolute',
         right: 0,
@@ -84,21 +83,21 @@ export default class Functions extends React.Component {
           {this._getDateMenuItems()}
         </ScrollView>
       </View>
-    );
+    )
   }
 
-  onRightAction() {
+  onRightAction () {
     Animated.spring(
       this.state.pickerRight,
       {
         toValue: this.pickerHidden ? PICKER_OFFSET : 0,
-        friction: 7,
+        friction: 7
       }
-    ).start();
-    this.pickerHidden = !this.pickerHidden;
+    ).start()
+    this.pickerHidden = !this.pickerHidden
   }
 
-  _renderRow(rowData, sectionID, rowID, highlightRow) {
+  _renderRow (rowData, sectionID, rowID, highlightRow) {
     return (
       <FunctionsCell
         rowNumber={rowData.rowNumber}
@@ -107,20 +106,20 @@ export default class Functions extends React.Component {
         functions={rowData.functions}
         onPress={this._onPress}
       />
-    );
+    )
   }
 
-  _onPress(rowData) {
+  _onPress (rowData) {
     // const showRoute = getShowRoute(rowData.get('show_id'))
     // this.props.navigator.navigator.push(showRoute)
   }
 
-  _getDateMenuItems() {
+  _getDateMenuItems () {
     let dates = []
     for (var i = 0; i < 7; i++) {
-      dates.push(moment().add(i, 'days'));
+      dates.push(moment().add(i, 'days'))
     }
-    return dates.map((date) => 
+    return dates.map((date) =>
       <MenuItem
         key={date.format('YYYY-MM-DD')}
         onPress={() => {
@@ -129,26 +128,26 @@ export default class Functions extends React.Component {
         selected={date.format('YYYY-MM-DD') === this.state.currentDate}
         title={_.upperFirst(date.format('ddd DD'))}
       />
-    );
+    )
   }
 
-  _onPressMenuItem(date) {
+  _onPressMenuItem (date) {
     this.setState({currentDate: date.format('YYYY-MM-DD')})
-    this.onRightAction();
+    this.onRightAction()
     this.props.getHeader().rightComp.setup({
-      title: _.upperFirst(date.format('ddd DD')),
-    });
+      title: _.upperFirst(date.format('ddd DD'))
+    })
   }
 }
 
-function getDataRows(date, shows_functions) {
+function getDataRows (date, showsFunctions) {
   let dataRows = []
-  for(const show of shows_functions){
-    const {id, name, information, genres, cover, show_id} = show;
+  for (const show of showsFunctions) {
+    const {id, name, information, genres, cover, show_id} = show
 
     const functions = show.functions.filter((obj) => {
-      return (obj.date === date);
-    });
+      return (obj.date === date)
+    })
 
     if (functions.length > 0) {
       dataRows.push({
@@ -159,7 +158,7 @@ function getDataRows(date, shows_functions) {
         cover: cover,
         functions: functions,
         show_id: show_id
-      });
+      })
     }
   }
   return dataRows

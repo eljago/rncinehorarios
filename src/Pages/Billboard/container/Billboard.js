@@ -1,38 +1,38 @@
 // @flow
-'use strict';
+'use strict'
 
-import React, { PropTypes } from 'react';
-import _ from 'lodash';
+import React from 'react'
+import _ from 'lodash'
 import MyGiftedListView from '../../../components/MyGiftedListView'
-import MovieCell from '../../../components/MovieCell';
+import MovieCell from '../../../components/MovieCell'
 
 import {getShowRoute} from '../../../../data/routes'
 
 export default class Billboard extends React.Component {
 
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
       viewType: 'default'
     }
     _.bindAll(this, ['_renderRow', '_onPress'])
   }
 
-  render() {
+  render () {
     return (
       <MyGiftedListView
         renderRow={this._renderRow}
         dataRows={this.props.viewer.billboard}
       />
-    );
+    )
   }
 
-  _onPress(rowData) {
-    const showRoute = getShowRoute(rowData.show_id, rowData.name);
-    this.props.onPushRoute(showRoute, true);
+  _onPress (rowData) {
+    const showRoute = getShowRoute(rowData.show_id, rowData.name)
+    this.props.onPushRoute(showRoute, true)
   }
 
-  _renderRow(rowData, sectionID, rowID, highlightRow) {
+  _renderRow (rowData, sectionID, rowID, highlightRow) {
     return (
       <MovieCell
         rowNumber={rowData.rowNumber}
@@ -49,8 +49,8 @@ export default class Billboard extends React.Component {
         showRottenTomatoesUrl={rowData.rotten_tomatoes_url}
         showRottenTomatoesScore={rowData.rotten_tomatoes_score}
         showingScores={this.props.viewType === 'scores'}
-        isBillboard={true}
+        isBillboard
       />
-    );
+    )
   }
 }

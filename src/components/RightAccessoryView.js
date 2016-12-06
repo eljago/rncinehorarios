@@ -1,22 +1,22 @@
-'use strict';
+'use strict'
 
-import React from 'react';
+import React from 'react'
 import { Image, StyleSheet } from 'react-native'
 
 export default class RightAccesoryView extends React.Component {
 
-  render() {
+  render () {
     return (
-      <Image 
-        style={styles.rightAccessoryView} 
-        source={require('../../assets/RightAccesoryView.png')}/>
-    );
+      <Image
+        style={styles.rightAccessoryView}
+        source={require('../../assets/RightAccesoryView.png')} />
+    )
   }
 }
 
 const styles = StyleSheet.create({
   rightAccessoryView: {
     width: 22,
-    height: 22,
+    height: 22
   }
-});
+})

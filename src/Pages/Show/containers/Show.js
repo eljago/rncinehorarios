@@ -1,8 +1,8 @@
-//@flow
+// @flow
 'use strict'
 
-import React, { PropTypes } from 'react'
-import {Image, StyleSheet, View, ScrollView} from 'react-native'
+import React from 'react'
+import {Image, StyleSheet, View, ScrollView} from 'react-native'
 
 import ShowData from '../components/ShowData'
 import ShowHeader from '../components/ShowHeader'
@@ -14,8 +14,8 @@ import {getImageVersion} from '../../../utils/ImageHelper'
 
 export default class Show extends React.Component {
 
-  render() {
-    const show = this.props.viewer.show;
+  render () {
+    const show = this.props.viewer.show
     console.log(show)
     return (
       <Image
@@ -50,16 +50,16 @@ export default class Show extends React.Component {
           </ScrollView>
         </View>
       </Image>
-    );
+    )
   }
 }
 
 const styles = StyleSheet.create({
   imageContainer: {
-    flex: 1,
+    flex: 1
   },
   imageContent: {
     flex: 1,
-    backgroundColor: 'rgba(1,1,1,0.85)',
+    backgroundColor: 'rgba(1,1,1,0.85)'
   }
-});
+})

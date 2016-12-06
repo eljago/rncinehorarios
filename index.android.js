@@ -4,8 +4,8 @@
  * @flow
  */
 
-import { AppRegistry } from 'react-native';
+import { AppRegistry } from 'react-native'
 
-import MainApp from './src/main';
+import MainApp from './src/main'
 
-AppRegistry.registerComponent('CineHorarios', () => MainApp);
+AppRegistry.registerComponent('CineHorarios', () => MainApp)

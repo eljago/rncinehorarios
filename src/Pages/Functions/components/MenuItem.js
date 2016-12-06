@@ -1,19 +1,19 @@
-'use strict';
+'use strict'
 
-import React, { PropTypes } from 'react';
+import React, { PropTypes } from 'react'
 import { Text, TouchableOpacity, StyleSheet } from 'react-native'
 
 export default class MenuItem extends React.Component {
   static propTypes = {
     onPress: PropTypes.func,
     selected: PropTypes.bool,
-    title: PropTypes.string,
+    title: PropTypes.string
   }
 
-  render() {
+  render () {
     const textStyle = [styles.text, {
       color: this.props.selected ? 'white' : '#909090'
-    }];
+    }]
     return (
       <TouchableOpacity
         onPress={this.props.onPress}
@@ -24,7 +24,7 @@ export default class MenuItem extends React.Component {
           {this.props.title}
         </Text>
       </TouchableOpacity>
-    );
+    )
   }
 }
 
@@ -32,11 +32,11 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: 50,
+    marginLeft: 50
   },
   text: {
     fontSize: 20,
     marginTop: 10,
-    marginBottom: 10,
+    marginBottom: 10
   }
-});
+})

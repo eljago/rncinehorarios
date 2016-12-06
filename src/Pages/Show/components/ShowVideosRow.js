@@ -1,4 +1,4 @@
-//@flow
+// @flow
 'use strict'
 
 import React, {PropTypes} from 'react'
@@ -9,38 +9,38 @@ import {getImageVersion} from '../../../utils/ImageHelper'
 
 export default class ShowVideosRow extends React.Component {
   static propTypes = {
-    videos: PropTypes.array,
+    videos: PropTypes.array
   };
 
-  constructor(props) {
-    super(props);
-    const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+  constructor (props) {
+    super(props)
+    const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
     this.state = {
       dataSource: dataSource.cloneWithRows(props.videos)
     }
-    _.bindAll(this,[
+    _.bindAll(this, [
       '_renderRow'
-    ]);
+    ])
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps (nextProps) {
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(nextProps.videos)
-    });
+    })
   }
 
-  render() {
+  render () {
     return (
       <ListView
         style={styles.listView}
-        horizontal={true}
+        horizontal
         dataSource={this.state.dataSource}
         renderRow={this._renderRow}
       />
-    );
+    )
   }
 
-  _renderRow(video) {
+  _renderRow (video) {
     return (
       <TouchableOpacity style={styles.cellContainer}>
         <Image
@@ -48,20 +48,20 @@ export default class ShowVideosRow extends React.Component {
           source={{uri: getImageVersion(video.image, 'smaller')}}
         />
       </TouchableOpacity>
-    );
+    )
   }
 }
 
 const styles = StyleSheet.create({
   listView: {
-    margin: 7,
+    margin: 7
   },
   cellContainer: {
     width: 256,
-    height: 144,
+    height: 144
   },
   video: {
     flex: 1,
-    margin: 3,
+    margin: 3
   }
-});
+})

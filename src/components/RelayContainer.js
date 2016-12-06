@@ -1,14 +1,13 @@
-//@flow
+// @flow
 'use strict'
 
-import React, { PropTypes } from 'react';
-import ReactNative, {
+import React, { PropTypes } from 'react'
+import {
   View,
   TouchableHighlight,
-  Text,
-  StyleSheet,
-} from 'react-native';
-import Relay from 'react-relay';
+  Text
+} from 'react-native'
+import Relay from 'react-relay'
 
 import LoadingIndicator from './LoadingIndicator'
 
@@ -19,19 +18,19 @@ export default class RelayContainer extends React.Component {
     extraProps: PropTypes.object,
     onPushRoute: PropTypes.func,
     onPopRoute: PropTypes.func,
-    getHeader: PropTypes.func,
+    getHeader: PropTypes.func
   };
 
-  render() {
+  render () {
     const {
       component: Component,
       queryConfig,
       extraProps,
       onPushRoute,
       onPopRoute,
-      getHeader,
-    } = this.props;
-    
+      getHeader
+    } = this.props
+
     return (
       <Relay.Renderer
         Container={Component}
@@ -50,13 +49,12 @@ export default class RelayContainer extends React.Component {
                   </Text>
                 </TouchableHighlight>
               </View>
-            );
-          }
-          else if (props) {
+            )
+          } else if (props) {
             return (
               <View style={{flex: 1}}>
                 <Component
-                  ref={(comp) => { this.comp = comp; }}
+                  ref={(comp) => { this.comp = comp }}
                   onPushRoute={onPushRoute}
                   onPopRoute={onPopRoute}
                   getHeader={getHeader}
@@ -64,13 +62,12 @@ export default class RelayContainer extends React.Component {
                   {...props}
                 />
               </View>
-            );
-          }
-          else {
-            return <LoadingIndicator />;
+            )
+          } else {
+            return <LoadingIndicator />
           }
         }}
       />
-    );
+    )
   }
 }

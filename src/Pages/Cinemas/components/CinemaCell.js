@@ -1,14 +1,14 @@
-'use strict';
+'use strict'
 
-import React, { PropTypes } from 'react';
+import React, { PropTypes } from 'react'
 import {
   Image,
   Text,
   View,
   StyleSheet
-} from 'react-native';
+} from 'react-native'
 
-import MyListViewCell from '../../../components/MyListViewCell';
+import MyListViewCell from '../../../components/MyListViewCell'
 
 export default class CinemaCell extends React.Component {
 
@@ -19,9 +19,9 @@ export default class CinemaCell extends React.Component {
     onPress: PropTypes.func
   };
 
-  render() {
-    const {title, image, onPress, rowNumber} = this.props;
-    return(
+  render () {
+    const {title, image, onPress, rowNumber} = this.props
+    return (
       <MyListViewCell
         rowNumber={rowNumber}
         onPress={onPress}
@@ -38,7 +38,7 @@ export default class CinemaCell extends React.Component {
           </View>
         </View>
       </MyListViewCell>
-    );
+    )
   }
 }
 
@@ -60,4 +60,4 @@ let styles = StyleSheet.create({
     fontSize: 27,
     fontWeight: '300'
   }
-});
+})

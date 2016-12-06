@@ -1,4 +1,4 @@
-//@flow
+// @flow
 'use strict'
 
 import Relay from 'react-relay'
@@ -7,7 +7,7 @@ import moment from 'moment'
 import Functions from './containers/Functions'
 
 export default Relay.createContainer(Functions, {
-  
+
   initialVariables: {
     theater_id: 0,
     date: moment().format('YYYY-MM-DD')
@@ -28,5 +28,5 @@ export default Relay.createContainer(Functions, {
         }
       }
     `
-  },
+  }
 })

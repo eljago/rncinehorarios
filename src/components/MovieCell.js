@@ -1,10 +1,9 @@
-'use strict';
+'use strict'
 
-import React, { PropTypes } from 'react';
-import { StyleSheet, View, Image, Text } from 'react-native';
+import React, { PropTypes } from 'react'
+import { StyleSheet, View, Image, Text } from 'react-native'
 
-import Colors from '../../data/Colors';
-import RightAccessoryView from './RightAccessoryView'
+import Colors from '../../data/Colors'
 import MyListViewCell from './MyListViewCell'
 import {getImdbView, getRottenTomatoesView, getMetacriticView} from './GetScoreViews'
 import {getImageVersion} from '../utils/ImageHelper'
@@ -27,17 +26,17 @@ export default class MovieCell extends React.Component {
     showMetacriticScore: PropTypes.number,
     showRottenTomatoesUrl: PropTypes.string,
     showRottenTomatoesScore: PropTypes.number,
-    showingScores: PropTypes.bool,
+    showingScores: PropTypes.bool
   };
 
-  render() {
+  render () {
     const {
       rowNumber,
       onPress,
       showCover
-    } = this.props;
+    } = this.props
 
-    return(
+    return (
       <MyListViewCell
         rowNumber={rowNumber}
         onPress={onPress}
@@ -53,11 +52,11 @@ export default class MovieCell extends React.Component {
           {this._getDynamicView()}
         </View>
       </MyListViewCell>
-    );
+    )
   }
 
-  _getDynamicView() {
-    const {showName, showingScores} = this.props;
+  _getDynamicView () {
+    const {showName, showingScores} = this.props
     if (showingScores) {
       const {
         showImdbCode,
@@ -66,41 +65,40 @@ export default class MovieCell extends React.Component {
         showMetacriticScore,
         showRottenTomatoesUrl,
         showRottenTomatoesScore
-      } = this.props;
-      return(
+      } = this.props
+      return (
         <View style={styles.textContainer}>
           <Text style={styles.name}>{showName}</Text>
           <View style={styles.scoresView}>
-              {getImdbView(showImdbCode, showImdbScore)}
-              {getMetacriticView(showMetacriticUrl, showMetacriticScore)}
-              {getRottenTomatoesView(showRottenTomatoesUrl, showRottenTomatoesScore)}
+            {getImdbView(showImdbCode, showImdbScore)}
+            {getMetacriticView(showMetacriticUrl, showMetacriticScore)}
+            {getRottenTomatoesView(showRottenTomatoesUrl, showRottenTomatoesScore)}
           </View>
         </View>
-      );
-    }
-    else {
+      )
+    } else {
       const {
         isBillboard,
         showGenres,
         showDuration,
         showRating,
         showDebut
-      } = this.props;
-      const specificContent = isBillboard ? 
-        [
-          getSubtitleView(showDuration, `${showDuration} minutos`),
-          getSubtitleView(showRating)
-        ] :
-        [
-          getSubtitleView(showDebut),
-        ];
-      return(
+      } = this.props
+      const specificContent = isBillboard
+      ? [
+        getSubtitleView(showDuration, `${showDuration} minutos`),
+        getSubtitleView(showRating)
+      ]
+      : [
+        getSubtitleView(showDebut)
+      ]
+      return (
         <View style={styles.textContainer}>
           <Text key='name' style={styles.name}>{showName}</Text>
           {getSubtitleView(showGenres)}
           {specificContent}
         </View>
-      );
+      )
     }
   }
 }
@@ -108,18 +106,18 @@ export default class MovieCell extends React.Component {
 const getSubtitleView = (variable, customText = null) => {
   if ((typeof variable === 'number' && variable > 0) ||
       (typeof variable === 'string' && variable.length > 0)) {
-    const text = customText ? customText : variable;
+    const text = customText == null ? customText : variable
     return (
       <Text key={text} style={styles.subtitle}>{text}</Text>
-    );
+    )
   }
-  return null;
+  return null
 }
 
 const styles = StyleSheet.create({
   rowContainer: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'row'
   },
   imageContainer: {
     alignSelf: 'flex-start',
@@ -143,7 +141,7 @@ const styles = StyleSheet.create({
   textContainer: {
     flex: 1,
     marginLeft: 12,
-    alignSelf: 'flex-start',
+    alignSelf: 'flex-start'
   },
   name: {
     fontSize: 20,
@@ -155,5 +153,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 4,
     marginBottom: 4
-  },
-});
+  }
+})

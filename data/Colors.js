@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 export default {
 
@@ -17,6 +17,6 @@ export default {
 
   titleText: 'black',
   functionTypes: 'gray',
-  showtimes: 'black',
-};
+  showtimes: 'black'
+}
 

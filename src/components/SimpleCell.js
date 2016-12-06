@@ -1,22 +1,22 @@
-'use strict';
+'use strict'
 
-import React, { PropTypes } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import React, { PropTypes } from 'react'
+import { Text, View, StyleSheet } from 'react-native'
 
-import MyListViewCell from './MyListViewCell';
+import MyListViewCell from './MyListViewCell'
 
 export default class SimpleCell extends React.Component {
-  
+
   static propTypes = {
     rowNumber: PropTypes.number,
     title: PropTypes.string,
     onPress: PropTypes.func
   };
 
-  render() {
-    const {rowNumber, title, onPress} = this.props;
+  render () {
+    const {rowNumber, title, onPress} = this.props
 
-    return(
+    return (
       <MyListViewCell
         rowNumber={rowNumber}
         onPress={onPress}
@@ -27,10 +27,9 @@ export default class SimpleCell extends React.Component {
           </Text>
         </View>
       </MyListViewCell>
-    );
+    )
   }
 }
-
 
 const styles = StyleSheet.create({
   textContainer: {
@@ -42,4 +41,4 @@ const styles = StyleSheet.create({
     color: '#000',
     marginLeft: 10
   }
-});
+})

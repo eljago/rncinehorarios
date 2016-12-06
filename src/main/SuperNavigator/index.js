@@ -1,20 +1,19 @@
 // @flow
 'use strict'
 
-import React, { PropTypes } from 'react';
-import _ from 'lodash';
-import ReactNative, {
+import React from 'react'
+import _ from 'lodash'
+import {
   NavigationExperimental,
   StyleSheet,
   View,
-  StatusBar,
-  BackAndroid,
+  BackAndroid
 } from 'react-native'
 
 const {
   CardStack: NavigationCardStack,
-  StateUtils: NavigationStateUtils,
-} = NavigationExperimental;
+  StateUtils: NavigationStateUtils
+} = NavigationExperimental
 
 import TabsNavigator from '../TabsNavigator'
 import {renderScene} from '../NavigatorHelpers/CardStackHelpers'
@@ -22,8 +21,8 @@ import {renderScene} from '../NavigatorHelpers/CardStackHelpers'
 // Main Navigator of the app. Receives the whole app navigaiton state passed from props.
 export default class SuperNavigator extends React.Component {
 
-  constructor(props: any, context: any) {
-    super(props, context);
+  constructor (props: any, context: any) {
+    super(props, context)
     this.state = {
       navigationState: {
         index: 0,
@@ -32,15 +31,15 @@ export default class SuperNavigator extends React.Component {
           component: TabsNavigator
         }]
       }
-    };
+    }
     _.bindAll(this, [
       '_onPushRoute',
-      '_onPopRoute',
-    ]);
-    BackAndroid.addEventListener('hardwareBackPress', this._onPopRoute);
+      '_onPopRoute'
+    ])
+    BackAndroid.addEventListener('hardwareBackPress', this._onPopRoute)
   }
 
-  render(): React.Element {
+  render (): React.Element {
     return (
       <View style={styles.navigator}>
         <NavigationCardStack
@@ -51,32 +50,31 @@ export default class SuperNavigator extends React.Component {
           style={styles.navigatorCardStack}
         />
       </View>
-    );
+    )
   }
 
-  _onPushRoute(route: Object): void {
-    const navigationState = NavigationStateUtils.push(this.state.navigationState, route);
+  _onPushRoute (route: Object): void {
+    const navigationState = NavigationStateUtils.push(this.state.navigationState, route)
     if (this.state.navigationState !== navigationState) {
-      this.setState({navigationState});
+      this.setState({navigationState})
     }
   }
 
-  _onPopRoute() {
-    const navigationState = NavigationStateUtils.pop(this.state.navigationState);
+  _onPopRoute () {
+    const navigationState = NavigationStateUtils.pop(this.state.navigationState)
     if (this.state.navigationState !== navigationState) {
-      this.setState({navigationState});
-      return true;
+      this.setState({navigationState})
+      return true
     }
-    return false;
+    return false
   }
 }
 
-
 const styles = StyleSheet.create({
   navigator: {
-    flex: 1,
+    flex: 1
   },
   navigatorCardStack: {
-    flex: 20,
-  },
-});
+    flex: 20
+  }
+})

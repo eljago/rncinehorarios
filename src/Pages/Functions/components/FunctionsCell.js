@@ -1,14 +1,14 @@
-'use strict';
+'use strict'
 
-import React, { PropTypes } from 'react';
+import React, { PropTypes } from 'react'
 import { Text, View, StyleSheet, Image } from 'react-native'
 
-import Colors from '../../../../data/Colors';
+import Colors from '../../../../data/Colors'
 import MyListViewCell from '../../../components/MyListViewCell'
 import {getImageVersion} from '../../../utils/ImageHelper'
 
 export default class FunctionCell extends React.Component {
-  
+
   static propTypes = {
     title: PropTypes.string,
     cover: PropTypes.string,
@@ -17,9 +17,9 @@ export default class FunctionCell extends React.Component {
     onPress: PropTypes.func
   };
 
-  render() {
-    const {title, cover, functions, rowNumber, onPress} = this.props;
-    return(
+  render () {
+    const {title, cover, functions, rowNumber, onPress} = this.props
+    return (
       <MyListViewCell
         rowNumber={rowNumber}
         onPress={onPress}
@@ -40,14 +40,14 @@ export default class FunctionCell extends React.Component {
           </View>
         </View>
       </MyListViewCell>
-    );
+    )
   }
 }
 
 const getFunctionsViews = (functions) => {
-  return(
+  return (
     functions.map((func, index) => {
-      return(
+      return (
         <View
           key={index}
           style={styles.functionView}>
@@ -58,9 +58,9 @@ const getFunctionsViews = (functions) => {
             {func.showtimes.split(', ').join('  ')}
           </Text>
         </View>
-      );
+      )
     })
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -71,18 +71,18 @@ const styles = StyleSheet.create({
   textContainer: {
     flex: 1,
     alignSelf: 'flex-start',
-    marginLeft: 10,
+    marginLeft: 10
   },
   name: {
     fontSize: 22,
     fontWeight: '400',
-    color: Colors.titleText,
+    color: Colors.titleText
   },
   functionView: {
     marginTop: 5
   },
   functionTypes: {
-    fontSize: 18, 
+    fontSize: 18,
     fontWeight: '300',
     color: Colors.functionTypes,
     marginTop: 5
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     shadowOffset: {
       width: 0, height: 0
     },
-    backgroundColor: '#D1D1D1',
+    backgroundColor: '#D1D1D1'
   }
 
-});
+})
