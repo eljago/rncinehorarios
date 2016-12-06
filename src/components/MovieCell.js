@@ -106,7 +106,7 @@ export default class MovieCell extends React.Component {
 const getSubtitleView = (variable, customText = null) => {
   if ((typeof variable === 'number' && variable > 0) ||
       (typeof variable === 'string' && variable.length > 0)) {
-    const text = customText == null ? customText : variable
+    const text = customText != null ? customText : variable
     return (
       <Text key={text} style={styles.subtitle}>{text}</Text>
     )
