@@ -11,7 +11,7 @@
     "moment": "^2.16.0",
     "react": "15.3.2",
     "react-native": "^0.37.0",
-    "react-native-firestack": "^2.3.3",
+    "react-native-firestack": "^2.3.5",
     "react-relay": "^0.9.3"
   },
   "jest": {
