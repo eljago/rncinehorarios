@@ -9,7 +9,7 @@ import {
   Dimensions,
   PixelRatio
 } from 'react-native'
-
+import Orientation from 'react-native-orientation';
 import {getImageVersion} from '../utils/ImageHelper'
 
 export default class PhotoBrowser extends React.Component {
@@ -22,12 +22,35 @@ export default class PhotoBrowser extends React.Component {
   };
   _pixelRatio = PixelRatio.get();
 
+  componentWillMount() {
+    var initial = Orientation.getInitialOrientation();
+    if (initial === 'PORTRAIT') {
+      //do stuff
+    } else {
+      //do other stuff
+    }
+  }
+
   componentDidMount () {
     const {width} = Dimensions.get('window')
     this._scrollView.scrollTo({
       x: width * parseInt(this.props.index),
       animated: false
     })
+    Orientation.lockToPortrait();
+    Orientation.addOrientationListener(this._orientationDidChange);
+  }
+
+  componentWillUnmount () {
+    Orientation.getOrientation((err,orientation)=> {
+      console.log("Current Device Orientation: ", orientation);
+    });
+    Orientation.removeOrientationListener(this._orientationDidChange);
+    Orientation.unlockAllOrientations()
+  }
+
+  _orientationDidChange (o) {
+    console.log(o)
   }
 
   render () {
