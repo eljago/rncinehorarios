@@ -8,9 +8,9 @@ import {
   StyleSheet,
   Image,
   Dimensions,
-  PixelRatio,
+  PixelRatio
 } from 'react-native'
-import Orientation from 'react-native-orientation';
+import Orientation from 'react-native-orientation'
 import {getImageVersion} from '../utils/ImageHelper'
 
 export default class PhotoBrowser extends React.Component {
@@ -22,19 +22,19 @@ export default class PhotoBrowser extends React.Component {
     index: '0'
   };
 
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
 
-    this._pixelRatio = PixelRatio.get();
-    this._index = parseInt(props.index);
+    this._pixelRatio = PixelRatio.get()
+    this._index = parseInt(props.index)
 
     this.state = {
-      orientation: Orientation.getInitialOrientation(),
+      orientation: Orientation.getInitialOrientation()
     }
     _.bindAll(this, ['_orientationChanged', '_onScroll'])
   }
 
-  componentWillMount() {
+  componentWillMount () {
     var initial = Orientation.getInitialOrientation()
     this._orientationChanged(initial)
   }
@@ -45,15 +45,15 @@ export default class PhotoBrowser extends React.Component {
       x: width * this._index,
       animated: false
     })
-    Orientation.lockToPortrait();
-    Orientation.addSpecificOrientationListener(this._orientationChanged);
+    Orientation.lockToPortrait()
+    Orientation.addSpecificOrientationListener(this._orientationChanged)
   }
 
   componentWillUnmount () {
-    Orientation.getOrientation((err,orientation)=> {
-      console.log("Current Device Orientation: ", orientation);
-    });
-    Orientation.removeSpecificOrientationListener(this._orientationChanged);
+    Orientation.getOrientation((err, orientation) => {
+      console.log('Current Device Orientation: ', orientation)
+    })
+    Orientation.removeSpecificOrientationListener(this._orientationChanged)
     Orientation.unlockAllOrientations()
   }
 
@@ -71,7 +71,7 @@ export default class PhotoBrowser extends React.Component {
         onScroll={this._onScroll}
         scrollEventThrottle={8}
         contentContainerStyle={[styles.scrollContent, {
-          width: isPortrait? width * this.props.images.length : width,
+          width: isPortrait ? width * this.props.images.length : width,
           height: isPortrait ? height : height * this.props.images.length,
           transform: [{
             scale: 1
@@ -83,7 +83,7 @@ export default class PhotoBrowser extends React.Component {
     )
   }
 
-  _orientationChanged(orientation) {
+  _orientationChanged (orientation) {
     this.setState({orientation})
     if (this._scrollView) {
       const {width, height} = Dimensions.get('window')
@@ -92,8 +92,7 @@ export default class PhotoBrowser extends React.Component {
           x: width * this._index,
           animated: false
         })
-      }
-      else {
+      } else {
         this._scrollView.scrollTo({
           y: height * this._index,
           animated: false
@@ -102,17 +101,17 @@ export default class PhotoBrowser extends React.Component {
     }
   }
 
-  _isPortrait() {
+  _isPortrait () {
     return this.state.orientation === 'PORTRAIT' || this.state.orientation === 'PORTRAITUPSIDEDOWN'
   }
 
-  _onScroll(e) {
-    const event = e.nativeEvent;
+  _onScroll (e) {
+    const event = e.nativeEvent
     const layoutHorizontal = this._isPortrait()
       ? event.layoutMeasurement.width : event.layoutMeasurement.height
     const contentOffset = this._isPortrait()
       ? event.contentOffset.x : event.contentOffset.y
-    this._index = Math.floor((contentOffset + 0.5 * layoutHorizontal) / layoutHorizontal);
+    this._index = Math.floor((contentOffset + 0.5 * layoutHorizontal) / layoutHorizontal)
 
     console.log(this._index)
   }
@@ -134,11 +133,9 @@ export default class PhotoBrowser extends React.Component {
       let rotate = '0deg'
       if (this.state.orientation === 'PORTRAITUPSIDEDOWN') {
         rotate = '180deg'
-      }
-      else if (this.state.orientation === 'LANDSCAPE-LEFT') {
+      } else if (this.state.orientation === 'LANDSCAPE-LEFT') {
         rotate = '90deg'
-      }
-      else if (this.state.orientation === 'LANDSCAPE-RIGHT') {
+      } else if (this.state.orientation === 'LANDSCAPE-RIGHT') {
         rotate = '-90deg'
       }
 
@@ -157,7 +154,7 @@ export default class PhotoBrowser extends React.Component {
             height: imageHeight,
             transform: [{
               scale: scale
-            },{
+            }, {
               rotate: rotate
             }]
           }]}

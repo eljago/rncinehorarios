@@ -16,13 +16,11 @@
 		"react-relay": "^0.9.3"
 	},
 	"devDependencies": {
-		"babel-eslint": "^7.1.1",
 		"babel-jest": "17.0.2",
 		"babel-preset-react-native": "^1.9.0",
 		"babel-relay-plugin": "^0.9.3",
 		"jest": "17.0.3",
-		"react-test-renderer": "15.4.1",
-		"standard": "^8.6.0"
+		"react-test-renderer": "15.4.1"
 	},
 	"jest": {
 		"preset": "react-native"
