@@ -12,7 +12,7 @@
 #import "RCTBundleURLProvider.h"
 #import "RCTRootView.h"
 
-#import "Orientation.h"
+#import "Orientation.h" // <--- import
 
 @implementation AppDelegate
 
@@ -32,6 +32,7 @@
   [self.window setBackgroundColor:[UIColor blackColor]];
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
+  [rootViewController.view setBackgroundColor:[UIColor blackColor]];
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   return YES;
