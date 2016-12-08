@@ -2,12 +2,13 @@
 'use strict'
 
 import React, { PropTypes } from 'react'
+import _ from 'lodash'
 import {
   ScrollView,
   StyleSheet,
   Image,
   Dimensions,
-  PixelRatio
+  PixelRatio,
 } from 'react-native'
 import Orientation from 'react-native-orientation';
 import {getImageVersion} from '../utils/ImageHelper'
@@ -22,13 +23,18 @@ export default class PhotoBrowser extends React.Component {
   };
   _pixelRatio = PixelRatio.get();
 
+  constructor(props) {
+    super(props);
+    const {width, height} = Dimensions.get('window')
+    this.state = {
+      portrait: width < height,
+    }
+    _.bindAll(this, '_orientationDidChange')
+  }
+
   componentWillMount() {
     var initial = Orientation.getInitialOrientation();
-    if (initial === 'PORTRAIT') {
-      //do stuff
-    } else {
-      //do other stuff
-    }
+    this._orientationChanged(initial);
   }
 
   componentDidMount () {
@@ -50,7 +56,13 @@ export default class PhotoBrowser extends React.Component {
   }
 
   _orientationDidChange (o) {
-    console.log(o)
+    this._orientationChanged(o);
+  }
+
+  _orientationChanged(o) {
+    this.setState({
+      portrait: o === 'PORTRAIT'
+    })
   }
 
   render () {
@@ -58,14 +70,17 @@ export default class PhotoBrowser extends React.Component {
     return (
       <ScrollView
         ref={(scrollView) => { this._scrollView = scrollView }}
-        horizontal
+        horizontal={this.state.portrait}
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
         style={styles.scrollView}
         contentContainerStyle={[styles.scrollContent, {
-          width: width * this.props.images.length,
-          height: height
+          width: this.state.portrait ? width * this.props.images.length : width,
+          height: this.state.portrait ? height : height * this.props.images.length,
+          transform: [{
+            scale: 1
+          }]
         }]}
       >
         {this._getImageViews()}
@@ -80,20 +95,29 @@ export default class PhotoBrowser extends React.Component {
       const imageWidth = image.width / this._pixelRatio
       const imageHeight = image.height / this._pixelRatio
       const imageWidthHeightRatio = imageWidth / imageHeight
-      const scale = imageWidthHeightRatio > (width / height)
-      ? (width / imageWidth) : (height / imageHeight)
+      const scale = this.state.portrait
+      ? (imageWidthHeightRatio > (width / height)
+        ? (width / imageWidth) : (height / imageHeight))
+      : (imageWidthHeightRatio > (width / height)
+        ? (height / imageWidth) : (width / imageHeight))
 
       return (
         <Image
           key={image.image_id}
           style={[styles.image, {
             position: 'absolute',
-            left: width * index - imageWidth / 2 + width / 2,
-            top: height / 2 - imageHeight / 2,
+            left: this.state.portrait
+              ? width * index - imageWidth / 2 + width / 2
+              : width / 2 - imageWidth / 2,
+            top: this.state.portrait
+              ? height / 2 - imageHeight / 2
+              : height * index - imageHeight / 2 + height / 2,
             width: imageWidth,
             height: imageHeight,
             transform: [{
               scale: scale
+            },{
+              rotate: this.state.portrait ? '0deg' : '90deg'
             }]
           }]}
           source={{uri: getImageVersion(image.image)}}
