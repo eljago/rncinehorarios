@@ -8,9 +8,9 @@ import {
   StyleSheet,
   Image,
   Dimensions,
-  PixelRatio,
   Animated
 } from 'react-native'
+
 import Orientation from 'react-native-orientation'
 import {getImageVersion} from '../utils/ImageHelper'
 import PhotoBrowserImage from './PhotoBrowserImage'
@@ -27,7 +27,6 @@ export default class PhotoBrowser extends React.Component {
   constructor (props) {
     super(props)
 
-    this._pixelRatio = PixelRatio.get()
     this._index = parseInt(props.index)
 
     this.state = {
@@ -62,6 +61,7 @@ export default class PhotoBrowser extends React.Component {
   render () {
     const {width, height} = Dimensions.get('window')
     const isPortrait = this._isPortrait()
+    const imageCount = this.props.images.length
     return (
       <ScrollView
         style={styles.scrollView}
@@ -73,11 +73,8 @@ export default class PhotoBrowser extends React.Component {
         onScroll={this._onScroll}
         scrollEventThrottle={8}
         contentContainerStyle={[styles.scrollContent, {
-          width: isPortrait ? width * this.props.images.length : width,
-          height: isPortrait ? height : height * this.props.images.length,
-          transform: [{
-            scale: 1
-          }]
+          width: isPortrait ? (width * imageCount) : width,
+          height: isPortrait ? height : (height * imageCount)
         }]}
       >
         {this._getImageViews()}
@@ -111,28 +108,16 @@ export default class PhotoBrowser extends React.Component {
 
   _getImageViews () {
     const {width, height} = Dimensions.get('window')
-    const isPortrait = this._isPortrait()
 
     return this.props.images.map((image, index) => {
-      const imageWidth = image.width / this._pixelRatio
-      const imageHeight = image.height / this._pixelRatio
-      const left = isPortrait ? width * index - imageWidth / 2 + width / 2
-        : width / 2 - imageWidth / 2
-      const top = isPortrait ? height / 2 - imageHeight / 2
-        : height * index - imageHeight / 2 + height / 2
-      
       return (
         <PhotoBrowserImage
           key={image.image_id}
           ref={`image_${index}`}
+          index={index}
           imageUrl={getImageVersion(image.image)}
-          imageWidth={imageWidth}
-          imageHeight={imageHeight}
-          style={{
-            position: 'absolute',
-            left: left,
-            top: top
-          }}         
+          imageWidth={image.width}
+          imageHeight={image.height}      
         />
       )
     })

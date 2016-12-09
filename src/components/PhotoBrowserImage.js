@@ -4,11 +4,13 @@
 import React, {PropTypes} from 'react'
 import {
   Dimensions,
-  Animated
+  Animated,
+  PixelRatio
 } from 'react-native'
 
 export default class PhotoBrowserImage extends React.Component {
   static propTypes = {
+    index: PropTypes.number,
     imageUrl: PropTypes.string,
     imageWidth: PropTypes.number,
     imageHeight: PropTypes.number
@@ -16,6 +18,7 @@ export default class PhotoBrowserImage extends React.Component {
 
   constructor(props) {
     super(props)
+    this._pixelRatio = PixelRatio.get()
     this.state = {
       orientation: 'PORTRAIT',
       rotateValue: new Animated.Value(0)
@@ -28,22 +31,32 @@ export default class PhotoBrowserImage extends React.Component {
 
   render () {
     const {width, height} = Dimensions.get('window')
-    const {imageUrl, imageWidth, imageHeight, style} = this.props
+    const {imageUrl, imageWidth, imageHeight, index} = this.props
     const isPortrait = this._isPortrait()
 
-    const imageWidthHeightRatio = imageWidth / imageHeight
+    const imgWidth = imageWidth / this._pixelRatio
+    const imgHeight = imageHeight / this._pixelRatio
+
+    const imageWidthHeightRatio = imgWidth / imgHeight
     const scale = isPortrait
     ? (imageWidthHeightRatio > (width / height)
-      ? (width / imageWidth) : (height / imageHeight))
+      ? (width / imgWidth) : (height / imgHeight))
     : (imageWidthHeightRatio > (width / height)
-      ? (height / imageWidth) : (width / imageHeight))
+      ? (height / imgWidth) : (width / imgHeight))
+    const left = isPortrait ? width * index - imgWidth / 2 + width / 2
+      : width / 2 - imgWidth / 2
+    const top = isPortrait ? height / 2 - imgHeight / 2
+      : height * index - imgHeight / 2 + height / 2
 
     return (
       <Animated.Image
-        style={[style, {
+        style={{
           backgroundColor: 'black',
-          width: imageWidth,
-          height: imageHeight,
+          position: 'absolute',
+          left: left,
+          top: top,
+          width: imgWidth,
+          height: imgHeight,
           transform: [{
             scale: scale
           }, {
@@ -52,7 +65,7 @@ export default class PhotoBrowserImage extends React.Component {
               outputRange: ['-90deg', '180deg']
             })
           }]
-        }]}
+        }}
         source={{uri: imageUrl}}
         resizeMode='cover'
       />
