@@ -13,6 +13,7 @@ import {
 } from 'react-native'
 import Orientation from 'react-native-orientation'
 import {getImageVersion} from '../utils/ImageHelper'
+import PhotoBrowserImage from './PhotoBrowserImage'
 
 export default class PhotoBrowser extends React.Component {
   static propTypes = {
@@ -31,7 +32,6 @@ export default class PhotoBrowser extends React.Component {
 
     this.state = {
       orientation: Orientation.getInitialOrientation(),
-      rotate: new Animated.Value(0)
     }
     _.bindAll(this, ['_orientationChanged', '_onScroll'])
   }
@@ -41,20 +41,20 @@ export default class PhotoBrowser extends React.Component {
     this._orientationChanged(initial)
   }
 
+  _scrollToIndex(index, animated = false) {
+    const {width, height} = Dimensions.get('window')
+    const axis = this._isPortrait() ? 'x' : 'y';
+    const amount = this._isPortrait() ? width : height;
+    this._scrollView.scrollTo({[axis]: amount * index, animated: animated})
+  }
+
   componentDidMount () {
-    const {width} = Dimensions.get('window')
-    this._scrollView.scrollTo({
-      x: width * this._index,
-      animated: false
-    })
+    this._scrollToIndex(this._index);
     Orientation.lockToPortrait()
     Orientation.addSpecificOrientationListener(this._orientationChanged)
   }
 
   componentWillUnmount () {
-    Orientation.getOrientation((err, orientation) => {
-      console.log('Current Device Orientation: ', orientation)
-    })
     Orientation.removeSpecificOrientationListener(this._orientationChanged)
     Orientation.unlockAllOrientations()
   }
@@ -85,46 +85,6 @@ export default class PhotoBrowser extends React.Component {
     )
   }
 
-  _orientationChanged (orientation) {
-    this.setState({orientation})
-    if (this._scrollView) {
-      const {width, height} = Dimensions.get('window')
-      if (this._isPortrait()) {
-        this._scrollView.scrollTo({
-          x: width * this._index,
-          animated: false
-        })
-      } else {
-        this._scrollView.scrollTo({
-          y: height * this._index,
-          animated: false
-        })
-      }
-
-      let rotate = 0
-      if (orientation === 'PORTRAITUPSIDEDOWN') {
-        rotate = 180
-      } else if (orientation === 'LANDSCAPE-LEFT') {
-        rotate = 90
-      } else if (orientation === 'LANDSCAPE-RIGHT') {
-        rotate = 270
-      }
-        
-      Animated.spring(
-        this.state.rotate,
-        {
-          toValue: rotate,
-          tension: 10,
-          friction: 5
-        }
-      ).start();
-    }
-  }
-
-  _isPortrait () {
-    return this.state.orientation === 'PORTRAIT' || this.state.orientation === 'PORTRAITUPSIDEDOWN'
-  }
-
   _onScroll (e) {
     const event = e.nativeEvent
     const layoutHorizontal = this._isPortrait()
@@ -134,6 +94,21 @@ export default class PhotoBrowser extends React.Component {
     this._index = Math.floor((contentOffset + 0.5 * layoutHorizontal) / layoutHorizontal)
   }
 
+  _orientationChanged (orientation) {
+    this.setState({orientation})
+    if (this._scrollView) {
+      this._scrollToIndex(this._index);
+
+      for (var i = 0; i < this.props.images.length; i++) {
+        this.refs[`image_${i}`].changeOrientation(orientation, this._index === i);
+      }
+    }
+  }
+
+  _isPortrait () {
+    return this.state.orientation === 'PORTRAIT' || this.state.orientation === 'PORTRAITUPSIDEDOWN'
+  }
+
   _getImageViews () {
     const {width, height} = Dimensions.get('window')
     const isPortrait = this._isPortrait()
@@ -141,37 +116,23 @@ export default class PhotoBrowser extends React.Component {
     return this.props.images.map((image, index) => {
       const imageWidth = image.width / this._pixelRatio
       const imageHeight = image.height / this._pixelRatio
-      const imageWidthHeightRatio = imageWidth / imageHeight
-      const scale = isPortrait
-      ? (imageWidthHeightRatio > (width / height)
-        ? (width / imageWidth) : (height / imageHeight))
-      : (imageWidthHeightRatio > (width / height)
-        ? (height / imageWidth) : (width / imageHeight))
+      const left = isPortrait ? width * index - imageWidth / 2 + width / 2
+        : width / 2 - imageWidth / 2
+      const top = isPortrait ? height / 2 - imageHeight / 2
+        : height * index - imageHeight / 2 + height / 2
       
       return (
-        <Animated.Image
+        <PhotoBrowserImage
           key={image.image_id}
-          style={[styles.image, {
+          ref={`image_${index}`}
+          imageUrl={getImageVersion(image.image)}
+          imageWidth={imageWidth}
+          imageHeight={imageHeight}
+          style={{
             position: 'absolute',
-            left: isPortrait
-              ? width * index - imageWidth / 2 + width / 2
-              : width / 2 - imageWidth / 2,
-            top: isPortrait
-              ? height / 2 - imageHeight / 2
-              : height * index - imageHeight / 2 + height / 2,
-            width: imageWidth,
-            height: imageHeight,
-            transform: [{
-              scale: scale
-            }, {
-              rotate: this.state.rotate.interpolate({
-                inputRange: [0, 360],
-                outputRange: ['0deg', '360deg']
-              })
-            }]
-          }]}
-          source={{uri: getImageVersion(image.image)}}
-          resizeMode='cover'
+            left: left,
+            top: top
+          }}         
         />
       )
     })
@@ -183,9 +144,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'black'
   },
   scrollContent: {
-    backgroundColor: 'black'
-  },
-  image: {
     backgroundColor: 'black'
   }
 })
