@@ -1,4 +1,4 @@
-//@flow
+// @flow
 'use strict'
 
 import React, {PropTypes} from 'react'
@@ -16,7 +16,7 @@ export default class PhotoBrowserImage extends React.Component {
     imageHeight: PropTypes.number
   }
 
-  constructor(props) {
+  constructor (props) {
     super(props)
     this._pixelRatio = PixelRatio.get()
     this.state = {
@@ -25,7 +25,7 @@ export default class PhotoBrowserImage extends React.Component {
     }
   }
 
-  _isPortrait() {
+  _isPortrait () {
     return this.state.orientation === 'PORTRAIT' || this.state.orientation === 'PORTRAITUPSIDEDOWN'
   }
 
@@ -69,10 +69,10 @@ export default class PhotoBrowserImage extends React.Component {
         source={{uri: imageUrl}}
         resizeMode='cover'
       />
-    );
+    )
   }
 
-  changeOrientation(orientation, animated = false) {
+  changeOrientation (orientation, animated = false) {
     this.setState({orientation})
 
     let rotate = 0
@@ -93,9 +93,8 @@ export default class PhotoBrowserImage extends React.Component {
           friction: 5
         }
       ).start()
-    }
-    else {
-      this.state.rotateValue.setValue(rotate);
+    } else {
+      this.state.rotateValue.setValue(rotate)
     }
   }
 }

@@ -5,9 +5,7 @@ import React, { PropTypes } from 'react'
 import {
   ScrollView,
   StyleSheet,
-  Image,
-  Dimensions,
-  Animated
+  Dimensions
 } from 'react-native'
 
 import Orientation from 'react-native-orientation'
@@ -27,9 +25,8 @@ export default class PhotoBrowser extends React.Component {
     super(props)
 
     this._index = parseInt(props.index)
-
     this.state = {
-      orientation: Orientation.getInitialOrientation(),
+      orientation: Orientation.getInitialOrientation()
     }
   }
 
@@ -38,15 +35,15 @@ export default class PhotoBrowser extends React.Component {
     this._orientationChanged(initial)
   }
 
-  _scrollToIndex(index, animated = false) {
+  _scrollToIndex (index, animated = false) {
     const {width, height} = Dimensions.get('window')
-    const axis = this._isPortrait() ? 'x' : 'y';
-    const amount = this._isPortrait() ? width : height;
+    const axis = this._isPortrait() ? 'x' : 'y'
+    const amount = this._isPortrait() ? width : height
     this._scrollView.scrollTo({[axis]: amount * index, animated: animated})
   }
 
   componentDidMount () {
-    this._scrollToIndex(this._index);
+    this._scrollToIndex(this._index)
     Orientation.lockToPortrait()
     Orientation.addSpecificOrientationListener(this._orientationChanged.bind(this))
   }
@@ -92,10 +89,10 @@ export default class PhotoBrowser extends React.Component {
   _orientationChanged (orientation) {
     this.setState({orientation})
     if (this._scrollView) {
-      this._scrollToIndex(this._index);
+      this._scrollToIndex(this._index)
 
       for (var i = 0; i < this.props.images.length; i++) {
-        this.refs[`image_${i}`].changeOrientation(orientation, this._index === i);
+        this.refs[`image_${i}`].changeOrientation(orientation, this._index === i)
       }
     }
   }
@@ -105,8 +102,6 @@ export default class PhotoBrowser extends React.Component {
   }
 
   _getImageViews () {
-    const {width, height} = Dimensions.get('window')
-
     return this.props.images.map((image, index) => {
       return (
         <PhotoBrowserImage
@@ -115,7 +110,7 @@ export default class PhotoBrowser extends React.Component {
           index={index}
           imageUrl={getImageVersion(image.image)}
           imageWidth={image.width}
-          imageHeight={image.height}      
+          imageHeight={image.height}
         />
       )
     })
