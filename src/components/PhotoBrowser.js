@@ -2,7 +2,6 @@
 'use strict'
 
 import React, { PropTypes } from 'react'
-import _ from 'lodash'
 import {
   ScrollView,
   StyleSheet,
@@ -32,7 +31,6 @@ export default class PhotoBrowser extends React.Component {
     this.state = {
       orientation: Orientation.getInitialOrientation(),
     }
-    _.bindAll(this, ['_orientationChanged', '_onScroll'])
   }
 
   componentWillMount () {
@@ -50,11 +48,11 @@ export default class PhotoBrowser extends React.Component {
   componentDidMount () {
     this._scrollToIndex(this._index);
     Orientation.lockToPortrait()
-    Orientation.addSpecificOrientationListener(this._orientationChanged)
+    Orientation.addSpecificOrientationListener(this._orientationChanged.bind(this))
   }
 
   componentWillUnmount () {
-    Orientation.removeSpecificOrientationListener(this._orientationChanged)
+    Orientation.removeSpecificOrientationListener(this._orientationChanged.bind(this))
     Orientation.unlockAllOrientations()
   }
 
@@ -70,7 +68,7 @@ export default class PhotoBrowser extends React.Component {
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
-        onScroll={this._onScroll}
+        onScroll={this._onScroll.bind(this)}
         scrollEventThrottle={8}
         contentContainerStyle={[styles.scrollContent, {
           width: isPortrait ? (width * imageCount) : width,
