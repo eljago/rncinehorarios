@@ -94,8 +94,9 @@ export default class PhotoBrowser extends React.Component {
       this._scrollToIndex(this._index)
 
       for (let index of this.state.currentIndexes) {
-        if (this.refs[`image_${index}`]) {
-          this.refs[`image_${index}`].changeOrientation(orientation, this._index === index)
+        const imageElement = this.refs[`image_${index}`];
+        if (imageElement && imageElement.getOrientation() != orientation) {
+          imageElement.changeOrientation(orientation, this._index === index)
         }
       }
     }

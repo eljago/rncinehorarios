@@ -91,6 +91,10 @@ export default class PhotoBrowserImage extends React.Component {
       this.state.rotationValue.setValue(rotationValue)
     }
   }
+
+  getOrientation() {
+    return this.state.orientation
+  }
 }
 
 function getRotationValue(orientation) {
