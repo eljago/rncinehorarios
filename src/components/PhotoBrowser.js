@@ -8,7 +8,8 @@ import {
   StyleSheet,
   Image,
   Dimensions,
-  PixelRatio
+  PixelRatio,
+  Animated
 } from 'react-native'
 import Orientation from 'react-native-orientation'
 import {getImageVersion} from '../utils/ImageHelper'
@@ -29,7 +30,8 @@ export default class PhotoBrowser extends React.Component {
     this._index = parseInt(props.index)
 
     this.state = {
-      orientation: Orientation.getInitialOrientation()
+      orientation: Orientation.getInitialOrientation(),
+      rotate: new Animated.Value(0)
     }
     _.bindAll(this, ['_orientationChanged', '_onScroll'])
   }
@@ -98,6 +100,24 @@ export default class PhotoBrowser extends React.Component {
           animated: false
         })
       }
+
+      let rotate = 0
+      if (orientation === 'PORTRAITUPSIDEDOWN') {
+        rotate = 180
+      } else if (orientation === 'LANDSCAPE-LEFT') {
+        rotate = 90
+      } else if (orientation === 'LANDSCAPE-RIGHT') {
+        rotate = 270
+      }
+        
+      Animated.spring(
+        this.state.rotate,
+        {
+          toValue: rotate,
+          tension: 10,
+          friction: 5
+        }
+      ).start();
     }
   }
 
@@ -112,8 +132,6 @@ export default class PhotoBrowser extends React.Component {
     const contentOffset = this._isPortrait()
       ? event.contentOffset.x : event.contentOffset.y
     this._index = Math.floor((contentOffset + 0.5 * layoutHorizontal) / layoutHorizontal)
-
-    console.log(this._index)
   }
 
   _getImageViews () {
@@ -129,18 +147,9 @@ export default class PhotoBrowser extends React.Component {
         ? (width / imageWidth) : (height / imageHeight))
       : (imageWidthHeightRatio > (width / height)
         ? (height / imageWidth) : (width / imageHeight))
-
-      let rotate = '0deg'
-      if (this.state.orientation === 'PORTRAITUPSIDEDOWN') {
-        rotate = '180deg'
-      } else if (this.state.orientation === 'LANDSCAPE-LEFT') {
-        rotate = '90deg'
-      } else if (this.state.orientation === 'LANDSCAPE-RIGHT') {
-        rotate = '-90deg'
-      }
-
+      
       return (
-        <Image
+        <Animated.Image
           key={image.image_id}
           style={[styles.image, {
             position: 'absolute',
@@ -155,7 +164,10 @@ export default class PhotoBrowser extends React.Component {
             transform: [{
               scale: scale
             }, {
-              rotate: rotate
+              rotate: this.state.rotate.interpolate({
+                inputRange: [0, 360],
+                outputRange: ['0deg', '360deg']
+              })
             }]
           }]}
           source={{uri: getImageVersion(image.image)}}
