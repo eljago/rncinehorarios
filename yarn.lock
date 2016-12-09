@@ -3771,9 +3771,9 @@ react-native-firestack@^2.3.5:
     es6-symbol "^3.1.0"
     invariant "^2.2.2"
 
-react-native-orientation@^1.17.0:
+"react-native-orientation@git+https://github.com/yamill/react-native-orientation":
   version "1.17.0"
-  resolved "https://registry.yarnpkg.com/react-native-orientation/-/react-native-orientation-1.17.0.tgz#bfbeba17e20f7f96d09042e31fbe5d479f1d5b94"
+  resolved "git+https://github.com/yamill/react-native-orientation#278291739e2b7c8ab208fdf404e4b139e24b4a3f"
 
 react-native@0.39.0:
   version "0.39.0"

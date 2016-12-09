@@ -5,7 +5,8 @@ import React, { PropTypes } from 'react'
 import {
   ScrollView,
   StyleSheet,
-  Dimensions
+  Dimensions,
+  Platform
 } from 'react-native'
 
 import Orientation from 'react-native-orientation'
@@ -47,7 +48,9 @@ export default class PhotoBrowser extends React.Component {
 
   componentDidMount () {
     this._scrollToIndex(this._index)
-    Orientation.lockToPortrait()
+    if (Platform.OS === 'ios') {
+      Orientation.lockToPortrait()
+    }
     Orientation.addSpecificOrientationListener(this._orientationChanged.bind(this))
   }
 
@@ -85,6 +88,7 @@ export default class PhotoBrowser extends React.Component {
   }
 
   _orientationChanged (orientation) {
+    console.log(orientation);
     this.setState({orientation})
     if (this._scrollView) {
       this._scrollToIndex(this._index)
