@@ -13,15 +13,16 @@ export default class PhotoBrowserImage extends React.Component {
     index: PropTypes.number,
     imageUrl: PropTypes.string,
     imageWidth: PropTypes.number,
-    imageHeight: PropTypes.number
+    imageHeight: PropTypes.number,
+    initialOrientation: PropTypes.string
   }
 
   constructor (props) {
     super(props)
     this._pixelRatio = PixelRatio.get()
     this.state = {
-      orientation: 'PORTRAIT',
-      rotateValue: new Animated.Value(0)
+      orientation: props.initialOrientation,
+      rotationValue: new Animated.Value(getRotationValue(props.initialOrientation))
     }
   }
 
@@ -60,7 +61,7 @@ export default class PhotoBrowserImage extends React.Component {
           transform: [{
             scale: scale
           }, {
-            rotate: this.state.rotateValue.interpolate({
+            rotate: this.state.rotationValue.interpolate({
               inputRange: [-90, 180],
               outputRange: ['-90deg', '180deg']
             })
@@ -75,26 +76,34 @@ export default class PhotoBrowserImage extends React.Component {
   changeOrientation (orientation, animated = false) {
     this.setState({orientation})
 
-    let rotate = 0
-    if (orientation === 'PORTRAITUPSIDEDOWN') {
-      rotate = 180
-    } else if (orientation === 'LANDSCAPE-LEFT') {
-      rotate = 90
-    } else if (orientation === 'LANDSCAPE-RIGHT') {
-      rotate = -90
-    }
+    const rotationValue = getRotationValue(orientation)
 
     if (animated) {
       Animated.spring(
-        this.state.rotateValue,
+        this.state.rotationValue,
         {
-          toValue: rotate,
+          toValue: rotationValue,
           tension: 10,
           friction: 5
         }
       ).start()
     } else {
-      this.state.rotateValue.setValue(rotate)
+      this.state.rotationValue.setValue(rotationValue)
     }
+  }
+}
+
+function getRotationValue(orientation) {
+  switch (orientation) {
+    case 'PORTRAIT':
+      return 0
+    case 'PORTRAITUPSIDEDOWN':
+      return 180
+    case 'LANDSCAPE-LEFT':
+      return 90
+    case 'LANDSCAPE-RIGHT':
+      return -90
+    default:
+      return 0
   }
 }
