@@ -13,7 +13,7 @@
     "react-native": "0.39.0",
     "react-native-firestack": "^2.3.5",
     "react-relay": "^0.9.3",
-    "react-native-orientation": "git+https://github.com/yamill/react-native-orientation"
+    "react-native-orientation": "git+https://github.com/8fit/react-native-orientation"
   },
   "devDependencies": {
     "babel-jest": "17.0.2",
