@@ -72,7 +72,6 @@ export default class PhotoBrowser extends React.Component {
         showsVerticalScrollIndicator={false}
         onScroll={this._onScroll.bind(this)}
         scrollEventThrottle={8}
-        scrollRenderAheadDistance={100}
         renderRow={this._renderRow.bind(this)}
       />
     )
