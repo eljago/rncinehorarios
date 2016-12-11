@@ -61,10 +61,6 @@ export default class PhotoBrowser extends React.Component {
   }
 
   render () {
-    let rotate = 0
-    if (this.state.orientation === 'PORTRAITUPSIDEDOWN' || this.state.orientation === 'LANDSCAPE-RIGHT') {
-      rotate = 180
-    }
     return (
       <ListView
         dataSource={this.state.dataSource}
@@ -77,11 +73,6 @@ export default class PhotoBrowser extends React.Component {
         onScroll={this._onScroll.bind(this)}
         scrollEventThrottle={8}
         renderRow={this._renderRow.bind(this)}
-        style={{
-          transform: [{
-            rotate: `${Math.floor(rotate)}deg`
-          }]
-        }}
       />
     )
   }
@@ -98,8 +89,9 @@ export default class PhotoBrowser extends React.Component {
           this._scrollToIndex(this._index)
           for (let index = 0; index < this.props.images.length; index++) {
             const rowView = this._rows[index]
-            if (rowView) {
-              rowView.changeOrientation(orientation)
+            console.log(rowView)
+            if (rowView && rowView.getOrientation() !== orientation) {
+              rowView.changeOrientation(orientation, this._index === index)
             }
           }
         }
