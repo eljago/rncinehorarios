@@ -3,7 +3,7 @@
 
 import React, { PropTypes } from 'react'
 import {
-  ScrollView,
+  ListView,
   StyleSheet,
   Dimensions,
   Platform
@@ -16,21 +16,25 @@ import PhotoBrowserImage from './PhotoBrowserImage'
 export default class PhotoBrowser extends React.Component {
   static propTypes = {
     images: PropTypes.array,
-    index: PropTypes.string,
-    activeImages: PropTypes.number
+    index: PropTypes.string
   };
   static defaultProps = {
-    index: '0',
-    activeImages: 5
+    index: '0'
   };
 
   constructor (props) {
     super(props)
     this._index = parseInt(props.index)
+    this._rows = {}
+    for (let index = 0; index < props.images.length; index++) {
+      props.images[index].index = index
+    }
+
     const orientation = Orientation.getInitialOrientation()
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
     this.state = {
-      orientation: orientation ? orientation : 'PORTRAIT',
-      currentIndexes: this._getCurrentIndexes()
+      dataSource: ds.cloneWithRows(props.images),
+      orientation: orientation ? orientation : 'PORTRAIT'
     }
   }
 
@@ -58,26 +62,20 @@ export default class PhotoBrowser extends React.Component {
   }
 
   render () {
-    const {width, height} = Dimensions.get('window')
-    const isPortrait = this._isPortrait()
-    const imageCount = this.props.images.length
     return (
-      <ScrollView
+      <ListView
+        dataSource={this.state.dataSource}
         style={styles.scrollView}
         ref={(scrollView) => { this._scrollView = scrollView }}
-        horizontal={isPortrait}
+        horizontal={this._isPortrait()}
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
         onScroll={this._onScroll.bind(this)}
         scrollEventThrottle={8}
-        contentContainerStyle={[styles.scrollContent, {
-          width: isPortrait ? (width * imageCount) : width,
-          height: isPortrait ? height : (height * imageCount)
-        }]}
-      >
-        {this._getImagesElements()}
-      </ScrollView>
+        scrollRenderAheadDistance={100}
+        renderRow={this._renderRow.bind(this)}
+      />
     )
   }
 
@@ -91,10 +89,11 @@ export default class PhotoBrowser extends React.Component {
         this.setState({orientation})
         if (this._scrollView) {
           this._scrollToIndex(this._index)
-          for (let index of this.state.currentIndexes) {
-            const imageElement = this.refs[`image_${index}`];
-            if (imageElement && imageElement.getOrientation() !== orientation) {
-              imageElement.changeOrientation(orientation, this._index === index)
+          for (let index = 0; index < this.props.images.length; index++) {
+            const rowView = this._rows[index]
+            console.log(rowView);
+            if (rowView && rowView.getOrientation() !== orientation) {
+              rowView.changeOrientation(orientation, this._index === index)
             }
           }
         }
@@ -109,41 +108,14 @@ export default class PhotoBrowser extends React.Component {
     const layoutHorizontal = this._isPortrait() ? layoutMeasurement.width : layoutMeasurement.height
     const neededContentOffset = this._isPortrait() ? contentOffset.x : contentOffset.y
 
-    const newIndex = Math.floor((neededContentOffset + 0.5 * layoutHorizontal) / layoutHorizontal)
-    if (this._index !== newIndex) {
-      this._index = newIndex
-      console.log(this._index)
-      const currentIndexes = this._getCurrentIndexes()
-      if (currentIndexes !== this.state.currentIndexes) {
-        this.setState({currentIndexes})
-      }
-    }
+    this._index = Math.floor((neededContentOffset + 0.5 * layoutHorizontal) / layoutHorizontal)
   }
 
-  _getCurrentIndexes () {
-    const {images, activeImages} = this.props
-    const startIndex = Math.max(0, this._index - Math.floor(activeImages / 2))
-    const finalIndex = Math.min(images.length - 1, this._index + Math.floor(activeImages / 2))
-    let indexes = []
-    for (let i = startIndex; i <= finalIndex; i++) {
-      indexes.push(i)
-    }
-    return indexes
-  }
-
-  _getImagesElements () {
-    return this.state.currentIndexes.map((index) => {
-      return this._getImageElement(index)
-    })
-  }
-
-  _getImageElement (index) {
-    const image = this.props.images[index]
+  _renderRow (image: string, sectionID: number, rowID: number) {
     return (
       <PhotoBrowserImage
-        key={image.image_id}
-        ref={`image_${index}`}
-        index={index}
+        key={rowID}
+        ref={(row) => this._rows[image.index] = row}
         imageUrl={getImageVersion(image.image)}
         imageWidth={image.width}
         imageHeight={image.height}

@@ -5,7 +5,8 @@ import React, {PropTypes} from 'react'
 import {
   Dimensions,
   Animated,
-  PixelRatio
+  PixelRatio,
+  View
 } from 'react-native'
 
 export default class PhotoBrowserImage extends React.Component {
@@ -33,7 +34,7 @@ export default class PhotoBrowserImage extends React.Component {
 
   render () {
     const {width, height} = Dimensions.get('window')
-    const {imageUrl, imageWidth, imageHeight, index} = this.props
+    const {imageUrl, imageWidth, imageHeight} = this.props
     const isPortrait = this._isPortrait()
 
     const imgWidth = imageWidth / this._pixelRatio
@@ -45,32 +46,44 @@ export default class PhotoBrowserImage extends React.Component {
       ? (width / imgWidth) : (height / imgHeight))
     : (imageWidthHeightRatio > (width / height)
       ? (height / imgWidth) : (width / imgHeight))
-    const left = isPortrait ? width * index - imgWidth / 2 + width / 2
+
+    const left = isPortrait ? width - imgWidth / 2 - width / 2
       : width / 2 - imgWidth / 2
     const top = isPortrait ? height / 2 - imgHeight / 2
-      : height * index - imgHeight / 2 + height / 2
+      : height - imgHeight / 2 - height / 2
 
     return (
-      <Animated.Image
+      <View
         style={{
           backgroundColor: 'black',
-          position: 'absolute',
-          left: left,
-          top: top,
-          width: imgWidth,
-          height: imgHeight,
-          transform: [{
-            scale: scale
-          }, {
-            rotate: this.state.rotationValue.interpolate({
-              inputRange: [-36000, 36000],
-              outputRange: ['-36000deg', '36000deg']
-            })
-          }]
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: width,
+          height: height
         }}
-        source={{uri: imageUrl}}
-        resizeMode='contain'
-      />
+      >
+        <Animated.Image
+          style={{
+            position: 'absolute',
+            left: left,
+            top: top,
+            backgroundColor: 'black',
+            width: imgWidth,
+            height: imgHeight,
+            transform: [{
+              scale: scale
+            }, {
+              rotate: this.state.rotationValue.interpolate({
+                inputRange: [-36000, 36000],
+                outputRange: ['-36000deg', '36000deg']
+              })
+            }]
+          }}
+          source={{uri: imageUrl}}
+          resizeMode='contain'
+        />
+      </View>
     )
   }
 
