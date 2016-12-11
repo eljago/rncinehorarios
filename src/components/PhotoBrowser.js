@@ -26,17 +26,17 @@ export default class PhotoBrowser extends React.Component {
 
   constructor (props) {
     super(props)
-
     this._index = parseInt(props.index)
+    const orientation = Orientation.getInitialOrientation()
     this.state = {
-      orientation: Orientation.getInitialOrientation(),
+      orientation: orientation ? orientation : 'PORTRAIT',
       currentIndexes: this._getCurrentIndexes()
     }
   }
 
   componentWillMount () {
-    var initial = Orientation.getInitialOrientation()
-    this._orientationChanged(initial)
+    const orientation = Orientation.getInitialOrientation()
+    this.setState({orientation: orientation ? orientation : 'PORTRAIT'})
   }
 
   _scrollToIndex (index, animated = false) {
@@ -48,9 +48,7 @@ export default class PhotoBrowser extends React.Component {
 
   componentDidMount () {
     this._scrollToIndex(this._index)
-    if (Platform.OS === 'ios') {
-      Orientation.lockToPortrait()
-    }
+    Orientation.lockToPortrait()
     Orientation.addSpecificOrientationListener(this._orientationChanged.bind(this))
   }
 
@@ -67,7 +65,7 @@ export default class PhotoBrowser extends React.Component {
       <ScrollView
         style={styles.scrollView}
         ref={(scrollView) => { this._scrollView = scrollView }}
-        horizontal={this._isPortrait()}
+        horizontal={isPortrait}
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
@@ -88,15 +86,17 @@ export default class PhotoBrowser extends React.Component {
   }
 
   _orientationChanged (orientation) {
-    console.log(orientation);
-    this.setState({orientation})
-    if (this._scrollView) {
-      this._scrollToIndex(this._index)
-
-      for (let index of this.state.currentIndexes) {
-        const imageElement = this.refs[`image_${index}`];
-        if (imageElement && imageElement.getOrientation() != orientation) {
-          imageElement.changeOrientation(orientation, this._index === index)
+    if (['PORTRAIT', 'PORTRAITUPSIDEDOWN', 'LANDSCAPE-RIGHT', 'LANDSCAPE-LEFT'].includes(orientation)) {
+      if (this.state.orientation !== orientation) {
+        this.setState({orientation})
+        if (this._scrollView) {
+          this._scrollToIndex(this._index)
+          for (let index of this.state.currentIndexes) {
+            const imageElement = this.refs[`image_${index}`];
+            if (imageElement && imageElement.getOrientation() !== orientation) {
+              imageElement.changeOrientation(orientation, this._index === index)
+            }
+          }
         }
       }
     }
@@ -112,6 +112,7 @@ export default class PhotoBrowser extends React.Component {
     const newIndex = Math.floor((neededContentOffset + 0.5 * layoutHorizontal) / layoutHorizontal)
     if (this._index !== newIndex) {
       this._index = newIndex
+      console.log(this._index)
       const currentIndexes = this._getCurrentIndexes()
       if (currentIndexes !== this.state.currentIndexes) {
         this.setState({currentIndexes})

@@ -20,9 +20,10 @@ export default class PhotoBrowserImage extends React.Component {
   constructor (props) {
     super(props)
     this._pixelRatio = PixelRatio.get()
+    this.targetRotationValue = getRotationValue(props.initialOrientation)
     this.state = {
       orientation: props.initialOrientation,
-      rotationValue: new Animated.Value(getRotationValue(props.initialOrientation))
+      rotationValue: new Animated.Value(this.targetRotationValue)
     }
   }
 
@@ -62,33 +63,37 @@ export default class PhotoBrowserImage extends React.Component {
             scale: scale
           }, {
             rotate: this.state.rotationValue.interpolate({
-              inputRange: [-90, 180],
-              outputRange: ['-90deg', '180deg']
+              inputRange: [-36000, 36000],
+              outputRange: ['-36000deg', '36000deg']
             })
           }]
         }}
         source={{uri: imageUrl}}
-        resizeMode='cover'
+        resizeMode='contain'
       />
     )
   }
 
   changeOrientation (orientation, animated = false) {
-    this.setState({orientation})
+    const rotationToAdd = getRotationOrientationToAdd(this.state.orientation, orientation)
+    if (rotationToAdd !== 0 || this.state.orientation !== orientation) {
 
-    const rotationValue = getRotationValue(orientation)
+      this.setState({orientation})
 
-    if (animated) {
-      Animated.spring(
-        this.state.rotationValue,
-        {
-          toValue: rotationValue,
-          tension: 10,
-          friction: 5
-        }
-      ).start()
-    } else {
-      this.state.rotationValue.setValue(rotationValue)
+      this.targetRotationValue = this.targetRotationValue + rotationToAdd
+
+      if (animated) {
+        Animated.spring(
+          this.state.rotationValue,
+          {
+            toValue: this.targetRotationValue,
+            tension: 10,
+            friction: 5
+          }
+        ).start()
+      } else {
+        this.state.rotationValue.setValue(this.targetRotationValue)
+      }
     }
   }
 
@@ -98,16 +103,66 @@ export default class PhotoBrowserImage extends React.Component {
 }
 
 function getRotationValue(orientation) {
-  switch (orientation) {
-    case 'PORTRAIT':
-      return 0
-    case 'PORTRAITUPSIDEDOWN':
-      return 180
-    case 'LANDSCAPE-LEFT':
-      return 90
-    case 'LANDSCAPE-RIGHT':
-      return -90
-    default:
+  if (orientation === 'PORTRAIT') {
       return 0
   }
+  if (orientation === 'PORTRAITUPSIDEDOWN') {
+      return 180
+  }
+  if (orientation === 'LANDSCAPE-LEFT') {
+      return +90
+  }
+  if (orientation === 'LANDSCAPE-RIGHT') {
+      return -90
+  }
+  return 0
+}
+
+function getRotationOrientationToAdd(oldOrientation, newOrientation) {
+  console.log(newOrientation);
+  if (oldOrientation === 'PORTRAIT') {
+    if (newOrientation === 'PORTRAIT') {
+      return 0
+    } else if (newOrientation === 'LANDSCAPE-LEFT') {
+      return +90
+    } else if (newOrientation === 'LANDSCAPE-RIGHT') {
+      return -90
+    } else if (newOrientation === 'PORTRAITUPSIDEDOWN') {
+      return 180
+    }
+  }
+  else if (oldOrientation === 'LANDSCAPE-LEFT') {
+    if (newOrientation === 'PORTRAIT') {
+      return -90
+    } else if (newOrientation === 'LANDSCAPE-LEFT') {
+      return 0
+    } else if (newOrientation === 'LANDSCAPE-RIGHT') {
+      return 180
+    } else if (newOrientation === 'PORTRAITUPSIDEDOWN') {
+      return +90
+    }
+  }
+  else if (oldOrientation === 'LANDSCAPE-RIGHT') {
+    if (newOrientation === 'PORTRAIT') {
+      return +90
+    } else if (newOrientation === 'LANDSCAPE-LEFT') {
+      return 180
+    } else if (newOrientation === 'LANDSCAPE-RIGHT') {
+      return 0
+    } else if (newOrientation === 'PORTRAITUPSIDEDOWN') {
+      return -90
+    }
+  }
+  else if (oldOrientation === 'PORTRAITUPSIDEDOWN') {
+    if (newOrientation === 'PORTRAIT') {
+      return 0
+    } else if (newOrientation === 'LANDSCAPE-LEFT') {
+      return -90
+    } else if (newOrientation === 'LANDSCAPE-RIGHT') {
+      return +90
+    } else if (newOrientation === 'PORTRAITUPSIDEDOWN') {
+      return 0
+    }
+  }
+  return 0
 }

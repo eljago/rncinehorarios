@@ -16,7 +16,6 @@ export default class Show extends React.Component {
 
   render () {
     const show = this.props.viewer.show
-    console.log(show)
     return (
       <Image
         style={styles.imageContainer}
