@@ -5,8 +5,7 @@ import React, { PropTypes } from 'react'
 import {
   ListView,
   StyleSheet,
-  Dimensions,
-  Platform
+  Dimensions
 } from 'react-native'
 
 import Orientation from 'react-native-orientation'
@@ -34,13 +33,13 @@ export default class PhotoBrowser extends React.Component {
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
     this.state = {
       dataSource: ds.cloneWithRows(props.images),
-      orientation: orientation ? orientation : 'PORTRAIT'
+      orientation: orientation != null ? orientation : 'PORTRAIT'
     }
   }
 
   componentWillMount () {
     const orientation = Orientation.getInitialOrientation()
-    this.setState({orientation: orientation ? orientation : 'PORTRAIT'})
+    this.setState({orientation: orientation != null ? orientation : 'PORTRAIT'})
   }
 
   _scrollToIndex (index, animated = false) {
@@ -91,7 +90,7 @@ export default class PhotoBrowser extends React.Component {
           this._scrollToIndex(this._index)
           for (let index = 0; index < this.props.images.length; index++) {
             const rowView = this._rows[index]
-            console.log(rowView);
+            console.log(rowView)
             if (rowView && rowView.getOrientation() !== orientation) {
               rowView.changeOrientation(orientation, this._index === index)
             }
@@ -115,7 +114,7 @@ export default class PhotoBrowser extends React.Component {
     return (
       <PhotoBrowserImage
         key={rowID}
-        ref={(row) => this._rows[image.index] = row}
+        ref={(row) => { this._rows[image.index] = row }}
         imageUrl={getImageVersion(image.image)}
         imageWidth={image.width}
         imageHeight={image.height}

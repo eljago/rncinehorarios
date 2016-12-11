@@ -90,7 +90,6 @@ export default class PhotoBrowserImage extends React.Component {
   changeOrientation (orientation, animated = false) {
     const rotationToAdd = getRotationOrientationToAdd(this.state.orientation, orientation)
     if (rotationToAdd !== 0 || this.state.orientation !== orientation) {
-
       this.setState({orientation})
 
       this.targetRotationValue = this.targetRotationValue + rotationToAdd
@@ -110,29 +109,29 @@ export default class PhotoBrowserImage extends React.Component {
     }
   }
 
-  getOrientation() {
+  getOrientation () {
     return this.state.orientation
   }
 }
 
-function getRotationValue(orientation) {
+function getRotationValue (orientation) {
   if (orientation === 'PORTRAIT') {
-      return 0
+    return 0
   }
   if (orientation === 'PORTRAITUPSIDEDOWN') {
-      return 180
+    return 180
   }
   if (orientation === 'LANDSCAPE-LEFT') {
-      return +90
+    return +90
   }
   if (orientation === 'LANDSCAPE-RIGHT') {
-      return -90
+    return -90
   }
   return 0
 }
 
-function getRotationOrientationToAdd(oldOrientation, newOrientation) {
-  console.log(newOrientation);
+function getRotationOrientationToAdd (oldOrientation, newOrientation) {
+  console.log(newOrientation)
   if (oldOrientation === 'PORTRAIT') {
     if (newOrientation === 'PORTRAIT') {
       return 0
@@ -143,8 +142,7 @@ function getRotationOrientationToAdd(oldOrientation, newOrientation) {
     } else if (newOrientation === 'PORTRAITUPSIDEDOWN') {
       return 180
     }
-  }
-  else if (oldOrientation === 'LANDSCAPE-LEFT') {
+  } else if (oldOrientation === 'LANDSCAPE-LEFT') {
     if (newOrientation === 'PORTRAIT') {
       return -90
     } else if (newOrientation === 'LANDSCAPE-LEFT') {
@@ -154,8 +152,7 @@ function getRotationOrientationToAdd(oldOrientation, newOrientation) {
     } else if (newOrientation === 'PORTRAITUPSIDEDOWN') {
       return +90
     }
-  }
-  else if (oldOrientation === 'LANDSCAPE-RIGHT') {
+  } else if (oldOrientation === 'LANDSCAPE-RIGHT') {
     if (newOrientation === 'PORTRAIT') {
       return +90
     } else if (newOrientation === 'LANDSCAPE-LEFT') {
@@ -165,8 +162,7 @@ function getRotationOrientationToAdd(oldOrientation, newOrientation) {
     } else if (newOrientation === 'PORTRAITUPSIDEDOWN') {
       return -90
     }
-  }
-  else if (oldOrientation === 'PORTRAITUPSIDEDOWN') {
+  } else if (oldOrientation === 'PORTRAITUPSIDEDOWN') {
     if (newOrientation === 'PORTRAIT') {
       return 0
     } else if (newOrientation === 'LANDSCAPE-LEFT') {
