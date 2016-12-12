@@ -20,37 +20,25 @@ export default class PhotoBrowserImage extends React.Component {
 
   constructor (props) {
     super(props)
-    this._pixelRatio = PixelRatio.get()
-    this.targetRotationValue = getRotationValue(props.initialOrientation)
-    this.state = {
-      orientation: props.initialOrientation,
-      rotationValue: new Animated.Value(this.targetRotationValue)
-    }
-  }
+    const {imageWidth, imageHeight, initialOrientation} = props
 
-  _isPortrait () {
-    return this.state.orientation === 'PORTRAIT' || this.state.orientation === 'PORTRAITUPSIDEDOWN'
+    this._pixelRatio = PixelRatio.get()
+    this._imageWidth = imageWidth / this._pixelRatio
+    this._imageHeight = imageHeight / this._pixelRatio
+
+    this.state = {
+      orientation: initialOrientation,
+      rotationValue: new Animated.Value(getRotateValue(initialOrientation)),
+      scaleValue: new Animated.Value(this._getTransformScale(initialOrientation))
+    }
   }
 
   render () {
     const {width, height} = Dimensions.get('window')
-    const {imageUrl, imageWidth, imageHeight} = this.props
-    const isPortrait = this._isPortrait()
+    const {scaleValue, rotationValue, orientation} = this.state
 
-    const imgWidth = imageWidth / this._pixelRatio
-    const imgHeight = imageHeight / this._pixelRatio
-
-    const imageWidthHeightRatio = imgWidth / imgHeight
-    const scale = isPortrait
-    ? (imageWidthHeightRatio > (width / height)
-      ? (width / imgWidth) : (height / imgHeight))
-    : (imageWidthHeightRatio > (width / height)
-      ? (height / imgWidth) : (width / imgHeight))
-
-    const left = isPortrait ? width - imgWidth / 2 - width / 2
-      : width / 2 - imgWidth / 2
-    const top = isPortrait ? height / 2 - imgHeight / 2
-      : height - imgHeight / 2 - height / 2
+    const left = (width / 2) - (this._imageWidth / 2)
+    const top = (height / 2) - (this._imageHeight / 2)
 
     return (
       <View
@@ -69,52 +57,70 @@ export default class PhotoBrowserImage extends React.Component {
             left: left,
             top: top,
             backgroundColor: 'black',
-            width: imgWidth,
-            height: imgHeight,
+            width: this._imageWidth,
+            height: this._imageHeight,
             transform: [{
-              scale: scale
+              scale: scaleValue
             }, {
-              rotate: this.state.rotationValue.interpolate({
+              rotate: rotationValue.interpolate({
                 inputRange: [-36000, 36000],
                 outputRange: ['-36000deg', '36000deg']
               })
             }]
           }}
-          source={{uri: imageUrl}}
+          source={{uri: this.props.imageUrl}}
           resizeMode='contain'
         />
       </View>
     )
   }
 
+  _getTransformScale (orientation: string) {
+    const {width, height} = Dimensions.get('window')
+    const isPortrait = getIsPortrait(orientation)
+    const rotationWidth = isPortrait ? width : height
+    const rotationHeight = isPortrait ? height : width
+    const fitHorizontally = (this._imageWidth / this._imageHeight) > (rotationWidth / rotationHeight)
+    return fitHorizontally ? (rotationWidth / this._imageWidth) : (rotationHeight / this._imageHeight)
+  }
+
   changeOrientation (orientation, animated = false) {
-    const rotationToAdd = getRotationOrientationToAdd(this.state.orientation, orientation)
-    if (rotationToAdd !== 0 || this.state.orientation !== orientation) {
-      this.setState({orientation})
+    if (this.state.orientation !== orientation) {
+      const rotTransition = getRotTransition(this.state.orientation, orientation)
+      if (rotTransition != null) {
+        const nextScale = this._getTransformScale(orientation)
+        this.setState({orientation})
 
-      this.targetRotationValue = this.targetRotationValue + rotationToAdd
-
-      if (animated) {
-        Animated.spring(
-          this.state.rotationValue,
-          {
-            toValue: this.targetRotationValue,
-            tension: 10,
-            friction: 5
-          }
-        ).start()
-      } else {
-        this.state.rotationValue.setValue(this.targetRotationValue)
+        if (animated) {
+          this.state.rotationValue.setValue(rotTransition.prevRot)
+          Animated.spring(
+            this.state.rotationValue,
+            {
+              toValue: rotTransition.nextRot,
+              tension: 10,
+              friction: 5
+            }
+          ).start()
+          Animated.spring(
+            this.state.scaleValue,
+            {
+              toValue: nextScale
+            }
+          ).start()
+        } else {
+          this.state.rotationValue.setValue(rotTransition.nextRot)
+          this.state.scaleValue.setValue(nextScale)
+        }
       }
     }
   }
-
-  getOrientation () {
-    return this.state.orientation
-  }
 }
 
-function getRotationValue (orientation) {
+function getIsPortrait (orientation: string): boolean {
+  return orientation === 'PORTRAIT' || orientation === 'PORTRAITUPSIDEDOWN'
+}
+
+function getRotateValue (orientation) {
   if (orientation === 'PORTRAIT') {
     return 0
   }
@@ -122,56 +128,49 @@ function getRotationValue (orientation) {
     return 180
   }
   if (orientation === 'LANDSCAPE-LEFT') {
-    return +90
+    return -90
   }
   if (orientation === 'LANDSCAPE-RIGHT') {
-    return -90
+    return 90
   }
   return 0
 }
 
-function getRotationOrientationToAdd (oldOrientation, newOrientation) {
-  console.log(newOrientation)
+function getRotTransition (oldOrientation: string, newOrientation: string): boolean {
+  console.log(oldOrientation);
+  console.log(newOrientation);
   if (oldOrientation === 'PORTRAIT') {
-    if (newOrientation === 'PORTRAIT') {
-      return 0
-    } else if (newOrientation === 'LANDSCAPE-LEFT') {
-      return +90
+    if (newOrientation === 'LANDSCAPE-LEFT') {
+      return {prevRot: 0, nextRot: 90}
     } else if (newOrientation === 'LANDSCAPE-RIGHT') {
-      return -90
+      return {prevRot: 180, nextRot: 90}
     } else if (newOrientation === 'PORTRAITUPSIDEDOWN') {
-      return 180
+      return {prevRot: 180, nextRot: 0}
     }
   } else if (oldOrientation === 'LANDSCAPE-LEFT') {
     if (newOrientation === 'PORTRAIT') {
-      return -90
-    } else if (newOrientation === 'LANDSCAPE-LEFT') {
-      return 0
+      return {prevRot: 90, nextRot: 0}
     } else if (newOrientation === 'LANDSCAPE-RIGHT') {
-      return 180
+      return {prevRot: -90, nextRot: 90}
     } else if (newOrientation === 'PORTRAITUPSIDEDOWN') {
-      return +90
+      return {prevRot: -90, nextRot: 0}
     }
   } else if (oldOrientation === 'LANDSCAPE-RIGHT') {
     if (newOrientation === 'PORTRAIT') {
-      return +90
+      return {prevRot: -90, nextRot: 0}
     } else if (newOrientation === 'LANDSCAPE-LEFT') {
-      return 180
-    } else if (newOrientation === 'LANDSCAPE-RIGHT') {
-      return 0
+      return {prevRot: -90, nextRot: 90}
     } else if (newOrientation === 'PORTRAITUPSIDEDOWN') {
-      return -90
+      return {prevRot: 90, nextRot: 0}
     }
   } else if (oldOrientation === 'PORTRAITUPSIDEDOWN') {
     if (newOrientation === 'PORTRAIT') {
-      return 0
+      return {prevRot: 180, nextRot: 0}
     } else if (newOrientation === 'LANDSCAPE-LEFT') {
-      return -90
+      return {prevRot: 180, nextRot: 90}
     } else if (newOrientation === 'LANDSCAPE-RIGHT') {
-      return +90
-    } else if (newOrientation === 'PORTRAITUPSIDEDOWN') {
-      return 0
+      return {prevRot: 0, nextRot: 90}
     }
   }
-  return 0
+  return null
 }
