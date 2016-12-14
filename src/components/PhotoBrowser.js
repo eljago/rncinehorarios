@@ -23,12 +23,10 @@ export default class PhotoBrowser extends React.Component {
 
   constructor (props) {
     super(props)
-    this._index = parseInt(props.index)
     this._rows = {}
     for (let index = 0; index < props.images.length; index++) {
       props.images[index].index = index
     }
-
     const orientation = Orientation.getInitialOrientation()
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
     this.state = {
@@ -42,15 +40,8 @@ export default class PhotoBrowser extends React.Component {
     this.setState({orientation: orientation != null ? orientation : 'PORTRAIT'})
   }
 
-  _scrollToIndex (index, animated = false) {
-    const {width, height} = Dimensions.get('window')
-    const axis = this._isPortrait() ? 'x' : 'y'
-    const amount = this._isPortrait() ? width : height
-    this._scrollView.scrollTo({[axis]: amount * index, animated: animated})
-  }
-
   componentDidMount () {
-    this._scrollToIndex(this._index)
+    this._scrollToIndex(this.props.index)
     Orientation.lockToPortrait()
     Orientation.addSpecificOrientationListener(this._orientationChanged.bind(this))
   }
@@ -60,27 +51,39 @@ export default class PhotoBrowser extends React.Component {
     Orientation.unlockAllOrientations()
   }
 
-  render () {
-    let rotate = 0
-    if (this.state.orientation === 'PORTRAITUPSIDEDOWN' || this.state.orientation === 'LANDSCAPE-RIGHT') {
-      rotate = 180
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.orientation !== prevState.orientation) {
+      if (this._scrollView) {
+        this._scrollToIndex(this._index) // use index saved before changing orientation
+        for (let index = 0; index < this.props.images.length; index++) {
+          const rowView = this._rows[index]
+          if (rowView) {
+            rowView.changeOrientation(this.state.orientation, this._index === index)
+          }
+        }
+      }
     }
+  }
+
+  render () {
     return (
       <ListView
         dataSource={this.state.dataSource}
         ref={(scrollView) => { this._scrollView = scrollView }}
-        horizontal={this._isPortrait()}
+        horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
-        onScroll={this._onScroll.bind(this)}
         scrollEventThrottle={8}
         renderRow={this._renderRow.bind(this)}
-        style={[styles.scrollView, {
-          transform: [{
-            rotate: `${Math.floor(rotate)}deg`
-          }]
-        }]}
+        style={[{
+          backgroundColor: 'black',
+          alignSelf: 'center'
+        }, getListViewOrientationStyles(this.state.orientation)]}
+        contentContainerStyle={{
+          backgroundColor: 'black',
+          alignItems: 'center'
+        }}
       />
     )
   }
@@ -89,7 +92,13 @@ export default class PhotoBrowser extends React.Component {
     return this.state.orientation === 'PORTRAIT' || this.state.orientation === 'PORTRAITUPSIDEDOWN'
   }
 
-  _orientationChanged (orientation) {
+  _scrollToIndex (index, animated = false) {
+    const {width, height} = Dimensions.get('window')
+    const pageWidth = this._isPortrait() ? width : height
+    this._scrollView.scrollTo({x: pageWidth * index, animated: animated})
+  }
+
+  _orientationChanged (orientation: string) {
     if ([
       'PORTRAIT',
       'PORTRAITUPSIDEDOWN',
@@ -97,28 +106,21 @@ export default class PhotoBrowser extends React.Component {
       'LANDSCAPE-LEFT'
     ].includes(orientation)) {
       if (this.state.orientation !== orientation) {
+        this._index = this._getCurrentIndex() // save index before changing orientation
         this.setState({orientation})
-        if (this._scrollView) {
-          this._scrollToIndex(this._index)
-          for (let index = 0; index < this.props.images.length; index++) {
-            const rowView = this._rows[index]
-            if (rowView) {
-              rowView.changeOrientation(orientation, this._index === index)
-            }
-          }
-        }
+        console.log(this._index)
       }
     }
   }
 
-  _onScroll (e) {
-    const {layoutMeasurement, contentOffset} = e.nativeEvent
-    if (layoutMeasurement.width === 0 && layoutMeasurement.height === 0) return
-
-    const layoutHorizontal = this._isPortrait() ? layoutMeasurement.width : layoutMeasurement.height
-    const neededContentOffset = this._isPortrait() ? contentOffset.x : contentOffset.y
-
-    this._index = Math.floor((neededContentOffset + 0.5 * layoutHorizontal) / layoutHorizontal)
+  _getCurrentIndex() {
+    if (this._scrollView) {
+      const {width, height} = Dimensions.get('window')
+      const pageWidth = this._isPortrait() ? width : height
+      const {offset} = this._scrollView.scrollProperties
+      return Math.floor((offset + 0.5 * pageWidth) / pageWidth)
+    }
+    return this.props.index
   }
 
   _renderRow (image: string, sectionID: number, rowID: number) {
@@ -135,11 +137,21 @@ export default class PhotoBrowser extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: 'black'
-  },
-  scrollContent: {
-    backgroundColor: 'black'
+function getListViewOrientationStyles (orientation) {
+  const {width, height} = Dimensions.get('window')
+  const orientationStyles = orientation === 'PORTRAIT' || orientation === 'PORTRAITUPSIDEDOWN'
+    ? {width: width, height: height} : {width: height, height: width}
+  if (orientation === 'PORTRAIT') {
+    return {...orientationStyles, transform: [{rotate: '0deg'}]}
   }
-})
+  if (orientation === 'PORTRAITUPSIDEDOWN') {
+    return {...orientationStyles, transform: [{rotate: '180deg'}]}
+  }
+  if (orientation === 'LANDSCAPE-LEFT') {
+    return {...orientationStyles, transform: [{rotate: '90deg'}]}
+  }
+  if (orientation === 'LANDSCAPE-RIGHT') {
+    return {...orientationStyles, transform: [{rotate: '-90deg'}]}
+  }
+  return null
+}

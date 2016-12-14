@@ -28,8 +28,29 @@ export default class PhotoBrowserImage extends React.Component {
 
     this.state = {
       orientation: initialOrientation,
-      rotationValue: new Animated.Value(getRotateValue(initialOrientation)),
+      rotationValue: new Animated.Value(0),
       scaleValue: new Animated.Value(this._getTransformScale(initialOrientation))
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.orientation !== prevState.orientation) {
+      if (this._animateRotation) {
+        Animated.spring(
+          this.state.rotationValue,
+          {
+            toValue: 0,
+            tension: 10,
+            friction: 5
+          }
+        ).start()
+        Animated.spring(
+          this.state.scaleValue,
+          {
+            toValue: this._getTransformScale(this.state.orientation)
+          }
+        ).start()
+      }
     }
   }
 
@@ -37,18 +58,21 @@ export default class PhotoBrowserImage extends React.Component {
     const {width, height} = Dimensions.get('window')
     const {scaleValue, rotationValue, orientation} = this.state
 
-    const left = (width / 2) - (this._imageWidth / 2)
-    const top = (height / 2) - (this._imageHeight / 2)
+    const isPortrait = getIsPortrait(orientation)
+    const rotationWidth = isPortrait ? width : height
+    const rotationHeight = isPortrait ? height : width
+    const left = (rotationWidth / 2) - (this._imageWidth / 2)
+    const top = (rotationHeight / 2) - (this._imageHeight / 2)
 
     return (
       <View
         style={{
-          backgroundColor: 'black',
           flex: 1,
+          backgroundColor: 'black',
+          width: rotationWidth,
+          height: rotationHeight,
           alignItems: 'center',
-          justifyContent: 'center',
-          width: width,
-          height: height
+          justifyContent: 'center'
         }}
       >
         <Animated.Image
@@ -63,8 +87,8 @@ export default class PhotoBrowserImage extends React.Component {
               scale: scaleValue
             }, {
               rotate: rotationValue.interpolate({
-                inputRange: [-36000, 36000],
-                outputRange: ['-36000deg', '36000deg']
+                inputRange: [-3600, 3600],
+                outputRange: ['-3600deg', '3600deg']
               })
             }]
           }}
@@ -86,31 +110,18 @@ export default class PhotoBrowserImage extends React.Component {
 
   changeOrientation (orientation, animated = false) {
     if (this.state.orientation !== orientation) {
-      const rotTransition = getRotTransition(this.state.orientation, orientation)
-      if (rotTransition != null) {
-        const nextScale = this._getTransformScale(orientation)
-        this.setState({orientation})
-
+      const startRot = getRotationInitialValue(this.state.orientation, orientation)
+      if (startRot != null) {
         if (animated) {
-          this.state.rotationValue.setValue(rotTransition.prevRot)
-          Animated.spring(
-            this.state.rotationValue,
-            {
-              toValue: rotTransition.nextRot,
-              tension: 10,
-              friction: 5
-            }
-          ).start()
-          Animated.spring(
-            this.state.scaleValue,
-            {
-              toValue: nextScale
-            }
-          ).start()
-        } else {
-          this.state.rotationValue.setValue(rotTransition.nextRot)
-          this.state.scaleValue.setValue(nextScale)
+          this._animateRotation = true
+          this.state.rotationValue.setValue(startRot)
         }
+        else {
+          this._animateRotation = false
+          this.state.rotationValue.setValue(0)
+          this.state.scaleValue.setValue(this._getTransformScale(orientation))
+        }
+        this.setState({orientation})
       }
     }
   }
@@ -120,56 +131,38 @@ function getIsPortrait (orientation: string): boolean {
   return orientation === 'PORTRAIT' || orientation === 'PORTRAITUPSIDEDOWN'
 }
 
-function getRotateValue (orientation) {
-  if (orientation === 'PORTRAIT') {
-    return 0
-  }
-  if (orientation === 'PORTRAITUPSIDEDOWN') {
-    return 180
-  }
-  if (orientation === 'LANDSCAPE-LEFT') {
-    return -90
-  }
-  if (orientation === 'LANDSCAPE-RIGHT') {
-    return 90
-  }
-  return 0
-}
-
-function getRotTransition (oldOrientation: string, newOrientation: string): boolean {
-  console.log(oldOrientation);
-  console.log(newOrientation);
+function getRotationInitialValue (oldOrientation: string, newOrientation: string): boolean {
   if (oldOrientation === 'PORTRAIT') {
     if (newOrientation === 'LANDSCAPE-LEFT') {
-      return {prevRot: 0, nextRot: 90}
+      return -90
     } else if (newOrientation === 'LANDSCAPE-RIGHT') {
-      return {prevRot: 180, nextRot: 90}
+      return 90
     } else if (newOrientation === 'PORTRAITUPSIDEDOWN') {
-      return {prevRot: 180, nextRot: 0}
+      return 180
     }
   } else if (oldOrientation === 'LANDSCAPE-LEFT') {
     if (newOrientation === 'PORTRAIT') {
-      return {prevRot: 90, nextRot: 0}
+      return 90
     } else if (newOrientation === 'LANDSCAPE-RIGHT') {
-      return {prevRot: -90, nextRot: 90}
+      return 180
     } else if (newOrientation === 'PORTRAITUPSIDEDOWN') {
-      return {prevRot: -90, nextRot: 0}
+      return -90
     }
   } else if (oldOrientation === 'LANDSCAPE-RIGHT') {
     if (newOrientation === 'PORTRAIT') {
-      return {prevRot: -90, nextRot: 0}
+      return -90
     } else if (newOrientation === 'LANDSCAPE-LEFT') {
-      return {prevRot: -90, nextRot: 90}
+      return 180
     } else if (newOrientation === 'PORTRAITUPSIDEDOWN') {
-      return {prevRot: 90, nextRot: 0}
+      return 90
     }
   } else if (oldOrientation === 'PORTRAITUPSIDEDOWN') {
     if (newOrientation === 'PORTRAIT') {
-      return {prevRot: 180, nextRot: 0}
+      return 180
     } else if (newOrientation === 'LANDSCAPE-LEFT') {
-      return {prevRot: 180, nextRot: 90}
+      return 90
     } else if (newOrientation === 'LANDSCAPE-RIGHT') {
-      return {prevRot: 0, nextRot: 90}
+      return -90
     }
   }
   return null
