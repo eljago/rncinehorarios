@@ -108,7 +108,6 @@ export default class PhotoBrowser extends React.Component {
       if (this.state.orientation !== orientation) {
         this._index = this._getCurrentIndex() // save index before changing orientation
         this.setState({orientation})
-        console.log(this._index)
       }
     }
   }
