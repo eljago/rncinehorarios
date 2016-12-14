@@ -42,13 +42,11 @@ export default class PhotoBrowser extends React.Component {
 
   componentDidMount () {
     this._scrollToIndex(this.props.index)
-    Orientation.lockToPortrait()
     Orientation.addSpecificOrientationListener(this._orientationChanged.bind(this))
   }
 
   componentWillUnmount () {
     Orientation.removeSpecificOrientationListener(this._orientationChanged.bind(this))
-    Orientation.unlockAllOrientations()
   }
 
   componentDidUpdate(prevProps, prevState) {

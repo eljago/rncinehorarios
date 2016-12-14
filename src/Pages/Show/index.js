@@ -2,19 +2,21 @@
 'use strict'
 
 import Relay from 'react-relay'
+import moment from 'moment'
 
 import Show from './containers/Show'
 
 export default Relay.createContainer(Show, {
 
   initialVariables: {
-    show_id: 0
+    show_id: 0,
+    cacheTime: "defaultCacheDate"
   },
 
   fragments: {
     viewer: () => Relay.QL`
       fragment on Viewer {
-        show(show_id: $show_id){
+        show(show_id: $show_id, cacheTime: $cacheTime){
           id
           name
           name_original

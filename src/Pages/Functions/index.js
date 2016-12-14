@@ -10,13 +10,14 @@ export default Relay.createContainer(Functions, {
 
   initialVariables: {
     theater_id: 0,
-    date: moment().format('YYYY-MM-DD')
+    date: moment().format('YYYY-MM-DD'),
+    cacheTime: "defaultCacheDate"
   },
 
   fragments: {
     viewer: () => Relay.QL`
       fragment on Viewer {
-        shows_functions(theater_id: $theater_id, date: $date){
+        shows_functions(theater_id: $theater_id, date: $date, cacheTime: $cacheTime){
           id
           name
           cover

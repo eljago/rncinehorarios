@@ -2,6 +2,7 @@
 'use strict'
 
 import Relay from 'react-relay'
+import moment from 'moment'
 
 import Cinemas from '../src/Pages/Cinemas'
 import Billboard from '../src/Pages/Billboard'
@@ -53,7 +54,9 @@ function getTabBarRoute () {
         component: RelayContainer,
         props: {
           component: Billboard,
-          queryConfig: new ViewerQueryConfig()
+          queryConfig: new ViewerQueryConfig({
+            cacheTime: getCacheTime()
+          })
         }
       }]
     },
@@ -66,7 +69,9 @@ function getTabBarRoute () {
         component: RelayContainer,
         props: {
           component: ComingSoon,
-          queryConfig: new ViewerQueryConfig()
+          queryConfig: new ViewerQueryConfig({
+            cacheTime: getCacheTime()
+          })
         }
       }]
     }
@@ -81,7 +86,8 @@ function getTheatersRoute (cinemaId, cinemaName) {
     props: {
       component: Theaters,
       queryConfig: new ViewerQueryConfig({
-        cinema_id: cinemaId
+        cinema_id: cinemaId,
+        cacheTime: getCacheTime()
       }),
       extraProps: {
         cinemaId: cinemaId,
@@ -99,7 +105,8 @@ function getFunctionsRoute (theaterId, theaterName) {
     props: {
       component: Functions,
       queryConfig: new ViewerQueryConfig({
-        theater_id: theaterId
+        theater_id: theaterId,
+        cacheTime: getCacheTime()
       }),
       extraProps: {
         theaterId: theaterId,
@@ -111,6 +118,7 @@ function getFunctionsRoute (theaterId, theaterName) {
 }
 
 function getShowRoute (showId, showName) {
+
   return ({
     key: 'Show',
     title: showName,
@@ -118,7 +126,8 @@ function getShowRoute (showId, showName) {
     props: {
       component: Show,
       queryConfig: new ViewerQueryConfig({
-        show_id: showId
+        show_id: showId,
+        cacheTime: getCacheTime()
       }),
       extraProps: {
         showId: showId,
@@ -138,6 +147,12 @@ function getImageViewerRoute (images, index = 0) {
       index: index
     }
   })
+}
+
+function getCacheTime() {
+  const today = moment()
+  const minutes = parseInt(today.format('mm'))
+  return `${today.format('YYYY-MM-DD-hh-')}${Math.floor(minutes/30)}`
 }
 
 export {

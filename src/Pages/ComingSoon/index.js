@@ -5,10 +5,15 @@ import Relay from 'react-relay'
 import ComingSoon from './container/ComingSoon'
 
 export default Relay.createContainer(ComingSoon, {
+
+  initialVariables: {
+    cacheTime: "defaultCacheDate"
+  },
+
   fragments: {
     viewer: () => Relay.QL`
       fragment on Viewer {
-        coming_soon{
+        coming_soon(cacheTime: $cacheTime){
           show_id
           name
           debut

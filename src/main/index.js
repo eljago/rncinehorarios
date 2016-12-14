@@ -15,6 +15,7 @@ Relay.injectNetworkLayer(
 )
 
 import Firestack from 'react-native-firestack'
+import Orientation from 'react-native-orientation'
 
 import SuperNavigator from './SuperNavigator'
 
@@ -31,6 +32,10 @@ export default class CineHorariosApp extends React.Component {
       console.error('You should never end up here')
       console.error(err)
     })
+  }
+
+  componentDidMount() {
+    Orientation.lockToPortrait()
   }
 
   render () {

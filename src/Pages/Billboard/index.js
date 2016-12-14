@@ -5,10 +5,15 @@ import Relay from 'react-relay'
 import Billboard from './container/Billboard'
 
 export default Relay.createContainer(Billboard, {
+
+  initialVariables: {
+    cacheTime: "defaultCacheDate"
+  },
+  
   fragments: {
     viewer: () => Relay.QL`
       fragment on Viewer {
-        billboard {
+        billboard(cacheTime: $cacheTime) {
           show_id
           name
           cover

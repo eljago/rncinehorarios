@@ -110,6 +110,16 @@ module.exports = {
               "description": null,
               "args": [
                 {
+                  "name": "cacheTime",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "date",
                   "description": null,
                   "type": {
@@ -117,7 +127,7 @@ module.exports = {
                     "name": "String",
                     "ofType": null
                   },
-                  "defaultValue": "\"2016-11-29\""
+                  "defaultValue": null
                 }
               ],
               "type": {
@@ -137,6 +147,16 @@ module.exports = {
               "description": null,
               "args": [
                 {
+                  "name": "cacheTime",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "date",
                   "description": null,
                   "type": {
@@ -144,7 +164,7 @@ module.exports = {
                     "name": "String",
                     "ofType": null
                   },
-                  "defaultValue": "\"2016-11-29\""
+                  "defaultValue": null
                 }
               ],
               "type": {
@@ -180,6 +200,16 @@ module.exports = {
               "description": null,
               "args": [
                 {
+                  "name": "cacheTime",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "show_id",
                   "description": null,
                   "type": {
@@ -203,6 +233,16 @@ module.exports = {
               "description": null,
               "args": [
                 {
+                  "name": "cacheTime",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "date",
                   "description": null,
                   "type": {
@@ -210,7 +250,7 @@ module.exports = {
                     "name": "String",
                     "ofType": null
                   },
-                  "defaultValue": "\"2016-11-29\""
+                  "defaultValue": null
                 },
                 {
                   "name": "theater_id",
@@ -266,6 +306,16 @@ module.exports = {
               "name": "videos",
               "description": null,
               "args": [
+                {
+                  "name": "cacheTime",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
                 {
                   "name": "page",
                   "description": null,
@@ -1051,18 +1101,6 @@ module.exports = {
                   "name": "ID",
                   "ofType": null
                 }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "name",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
