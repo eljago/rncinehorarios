@@ -83,7 +83,7 @@ export default class TabsNavigator extends React.Component {
     }
   }
 
-  _onPopRoute (superPop = false) {
+  _onPopRoute (idk, superPop = false) {
     if (superPop) {
       this.props.onPopRoute()
     } else {
