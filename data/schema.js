@@ -13,28 +13,17 @@ module.exports = {
           "description": "The query root of this schema. See available queries.",
           "fields": [
             {
-              "name": "node",
-              "description": "Fetches an object given its ID.",
-              "args": [
-                {
-                  "name": "id",
-                  "description": "ID of the object.",
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "ID",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                }
-              ],
+              "name": "id",
+              "description": null,
+              "args": [],
               "type": {
-                "kind": "INTERFACE",
-                "name": "Node",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -53,42 +42,15 @@ module.exports = {
             }
           ],
           "inputFields": null,
-          "interfaces": [],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "INTERFACE",
-          "name": "Node",
-          "description": "An object with an ID.",
-          "fields": [
+          "interfaces": [
             {
-              "name": "id",
-              "description": "ID of the object.",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": [
-            {
-              "kind": "OBJECT",
-              "name": "Viewer",
+              "kind": "INTERFACE",
+              "name": "Node",
               "ofType": null
             }
-          ]
+          ],
+          "enumValues": null,
+          "possibleTypes": null
         },
         {
           "kind": "SCALAR",
@@ -105,80 +67,6 @@ module.exports = {
           "name": "Viewer",
           "description": "Support unassociated root queries that fetches collections.",
           "fields": [
-            {
-              "name": "billboard",
-              "description": null,
-              "args": [
-                {
-                  "name": "cacheTime",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "date",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "ShowType",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "coming_soon",
-              "description": null,
-              "args": [
-                {
-                  "name": "cacheTime",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "date",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "ShowType",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
             {
               "name": "id",
               "description": null,
@@ -229,7 +117,7 @@ module.exports = {
               "deprecationReason": null
             },
             {
-              "name": "shows_functions",
+              "name": "shows",
               "description": null,
               "args": [
                 {
@@ -243,6 +131,26 @@ module.exports = {
                   "defaultValue": null
                 },
                 {
+                  "name": "filter",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "order",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": "\"-id\""
+                },
+                {
                   "name": "date",
                   "description": null,
                   "type": {
@@ -254,6 +162,16 @@ module.exports = {
                 },
                 {
                   "name": "theater_id",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "show_id",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -279,6 +197,16 @@ module.exports = {
               "name": "theaters",
               "description": null,
               "args": [
+                {
+                  "name": "cacheTime",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
                 {
                   "name": "cinema_id",
                   "description": null,
@@ -434,7 +362,13 @@ module.exports = {
             }
           ],
           "inputFields": null,
-          "interfaces": [],
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            }
+          ],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -467,6 +401,79 @@ module.exports = {
           "interfaces": null,
           "enumValues": null,
           "possibleTypes": null
+        },
+        {
+          "kind": "INTERFACE",
+          "name": "Node",
+          "description": "An object with an ID.",
+          "fields": [
+            {
+              "name": "id",
+              "description": "ID of the object.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": [
+            {
+              "kind": "OBJECT",
+              "name": "ImageType",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "PersonType",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "QlFunctionType",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Query",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "ShowPersonRoleType",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "ShowType",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "TheaterType",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "VideoType",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Viewer",
+              "ofType": null
+            }
+          ]
         },
         {
           "kind": "OBJECT",
@@ -759,7 +766,13 @@ module.exports = {
             }
           ],
           "inputFields": null,
-          "interfaces": [],
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            }
+          ],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -858,7 +871,13 @@ module.exports = {
             }
           ],
           "inputFields": null,
-          "interfaces": [],
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            }
+          ],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -933,7 +952,13 @@ module.exports = {
             }
           ],
           "inputFields": null,
-          "interfaces": [],
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            }
+          ],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -1044,7 +1069,13 @@ module.exports = {
             }
           ],
           "inputFields": null,
-          "interfaces": [],
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            }
+          ],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -1155,7 +1186,13 @@ module.exports = {
             }
           ],
           "inputFields": null,
-          "interfaces": [],
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            }
+          ],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -1230,7 +1267,13 @@ module.exports = {
             }
           ],
           "inputFields": null,
-          "interfaces": [],
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            }
+          ],
           "enumValues": null,
           "possibleTypes": null
         },

@@ -43,7 +43,7 @@ export default class Functions extends React.Component {
 
   render () {
     const date = this.state.currentDate
-    const dataRows = getDataRows(date, this.props.viewer.shows_functions)
+    const dataRows = getDataRows(date, this.props.viewer.shows)
     const {width} = Dimensions.get('window')
     return (
       <View style={{flex: 1, flexDirection: 'row'}}>

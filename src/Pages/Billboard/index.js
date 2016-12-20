@@ -13,7 +13,7 @@ export default Relay.createContainer(Billboard, {
   fragments: {
     viewer: () => Relay.QL`
       fragment on Viewer {
-        billboard(cacheTime: $cacheTime) {
+        shows(filter: "billboard", cacheTime: $cacheTime) {
           show_id
           name
           cover

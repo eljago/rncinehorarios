@@ -22,7 +22,7 @@ export default class Billboard extends React.Component {
     return (
       <MyGiftedListView
         renderRow={this._renderRow}
-        dataRows={this.props.viewer.billboard}
+        dataRows={this.props.viewer.shows}
       />
     )
   }

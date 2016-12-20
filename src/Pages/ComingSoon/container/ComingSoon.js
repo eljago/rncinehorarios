@@ -20,7 +20,7 @@ export default class ComingSoon extends React.Component {
     return (
       <MyGiftedListView
         renderRow={this._renderRow}
-        dataRows={this.props.viewer.coming_soon}
+        dataRows={this.props.viewer.shows}
       />
     )
   }

@@ -13,7 +13,7 @@ export default Relay.createContainer(ComingSoon, {
   fragments: {
     viewer: () => Relay.QL`
       fragment on Viewer {
-        coming_soon(cacheTime: $cacheTime){
+        shows(filter: "coming_soon", cacheTime: $cacheTime){
           show_id
           name
           debut

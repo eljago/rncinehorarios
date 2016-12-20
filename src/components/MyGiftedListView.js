@@ -14,14 +14,16 @@ export default class MyGiftedListView extends React.Component {
   constructor (props) {
     super(props)
     const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
+    const dataRows = props.dataRows ? props.dataRows : []
     this.state = {
-      dataSource: dataSource.cloneWithRows(this._getDataSourceRows(props.dataRows))
+      dataSource: dataSource.cloneWithRows(this._getDataSourceRows(dataRows))
     }
   }
 
   componentWillReceiveProps (nextProps) {
+    const dataRows = nextProps.dataRows ? nextProps.dataRows : []
     this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(this._getDataSourceRows(nextProps.dataRows))
+      dataSource: this.state.dataSource.cloneWithRows(this._getDataSourceRows(dataRows))
     })
   }
 
