@@ -2,7 +2,6 @@
 'use strict'
 
 import Relay from 'react-relay'
-import moment from 'moment'
 
 import Show from './containers/Show'
 

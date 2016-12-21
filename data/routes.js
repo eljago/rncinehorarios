@@ -10,6 +10,7 @@ import ComingSoon from '../src/Pages/ComingSoon'
 import Theaters from '../src/Pages/Theaters'
 import Functions from '../src/Pages/Functions'
 import Show from '../src/Pages/Show'
+import Videos from '../src/Pages/Videos'
 import RelayContainer from '../src/components/RelayContainer'
 import PhotoBrowser from '../src/components/PhotoBrowser'
 
@@ -31,12 +32,12 @@ function getTabBarRoute () {
     tabs: {
       index: 0,
       routes: [
+        {key: 'videos', title: 'Videos'},
         {key: 'billboard', title: 'Cartelera'},
         {key: 'cinemas', title: 'Cines'},
-        {key: 'coming_soon', title: 'Próximamente'}
+        {key: 'coming_soon', title: 'Próx'}
       ]
     },
-    // Scenes for the `apple` tab.
     cinemas: {
       index: 0,
       routes: [{
@@ -45,7 +46,6 @@ function getTabBarRoute () {
         component: Cinemas
       }]
     },
-    // Scenes for the `banana` tab.
     billboard: {
       index: 0,
       routes: [{
@@ -60,7 +60,6 @@ function getTabBarRoute () {
         }
       }]
     },
-    // Scenes for the `orange` tab.
     coming_soon: {
       index: 0,
       routes: [{
@@ -69,6 +68,20 @@ function getTabBarRoute () {
         component: RelayContainer,
         props: {
           component: ComingSoon,
+          queryConfig: new ViewerQueryConfig({
+            cacheTime: getCacheTime()
+          })
+        }
+      }]
+    },
+    videos: {
+      index: 0,
+      routes: [{
+        key: 'videos',
+        title: 'Videos',
+        component: RelayContainer,
+        props: {
+          component: Videos,
           queryConfig: new ViewerQueryConfig({
             cacheTime: getCacheTime()
           })
@@ -118,7 +131,6 @@ function getFunctionsRoute (theaterId, theaterName) {
 }
 
 function getShowRoute (showId, showName) {
-
   return ({
     key: 'Show',
     title: showName,
