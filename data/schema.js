@@ -110,7 +110,7 @@ module.exports = {
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "ShowType",
+                "name": "Show",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -186,7 +186,7 @@ module.exports = {
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "ShowType",
+                  "name": "Show",
                   "ofType": null
                 }
               },
@@ -223,7 +223,7 @@ module.exports = {
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "TheaterType",
+                  "name": "Theater",
                   "ofType": null
                 }
               },
@@ -260,7 +260,7 @@ module.exports = {
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "VideoType",
+                  "name": "Video",
                   "ofType": null
                 }
               },
@@ -281,7 +281,7 @@ module.exports = {
         },
         {
           "kind": "OBJECT",
-          "name": "TheaterType",
+          "name": "Theater",
           "description": null,
           "fields": [
             {
@@ -430,17 +430,17 @@ module.exports = {
           "possibleTypes": [
             {
               "kind": "OBJECT",
-              "name": "ImageType",
+              "name": "Image",
               "ofType": null
             },
             {
               "kind": "OBJECT",
-              "name": "PersonType",
+              "name": "Person",
               "ofType": null
             },
             {
               "kind": "OBJECT",
-              "name": "QlFunctionType",
+              "name": "QlFunction",
               "ofType": null
             },
             {
@@ -450,22 +450,22 @@ module.exports = {
             },
             {
               "kind": "OBJECT",
-              "name": "ShowPersonRoleType",
+              "name": "Show",
               "ofType": null
             },
             {
               "kind": "OBJECT",
-              "name": "ShowType",
+              "name": "ShowPersonRole",
               "ofType": null
             },
             {
               "kind": "OBJECT",
-              "name": "TheaterType",
+              "name": "Theater",
               "ofType": null
             },
             {
               "kind": "OBJECT",
-              "name": "VideoType",
+              "name": "Video",
               "ofType": null
             },
             {
@@ -477,7 +477,7 @@ module.exports = {
         },
         {
           "kind": "OBJECT",
-          "name": "ShowType",
+          "name": "Show",
           "description": null,
           "fields": [
             {
@@ -501,7 +501,7 @@ module.exports = {
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "ShowPersonRoleType",
+                  "name": "ShowPersonRole",
                   "ofType": null
                 }
               },
@@ -553,7 +553,7 @@ module.exports = {
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "QlFunctionType",
+                  "name": "QlFunction",
                   "ofType": null
                 }
               },
@@ -597,7 +597,7 @@ module.exports = {
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "ImageType",
+                  "name": "Image",
                   "ofType": null
                 }
               },
@@ -745,7 +745,7 @@ module.exports = {
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "VideoType",
+                  "name": "Video",
                   "ofType": null
                 }
               },
@@ -778,7 +778,7 @@ module.exports = {
         },
         {
           "kind": "OBJECT",
-          "name": "ImageType",
+          "name": "Image",
           "description": null,
           "fields": [
             {
@@ -883,7 +883,7 @@ module.exports = {
         },
         {
           "kind": "OBJECT",
-          "name": "QlFunctionType",
+          "name": "QlFunction",
           "description": null,
           "fields": [
             {
@@ -964,7 +964,7 @@ module.exports = {
         },
         {
           "kind": "OBJECT",
-          "name": "VideoType",
+          "name": "Video",
           "description": null,
           "fields": [
             {
@@ -1081,7 +1081,7 @@ module.exports = {
         },
         {
           "kind": "OBJECT",
-          "name": "ShowPersonRoleType",
+          "name": "ShowPersonRole",
           "description": null,
           "fields": [
             {
@@ -1142,7 +1142,7 @@ module.exports = {
               "args": [],
               "type": {
                 "kind": "OBJECT",
-                "name": "PersonType",
+                "name": "Person",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -1198,7 +1198,7 @@ module.exports = {
         },
         {
           "kind": "OBJECT",
-          "name": "PersonType",
+          "name": "Person",
           "description": null,
           "fields": [
             {
