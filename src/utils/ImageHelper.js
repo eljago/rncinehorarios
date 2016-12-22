@@ -9,7 +9,7 @@ function getImageVersion (imagePath, prefix = '') {
   var imgName = pathArray[pathArray.length - 1]
   prefix = _.isEmpty(prefix) ? '' : `${prefix}_`
   pathArray[pathArray.length - 1] = `${prefix}${imgName}`
-  return `${config.URL}${pathArray.join('/')}`
+  return `https://cinehorarios.cl${pathArray.join('/')}`
 }
 
 export {getImageVersion}

@@ -245,6 +245,16 @@ module.exports = {
                   "defaultValue": null
                 },
                 {
+                  "name": "filter",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "page",
                   "description": null,
                   "type": {
@@ -253,6 +263,16 @@ module.exports = {
                     "ofType": null
                   },
                   "defaultValue": "1"
+                },
+                {
+                  "name": "date",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
                 }
               ],
               "type": {
@@ -1026,6 +1046,18 @@ module.exports = {
               "type": {
                 "kind": "SCALAR",
                 "name": "Boolean",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "show",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Show",
                 "ofType": null
               },
               "isDeprecated": false,

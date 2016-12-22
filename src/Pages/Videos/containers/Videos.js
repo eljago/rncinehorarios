@@ -4,7 +4,7 @@ import React, { PropTypes } from 'react'
 import {ScrollView, StyleSheet} from 'react-native'
 import _ from 'lodash'
 
-import LatestVideos from './LatestVideos'
+import VideosList from '../components/VideosList'
 
 export default class Theaters extends React.Component {
   static propTypes = {
@@ -23,14 +23,32 @@ export default class Theaters extends React.Component {
         style={styles.scrollView}
       >
         {this._getLatestVideos()}
+        {this._getBillboardVideos()}
+        {this._getComingSoonVideos()}
       </ScrollView>
     )
   }
 
   _getLatestVideos() {
     return(
-      <LatestVideos
-        latestVideos={this.props.viewer.latestVideos}
+      <VideosList
+        videos={this.props.viewer.latestVideos}
+      />
+    )
+  }
+
+  _getBillboardVideos() {
+    return(
+      <VideosList
+        videos={this.props.viewer.billboardVideos}
+      />
+    )
+  }
+
+  _getComingSoonVideos() {
+    return(
+      <VideosList
+        videos={this.props.viewer.comingSoonVideos}
       />
     )
   }
