@@ -1,6 +1,0 @@
-framework module Pods_CineHorariosTests {
-  umbrella header "Pods-CineHorariosTests-umbrella.h"
-
-  export *
-  module * { export * }
-}

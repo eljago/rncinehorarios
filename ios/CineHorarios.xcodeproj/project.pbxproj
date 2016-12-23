@@ -13,7 +13,6 @@
 		00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
 		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
 		00E356F31AD99517003FC87E /* CineHorariosTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* CineHorariosTests.m */; };
-		126497BB1DF9480D00768096 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 126497BA1DF9480D00768096 /* GoogleService-Info.plist */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
 		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
@@ -23,12 +22,9 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
-		2FC50017F5FC598C47506500 /* Pods_CineHorarios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A80544716E9D3C4F413416E7 /* Pods_CineHorarios.framework */; };
+		2BB050C056F14130ACDADFC0 /* libRCTOrientation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D51FEE7324E4D81A20604D2 /* libRCTOrientation.a */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
-		79196A07705944E79EF09A11 /* libFirestack.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B9DBC6E7FAF4CCCBB46E595 /* libFirestack.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		A6BD9ADDDA2D839EAC6681EA /* Pods_CineHorariosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CC28E5552F42EA3DC0F267C /* Pods_CineHorariosTests.framework */; };
-		C47BE0F282E2420F8BE44388 /* libRCTOrientation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 80BEDE6377234E10915EBF53 /* libRCTOrientation.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,63 +70,56 @@
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
 			remoteInfo = CineHorarios;
 		};
-		126497A51DF947F500768096 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 524049671B9743DEBF17CCB4 /* Firestack.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = Firestack;
-		};
-		126497D61DF94A4200768096 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B7315F5F1DB14C0CBC51D002 /* RCTOrientation.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = RCTOrientation;
-		};
-		1283CDDB1DF946A600C5C954 /* PBXContainerItemProxy */ = {
+		12AE6C3F1E0CA71B00C96BFC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 00C302BB1ABCB91800DB3ED1 /* RCTImage.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 2D2A283A1D9B042B00D4039D;
 			remoteInfo = "RCTImage-tvOS";
 		};
-		1283CDDF1DF946A600C5C954 /* PBXContainerItemProxy */ = {
+		12AE6C431E0CA71B00C96BFC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 2D2A28471D9B043800D4039D;
 			remoteInfo = "RCTLinking-tvOS";
 		};
-		1283CDE31DF946A600C5C954 /* PBXContainerItemProxy */ = {
+		12AE6C471E0CA71B00C96BFC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 2D2A28541D9B044C00D4039D;
 			remoteInfo = "RCTNetwork-tvOS";
 		};
-		1283CDE71DF946A600C5C954 /* PBXContainerItemProxy */ = {
+		12AE6C4A1E0CA71B00C96BFC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 33977D04CD994774A20EBDAE /* RCTOrientation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RCTOrientation;
+		};
+		12AE6C4E1E0CA71B00C96BFC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 2D2A28611D9B046600D4039D;
 			remoteInfo = "RCTSettings-tvOS";
 		};
-		1283CDEB1DF946A600C5C954 /* PBXContainerItemProxy */ = {
+		12AE6C521E0CA71B00C96BFC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 2D2A287B1D9B048500D4039D;
 			remoteInfo = "RCTText-tvOS";
 		};
-		1283CDF01DF946A600C5C954 /* PBXContainerItemProxy */ = {
+		12AE6C571E0CA71B00C96BFC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 2D2A28881D9B049200D4039D;
 			remoteInfo = "RCTWebSocket-tvOS";
 		};
-		1283CDF41DF946A600C5C954 /* PBXContainerItemProxy */ = {
+		12AE6C5B1E0CA71B00C96BFC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 			proxyType = 2;
@@ -198,7 +187,6 @@
 		00E356EE1AD99517003FC87E /* CineHorariosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CineHorariosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* CineHorariosTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CineHorariosTests.m; sourceTree = "<group>"; };
-		126497BA1DF9480D00768096 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* CineHorarios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CineHorarios.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -209,19 +197,11 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = CineHorarios/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = CineHorarios/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
-		15349272D33D973DBFAFFED6 /* Pods-CineHorariosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CineHorariosTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CineHorariosTests/Pods-CineHorariosTests.release.xcconfig"; sourceTree = "<group>"; };
-		454BEEDC385C7D0FF2595EF4 /* Pods-CineHorariosTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CineHorariosTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CineHorariosTests/Pods-CineHorariosTests.debug.xcconfig"; sourceTree = "<group>"; };
-		4B9DBC6E7FAF4CCCBB46E595 /* libFirestack.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libFirestack.a; sourceTree = "<group>"; };
-		524049671B9743DEBF17CCB4 /* Firestack.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = Firestack.xcodeproj; path = "../node_modules/react-native-firestack/ios/Firestack.xcodeproj"; sourceTree = "<group>"; };
+		33977D04CD994774A20EBDAE /* RCTOrientation.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTOrientation.xcodeproj; path = "../node_modules/react-native-orientation/iOS/RCTOrientation.xcodeproj"; sourceTree = "<group>"; };
+		3D51FEE7324E4D81A20604D2 /* libRCTOrientation.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTOrientation.a; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
-		80BEDE6377234E10915EBF53 /* libRCTOrientation.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTOrientation.a; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
-		8CC28E5552F42EA3DC0F267C /* Pods_CineHorariosTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CineHorariosTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A80544716E9D3C4F413416E7 /* Pods_CineHorarios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CineHorarios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B7315F5F1DB14C0CBC51D002 /* RCTOrientation.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTOrientation.xcodeproj; path = "../node_modules/react-native-orientation/iOS/RCTOrientation.xcodeproj"; sourceTree = "<group>"; };
-		BBF2B6D6120F58FFB90C486A /* Pods-CineHorarios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CineHorarios.release.xcconfig"; path = "Pods/Target Support Files/Pods-CineHorarios/Pods-CineHorarios.release.xcconfig"; sourceTree = "<group>"; };
-		D767B526C856281437F7C4F0 /* Pods-CineHorarios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CineHorarios.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CineHorarios/Pods-CineHorarios.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -230,7 +210,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */,
-				A6BD9ADDDA2D839EAC6681EA /* Pods_CineHorariosTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,9 +228,7 @@
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
-				79196A07705944E79EF09A11 /* libFirestack.a in Frameworks */,
-				2FC50017F5FC598C47506500 /* Pods_CineHorarios.framework in Frameworks */,
-				C47BE0F282E2420F8BE44388 /* libRCTOrientation.a in Frameworks */,
+				2BB050C056F14130ACDADFC0 /* libRCTOrientation.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -278,7 +255,7 @@
 			isa = PBXGroup;
 			children = (
 				00C302C01ABCB91800DB3ED1 /* libRCTImage.a */,
-				1283CDDC1DF946A600C5C954 /* libRCTImage-tvOS.a */,
+				12AE6C401E0CA71B00C96BFC /* libRCTImage-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -287,7 +264,7 @@
 			isa = PBXGroup;
 			children = (
 				00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */,
-				1283CDE41DF946A600C5C954 /* libRCTNetwork-tvOS.a */,
+				12AE6C481E0CA71B00C96BFC /* libRCTNetwork-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -317,18 +294,10 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		126497A21DF947F500768096 /* Products */ = {
+		12AE6C371E0CA71B00C96BFC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				126497A61DF947F500768096 /* libFirestack.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		126497C81DF94A4200768096 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				126497D71DF94A4200768096 /* libRCTOrientation.a */,
+				12AE6C4B1E0CA71B00C96BFC /* libRCTOrientation.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -337,7 +306,7 @@
 			isa = PBXGroup;
 			children = (
 				139105C11AF99BAD00B5F7CC /* libRCTSettings.a */,
-				1283CDE81DF946A600C5C954 /* libRCTSettings-tvOS.a */,
+				12AE6C4F1E0CA71B00C96BFC /* libRCTSettings-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -346,7 +315,7 @@
 			isa = PBXGroup;
 			children = (
 				139FDEF41B06529B00C62182 /* libRCTWebSocket.a */,
-				1283CDF11DF946A600C5C954 /* libRCTWebSocket-tvOS.a */,
+				12AE6C581E0CA71B00C96BFC /* libRCTWebSocket-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -369,7 +338,7 @@
 			isa = PBXGroup;
 			children = (
 				146834041AC3E56700842450 /* libReact.a */,
-				1283CDF51DF946A600C5C954 /* libReact-tvOS.a */,
+				12AE6C5C1E0CA71B00C96BFC /* libReact-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -387,7 +356,7 @@
 			isa = PBXGroup;
 			children = (
 				78C398B91ACF4ADC00677621 /* libRCTLinking.a */,
-				1283CDE01DF946A600C5C954 /* libRCTLinking-tvOS.a */,
+				12AE6C441E0CA71B00C96BFC /* libRCTLinking-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -406,8 +375,7 @@
 				832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */,
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
-				524049671B9743DEBF17CCB4 /* Firestack.xcodeproj */,
-				B7315F5F1DB14C0CBC51D002 /* RCTOrientation.xcodeproj */,
+				33977D04CD994774A20EBDAE /* RCTOrientation.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -416,7 +384,7 @@
 			isa = PBXGroup;
 			children = (
 				832341B51AAA6A8300B99B32 /* libRCTText.a */,
-				1283CDEC1DF946A600C5C954 /* libRCTText-tvOS.a */,
+				12AE6C531E0CA71B00C96BFC /* libRCTText-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -424,13 +392,10 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				126497BA1DF9480D00768096 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* CineHorarios */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* CineHorariosTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
-				CA97BD119E5AE0A1C5BF145C /* Pods */,
-				CB0F3988D4080CAFAC98399B /* Frameworks */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -445,26 +410,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		CA97BD119E5AE0A1C5BF145C /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				D767B526C856281437F7C4F0 /* Pods-CineHorarios.debug.xcconfig */,
-				BBF2B6D6120F58FFB90C486A /* Pods-CineHorarios.release.xcconfig */,
-				454BEEDC385C7D0FF2595EF4 /* Pods-CineHorariosTests.debug.xcconfig */,
-				15349272D33D973DBFAFFED6 /* Pods-CineHorariosTests.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		CB0F3988D4080CAFAC98399B /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				A80544716E9D3C4F413416E7 /* Pods_CineHorarios.framework */,
-				8CC28E5552F42EA3DC0F267C /* Pods_CineHorariosTests.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -472,12 +417,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "CineHorariosTests" */;
 			buildPhases = (
-				3D5E67EAC9BE159FE3F126F4 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				B8C91E9E4A6B6EAFCE2D06AC /* [CP] Embed Pods Frameworks */,
-				2F765DB38505D1BC905D7BEC /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -493,13 +435,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "CineHorarios" */;
 			buildPhases = (
-				0DC3B41D4CC12FED7E941292 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				4314C436B2111D9A321D43F8 /* [CP] Embed Pods Frameworks */,
-				156593EAD4611683159B15C0 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -523,9 +462,6 @@
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
-					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 22ZGXZT3CM;
-					};
 				};
 			};
 			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "CineHorarios" */;
@@ -540,10 +476,6 @@
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
-				{
-					ProductGroup = 126497A21DF947F500768096 /* Products */;
-					ProjectRef = 524049671B9743DEBF17CCB4 /* Firestack.xcodeproj */;
-				},
 				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
 					ProjectRef = 00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */;
@@ -569,8 +501,8 @@
 					ProjectRef = 00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */;
 				},
 				{
-					ProductGroup = 126497C81DF94A4200768096 /* Products */;
-					ProjectRef = B7315F5F1DB14C0CBC51D002 /* RCTOrientation.xcodeproj */;
+					ProductGroup = 12AE6C371E0CA71B00C96BFC /* Products */;
+					ProjectRef = 33977D04CD994774A20EBDAE /* RCTOrientation.xcodeproj */;
 				},
 				{
 					ProductGroup = 139105B71AF99BAD00B5F7CC /* Products */;
@@ -637,67 +569,60 @@
 			remoteRef = 00C302E31ABCB9EE00DB3ED1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		126497A61DF947F500768096 /* libFirestack.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libFirestack.a;
-			remoteRef = 126497A51DF947F500768096 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		126497D71DF94A4200768096 /* libRCTOrientation.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRCTOrientation.a;
-			remoteRef = 126497D61DF94A4200768096 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		1283CDDC1DF946A600C5C954 /* libRCTImage-tvOS.a */ = {
+		12AE6C401E0CA71B00C96BFC /* libRCTImage-tvOS.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = "libRCTImage-tvOS.a";
-			remoteRef = 1283CDDB1DF946A600C5C954 /* PBXContainerItemProxy */;
+			remoteRef = 12AE6C3F1E0CA71B00C96BFC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		1283CDE01DF946A600C5C954 /* libRCTLinking-tvOS.a */ = {
+		12AE6C441E0CA71B00C96BFC /* libRCTLinking-tvOS.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = "libRCTLinking-tvOS.a";
-			remoteRef = 1283CDDF1DF946A600C5C954 /* PBXContainerItemProxy */;
+			remoteRef = 12AE6C431E0CA71B00C96BFC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		1283CDE41DF946A600C5C954 /* libRCTNetwork-tvOS.a */ = {
+		12AE6C481E0CA71B00C96BFC /* libRCTNetwork-tvOS.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = "libRCTNetwork-tvOS.a";
-			remoteRef = 1283CDE31DF946A600C5C954 /* PBXContainerItemProxy */;
+			remoteRef = 12AE6C471E0CA71B00C96BFC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		1283CDE81DF946A600C5C954 /* libRCTSettings-tvOS.a */ = {
+		12AE6C4B1E0CA71B00C96BFC /* libRCTOrientation.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTOrientation.a;
+			remoteRef = 12AE6C4A1E0CA71B00C96BFC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		12AE6C4F1E0CA71B00C96BFC /* libRCTSettings-tvOS.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = "libRCTSettings-tvOS.a";
-			remoteRef = 1283CDE71DF946A600C5C954 /* PBXContainerItemProxy */;
+			remoteRef = 12AE6C4E1E0CA71B00C96BFC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		1283CDEC1DF946A600C5C954 /* libRCTText-tvOS.a */ = {
+		12AE6C531E0CA71B00C96BFC /* libRCTText-tvOS.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = "libRCTText-tvOS.a";
-			remoteRef = 1283CDEB1DF946A600C5C954 /* PBXContainerItemProxy */;
+			remoteRef = 12AE6C521E0CA71B00C96BFC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		1283CDF11DF946A600C5C954 /* libRCTWebSocket-tvOS.a */ = {
+		12AE6C581E0CA71B00C96BFC /* libRCTWebSocket-tvOS.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = "libRCTWebSocket-tvOS.a";
-			remoteRef = 1283CDF01DF946A600C5C954 /* PBXContainerItemProxy */;
+			remoteRef = 12AE6C571E0CA71B00C96BFC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		1283CDF51DF946A600C5C954 /* libReact-tvOS.a */ = {
+		12AE6C5C1E0CA71B00C96BFC /* libReact-tvOS.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = "libReact-tvOS.a";
-			remoteRef = 1283CDF41DF946A600C5C954 /* PBXContainerItemProxy */;
+			remoteRef = 12AE6C5B1E0CA71B00C96BFC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		139105C11AF99BAD00B5F7CC /* libRCTSettings.a */ = {
@@ -765,7 +690,6 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				126497BB1DF9480D00768096 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -785,96 +709,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/packager/react-native-xcode.sh";
-		};
-		0DC3B41D4CC12FED7E941292 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		156593EAD4611683159B15C0 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CineHorarios/Pods-CineHorarios-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		2F765DB38505D1BC905D7BEC /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CineHorariosTests/Pods-CineHorariosTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		3D5E67EAC9BE159FE3F126F4 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		4314C436B2111D9A321D43F8 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CineHorarios/Pods-CineHorarios-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B8C91E9E4A6B6EAFCE2D06AC /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CineHorariosTests/Pods-CineHorariosTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -921,7 +755,6 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 454BEEDC385C7D0FF2595EF4 /* Pods-CineHorariosTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -934,7 +767,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CineHorarios.app/CineHorarios";
@@ -943,7 +775,6 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 15349272D33D973DBFAFFED6 /* Pods-CineHorariosTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -953,7 +784,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CineHorarios.app/CineHorarios";
@@ -962,12 +792,10 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D767B526C856281437F7C4F0 /* Pods-CineHorarios.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = 22ZGXZT3CM;
 				INFOPLIST_FILE = CineHorarios/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -975,7 +803,6 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.jagochile.cinehorarios;
 				PRODUCT_NAME = CineHorarios;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -983,11 +810,9 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BBF2B6D6120F58FFB90C486A /* Pods-CineHorarios.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 22ZGXZT3CM;
 				INFOPLIST_FILE = CineHorarios/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -995,7 +820,6 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.jagochile.cinehorarios;
 				PRODUCT_NAME = CineHorarios;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1039,7 +863,6 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native/ReactCommon/**",
-					"$(SRCROOT)/../node_modules/react-native-firestack/ios/Firestack",
 					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1081,7 +904,6 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native/ReactCommon/**",
-					"$(SRCROOT)/../node_modules/react-native-firestack/ios/Firestack",
 					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
