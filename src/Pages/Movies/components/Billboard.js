@@ -3,10 +3,13 @@
 
 import React, {PropTypes} from 'react'
 import _ from 'lodash'
-import MyGiftedListView from '../../../components/MyGiftedListView'
-import MovieCell from '../../../components/MovieCell'
 
-export default class ComingSoon extends React.Component {
+import MyGiftedListView from '../../../components/MyGiftedListView'
+import MovieCell from './MovieCell'
+
+import {getShowRoute} from '../../../../data/routes'
+
+export default class Billboard extends React.Component {
   static propTypes = {
     shows: PropTypes.array
   }
@@ -32,17 +35,19 @@ export default class ComingSoon extends React.Component {
   }
 
   _onPress (rowData) {
-    // const showRoute = getShowRoute(rowData.get('show_id'))
-    // this.props.navigator.push(showRoute)
+    const showRoute = getShowRoute(rowData.show_id, rowData.name)
+    this.props.onPushRoute(showRoute, true)
   }
 
   _renderRow (rowData, sectionID, rowID, highlightRow) {
     return (
       <MovieCell
         rowNumber={rowData.rowNumber}
-        onPress={this._onPress}
+        onPress={() => this._onPress(rowData)}
         showName={rowData.name}
-        showDebut={rowData.debut}
+        showGenres={rowData.genres}
+        showDuration={rowData.duration}
+        showRating={rowData.rating}
         showCover={rowData.cover}
         showImdbCode={rowData.imdb_code}
         showImdbScore={rowData.imdb_score}
@@ -51,7 +56,7 @@ export default class ComingSoon extends React.Component {
         showRottenTomatoesUrl={rowData.rotten_tomatoes_url}
         showRottenTomatoesScore={rowData.rotten_tomatoes_score}
         showingScores={this.props.viewType === 'scores'}
-        isBillboard={false}
+        isBillboard
       />
     )
   }

@@ -3,10 +3,10 @@
 import React, { PropTypes } from 'react'
 import { StyleSheet, View, Image, Text } from 'react-native'
 
-import Colors from '../../data/Colors'
-import MyListViewCell from './MyListViewCell'
+import Colors from '../../../../data/Colors'
+import MyListViewCell from '../../../components/MyListViewCell'
 import {getImdbView, getRottenTomatoesView, getMetacriticView} from './GetScoreViews'
-import {getImageVersion} from '../utils/ImageHelper'
+import {getImageVersion} from '../../../utils/ImageHelper'
 
 export default class MovieCell extends React.Component {
 

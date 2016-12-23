@@ -5,8 +5,7 @@ import Relay from 'react-relay'
 import moment from 'moment'
 
 import Cinemas from '../src/Pages/Cinemas'
-import Billboard from '../src/Pages/Billboard'
-import ComingSoon from '../src/Pages/ComingSoon'
+import Movies from '../src/Pages/Movies'
 import Theaters from '../src/Pages/Theaters'
 import Functions from '../src/Pages/Functions'
 import Show from '../src/Pages/Show'
@@ -33,9 +32,8 @@ function getTabBarRoute () {
       index: 0,
       routes: [
         {key: 'videos', title: 'Videos'},
-        {key: 'billboard', title: 'Cartelera'},
-        {key: 'cinemas', title: 'Cines'},
-        {key: 'coming_soon', title: 'Próx'}
+        {key: 'movies', title: 'Películas'},
+        {key: 'cinemas', title: 'Cines'}
       ]
     },
     cinemas: {
@@ -46,28 +44,14 @@ function getTabBarRoute () {
         component: Cinemas
       }]
     },
-    billboard: {
+    movies: {
       index: 0,
       routes: [{
-        key: 'billboard',
-        title: 'Cartelera',
+        key: 'movies',
+        title: 'Películas',
         component: RelayContainer,
         props: {
-          component: Billboard,
-          queryConfig: new ViewerQueryConfig({
-            cacheTime: getCacheTime()
-          })
-        }
-      }]
-    },
-    coming_soon: {
-      index: 0,
-      routes: [{
-        key: 'coming_soon',
-        title: 'Próximamente',
-        component: RelayContainer,
-        props: {
-          component: ComingSoon,
+          component: Movies,
           queryConfig: new ViewerQueryConfig({
             cacheTime: getCacheTime()
           })

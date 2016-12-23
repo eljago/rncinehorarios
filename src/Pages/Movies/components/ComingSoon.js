@@ -3,8 +3,9 @@
 
 import React, {PropTypes} from 'react'
 import _ from 'lodash'
+
 import MyGiftedListView from '../../../components/MyGiftedListView'
-import MovieCell from '../../../components/MovieCell'
+import MovieCell from './MovieCell'
 
 export default class ComingSoon extends React.Component {
   static propTypes = {

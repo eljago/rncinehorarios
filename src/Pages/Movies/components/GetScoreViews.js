@@ -16,7 +16,7 @@ const getImdbView = (imdbCode, imdbScore) => {
     return (
       <ScoreButton
         key='imdb'
-        source={require('../../assets/LogoImdb.png')}
+        source={require('../../../../assets/LogoImdb.png')}
         text={imdbScore}
         color={color}
       />
@@ -32,7 +32,7 @@ const getRottenTomatoesView = (rottenTomatoesUrl, rottenTomatoesScore) => {
     return (
       <ScoreButton
         key='rotten_tomatoes'
-        source={require('../../assets/LogoRotten.png')}
+        source={require('../../../../assets/LogoRotten.png')}
         text={rottenTomatoesScore}
         color={color}
       />
@@ -48,7 +48,7 @@ const getMetacriticView = (metacriticUrl, metacriticScore) => {
     return (
       <ScoreButton
         key='metacritic'
-        source={require('../../assets/LogoMetacritic.png')}
+        source={require('../../../../assets/LogoMetacritic.png')}
         text={metacriticScore}
         color={color}
       />

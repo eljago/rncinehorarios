@@ -1,7 +1,7 @@
 // @flow
 'use strict'
 
-import React from 'react'
+import React, {PropTypes} from 'react'
 import _ from 'lodash'
 import MyGiftedListView from '../../../components/MyGiftedListView'
 import MovieCell from '../../../components/MovieCell'
@@ -9,6 +9,12 @@ import MovieCell from '../../../components/MovieCell'
 import {getShowRoute} from '../../../../data/routes'
 
 export default class Billboard extends React.Component {
+  static propTypes = {
+    shows: PropTypes.array
+  }
+  static defaultProps = {
+    shows: []
+  }
 
   constructor (props) {
     super(props)
@@ -22,7 +28,7 @@ export default class Billboard extends React.Component {
     return (
       <MyGiftedListView
         renderRow={this._renderRow}
-        dataRows={this.props.viewer.shows}
+        dataRows={this.props.shows}
       />
     )
   }
