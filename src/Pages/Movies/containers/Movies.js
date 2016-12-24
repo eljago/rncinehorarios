@@ -125,12 +125,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    borderBottomWidth: 2,
+    borderBottomWidth: 4,
     backgroundColor: 'white'
   },
   headerText: {
     color: Colors.navBar,
-    fontWeight: '600'
+    fontWeight: '600',
+    fontSize: 16
   },
   header: {
     flexDirection: 'row',
