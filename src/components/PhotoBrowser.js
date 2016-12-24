@@ -4,7 +4,6 @@
 import React, { PropTypes } from 'react'
 import {
   ListView,
-  StyleSheet,
   Dimensions
 } from 'react-native'
 
@@ -49,7 +48,7 @@ export default class PhotoBrowser extends React.Component {
     Orientation.removeSpecificOrientationListener(this._orientationChanged.bind(this))
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate (prevProps, prevState) {
     if (this.state.orientation !== prevState.orientation) {
       if (this._scrollView) {
         this._scrollToIndex(this._index) // use index saved before changing orientation
@@ -110,7 +109,7 @@ export default class PhotoBrowser extends React.Component {
     }
   }
 
-  _getCurrentIndex() {
+  _getCurrentIndex () {
     if (this._scrollView) {
       const {width, height} = Dimensions.get('window')
       const pageWidth = this._isPortrait() ? width : height
@@ -136,7 +135,7 @@ export default class PhotoBrowser extends React.Component {
 
 function getListViewOrientationStyles (orientation) {
   const {width, height} = Dimensions.get('window')
-  const orientationStyles = orientation === 'PORTRAIT' || orientation === 'PORTRAITUPSIDEDOWN'
+  const orientationStyles = orientation === 'PORTRAIT' || orientation === 'PORTRAITUPSIDEDOWN'
     ? {width: width, height: height} : {width: height, height: width}
   if (orientation === 'PORTRAIT') {
     return {...orientationStyles, transform: [{rotate: '0deg'}]}

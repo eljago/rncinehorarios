@@ -9,7 +9,6 @@ import {
   View,
   Text
 } from 'react-native'
-import _ from 'lodash'
 
 import {getImageVersion} from '../../../utils/ImageHelper'
 
@@ -47,8 +46,8 @@ export default class VideosList extends React.Component {
     )
   }
 
-  _renderRow(rowData, sectionID, rowID, highlightRow) {
-    const {width, height} = Dimensions.get('window')
+  _renderRow (rowData, sectionID, rowID, highlightRow) {
+    const {width} = Dimensions.get('window')
     return (
       <View style={[styles.row, {width: width}]}>
         <Image
@@ -68,8 +67,8 @@ export default class VideosList extends React.Component {
           {rowData.name}
         </Text>
       </View>
-    );
-  } 
+    )
+  }
 }
 
 const styles = StyleSheet.create({
@@ -82,7 +81,7 @@ const styles = StyleSheet.create({
     padding: 8
   },
   image: {
-    flex: 1,
+    flex: 1
   },
   poster: {
     width: 110
@@ -100,9 +99,9 @@ const styles = StyleSheet.create({
     right: 8
   },
   titleBot: {
-    bottom: 8,
+    bottom: 8
   },
   titleTop: {
-    top: 8,
+    top: 8
   }
 })

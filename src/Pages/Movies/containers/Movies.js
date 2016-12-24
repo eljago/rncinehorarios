@@ -1,7 +1,7 @@
 // @flow
 'use strict'
 
-import React, {PropTypes} from 'react'
+import React from 'react'
 import {
   Dimensions,
   View,
@@ -38,10 +38,10 @@ export default class Movies extends React.Component {
     const {billboard, comingSoon} = viewer
     return [{
       Component: Billboard,
-      shows: billboard ? billboard : []
+      shows: billboard != null ? billboard : []
     }, {
       Component: ComingSoon,
-      shows: comingSoon ? comingSoon : []
+      shows: comingSoon != null ? comingSoon : []
     }]
   }
 
@@ -64,7 +64,7 @@ export default class Movies extends React.Component {
 
   _renderRow (dataRow) {
     const {width} = Dimensions.get('window')
-    const {Component, shows} = dataRow
+    const {Component, shows} = dataRow
     return (
       <View style={[styles.container, {width: width}]}>
         <Component shows={shows} />
@@ -76,7 +76,7 @@ export default class Movies extends React.Component {
     const event = e.nativeEvent
     const layoutWidth = event.layoutMeasurement.width
     const page = Math.floor((event.contentOffset.x + 0.5 * layoutWidth) / layoutWidth)
-    if (this.state.page != page) {
+    if (this.state.page !== page) {
       this.setState({page})
     }
   }
@@ -86,7 +86,7 @@ export default class Movies extends React.Component {
       <View style={styles.header}>
         <TouchableOpacity
           style={[styles.button, {
-            borderBottomColor: this.state.page == 0 ? Colors.navBar : 'transparent'
+            borderBottomColor: this.state.page === 0 ? Colors.navBar : 'transparent'
           }]}
           key='billboard'
           onPress={this._onPressButton.bind(this, 'billboard')}
@@ -95,7 +95,7 @@ export default class Movies extends React.Component {
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.button, {
-            borderBottomColor: this.state.page == 1 ? Colors.navBar : 'transparent'
+            borderBottomColor: this.state.page === 1 ? Colors.navBar : 'transparent'
           }]}
           key='comingSoon'
           onPress={this._onPressButton.bind(this, 'comingSoon')}
@@ -110,8 +110,7 @@ export default class Movies extends React.Component {
     const {width} = Dimensions.get('window')
     if (type === 'billboard') {
       this.refs.listView.scrollTo({x: 0, animated: true})
-    }
-    else if (type === 'comingSoon') {
+    } else if (type === 'comingSoon') {
       this.refs.listView.scrollTo({x: width, animated: true})
     }
   }

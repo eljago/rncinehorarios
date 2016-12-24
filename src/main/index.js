@@ -20,11 +20,7 @@ import SuperNavigator from './SuperNavigator'
 
 export default class CineHorariosApp extends React.Component {
 
-  constructor (props) {
-    super(props)
-  }
-
-  componentDidMount() {
+  componentDidMount () {
     Orientation.lockToPortrait()
   }
 

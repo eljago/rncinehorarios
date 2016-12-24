@@ -16,14 +16,14 @@ import PhotoBrowser from '../src/components/PhotoBrowser'
 import HeaderButton from '../src/components/HeaderButton'
 
 class ViewerQueryConfig extends Relay.Route {
-  static routeName = 'ViewerQueryConfig';
+  static routeName = 'ViewerQueryConfig'
   static queries = {
     viewer: () => Relay.QL`
       query Query {
         viewer
       }
     `
-  };
+  }
 }
 
 function getTabBarRoute () {
@@ -145,10 +145,10 @@ function getImageViewerRoute (images, index = 0) {
   })
 }
 
-function getCacheTime() {
+function getCacheTime () {
   const today = moment()
   const minutes = parseInt(today.format('mm'))
-  return `${today.format('YYYY-MM-DD-hh-')}${Math.floor(minutes/30)}`
+  return `${today.format('YYYY-MM-DD-hh-')}${Math.floor(minutes / 30)}`
 }
 
 export {

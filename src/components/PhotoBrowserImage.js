@@ -33,7 +33,7 @@ export default class PhotoBrowserImage extends React.Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate (prevProps, prevState) {
     if (this.state.orientation !== prevState.orientation) {
       if (this._animateRotation) {
         Animated.spring(
@@ -115,8 +115,7 @@ export default class PhotoBrowserImage extends React.Component {
         if (animated) {
           this._animateRotation = true
           this.state.rotationValue.setValue(startRot)
-        }
-        else {
+        } else {
           this._animateRotation = false
           this.state.rotationValue.setValue(0)
           this.state.scaleValue.setValue(this._getTransformScale(orientation))

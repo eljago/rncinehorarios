@@ -8,7 +8,7 @@ export default Relay.createContainer(Theaters, {
 
   initialVariables: {
     cinema_id: 0,
-    cacheTime: "defaultCacheDate"
+    cacheTime: 'defaultCacheDate'
   },
 
   fragments: {

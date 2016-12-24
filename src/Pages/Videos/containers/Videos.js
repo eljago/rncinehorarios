@@ -2,10 +2,8 @@
 
 import React, { PropTypes } from 'react'
 import {ListView, StyleSheet, Text} from 'react-native'
-import _ from 'lodash'
 
 import VideosList from '../components/VideosList'
-import Colors from '../../../../data/Colors'
 
 export default class Theaters extends React.Component {
   static propTypes = {
@@ -18,7 +16,7 @@ export default class Theaters extends React.Component {
     const dataSource = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2,
       sectionHeaderHasChanged: (s1, s2) => s1 !== s2
-    });
+    })
     this.state = {
       dataSource: dataSource.cloneWithRowsAndSections(this._getdataSections(props.viewer))
     }
@@ -32,10 +30,10 @@ export default class Theaters extends React.Component {
 
   _getdataSections (viewer) {
     return {
-      "Últimos Videos": [viewer.latestVideos],
-      "Cartelera": [viewer.billboardVideos],
-      "Próximos Estrenos": [viewer.comingSoonVideos]
-    };
+      'Últimos Videos': [viewer.latestVideos],
+      'Cartelera': [viewer.billboardVideos],
+      'Próximos Estrenos': [viewer.comingSoonVideos]
+    }
   }
 
   render () {
@@ -50,15 +48,15 @@ export default class Theaters extends React.Component {
   }
 
   _renderRow (rowData) {
-    if (!rowData || rowData.length === 0) {return null}
+    if (!rowData || rowData.length === 0) { return null }
     return (
       <VideosList videos={rowData} style={{
         backgroundColor: 'white'
-      }}/>
+      }} />
     )
   }
 
-  _renderSectionHeader(sectionData, sectionID) {
+  _renderSectionHeader (sectionData, sectionID) {
     return (
       <Text style={styles.header}>{sectionID}</Text>
     )
@@ -67,7 +65,7 @@ export default class Theaters extends React.Component {
 
 const styles = StyleSheet.create({
   listView: {
-    flex: 1,
+    flex: 1
   },
   header: {
     padding: 4,

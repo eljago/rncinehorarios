@@ -8,7 +8,7 @@ import Movies from './containers/Movies'
 export default Relay.createContainer(Movies, {
 
   initialVariables: {
-    cacheTime: "defaultCacheDate",
+    cacheTime: 'defaultCacheDate'
   },
 
   fragments: {

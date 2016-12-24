@@ -2,7 +2,6 @@
 'use strict'
 
 import _ from 'lodash'
-import config from '../../data/config'
 
 function getImageVersion (imagePath, prefix = '') {
   var pathArray = imagePath.split('/')

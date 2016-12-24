@@ -9,7 +9,7 @@ export default Relay.createContainer(Show, {
 
   initialVariables: {
     show_id: 0,
-    cacheTime: "defaultCacheDate"
+    cacheTime: 'defaultCacheDate'
   },
 
   fragments: {

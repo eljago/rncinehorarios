@@ -8,8 +8,8 @@ import Videos from './containers/Videos'
 export default Relay.createContainer(Videos, {
 
   initialVariables: {
-    cacheTime: "defaultCacheDate",
-    page: 1,
+    cacheTime: 'defaultCacheDate',
+    page: 1
   },
 
   fragments: {
