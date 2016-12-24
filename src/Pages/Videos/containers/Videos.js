@@ -52,9 +52,9 @@ export default class Theaters extends React.Component {
   _renderRow (rowData) {
     if (!rowData || rowData.length === 0) {return null}
     return (
-      <VideosList
-        videos={rowData}
-      />
+      <VideosList videos={rowData} style={{
+        backgroundColor: 'white'
+      }}/>
     )
   }
 

@@ -40,7 +40,7 @@ export default class VideosList extends React.Component {
         horizontal
         enableEmptySections
         pagingEnabled
-        style={styles.listView}
+        style={[styles.listView, this.props.style]}
         dataSource={this.state.dataSource}
         renderRow={this._renderRow}
       />
@@ -61,10 +61,11 @@ export default class VideosList extends React.Component {
           style={styles.image}
           resizeMode='cover'
         />
-        <Text
-          style={[styles.title, {width: width}]}
-        >
-          {`${rowData.show.name}\n${rowData.name}`}
+        <Text style={[styles.title, styles.titleTop]}>
+          {rowData.show.name}
+        </Text>
+        <Text style={[styles.title, styles.titleBot]}>
+          {rowData.name}
         </Text>
       </View>
     );
@@ -73,18 +74,18 @@ export default class VideosList extends React.Component {
 
 const styles = StyleSheet.create({
   listView: {
-    height: 180,
-    backgroundColor: 'black'
+    height: 180
   },
   row: {
     flex: 1,
     flexDirection: 'row',
+    padding: 8
   },
   image: {
     flex: 1,
   },
   poster: {
-    width: 120
+    width: 110
   },
   title: {
     position: 'absolute',
@@ -92,12 +93,16 @@ const styles = StyleSheet.create({
     paddingRight: 8,
     paddingTop: 5,
     paddingBottom: 5,
-    left: 0,
-    right: 0,
-    bottom: 0,
     color: 'white',
-    fontSize: 18,
-    lineHeight: 26,
-    backgroundColor: 'rgba(0,0,0,0.45)'
+    fontSize: 16,
+    backgroundColor: 'rgba(0,0,0,0.45)',
+    left: 8,
+    right: 8
+  },
+  titleBot: {
+    bottom: 8,
+  },
+  titleTop: {
+    top: 8,
   }
 })

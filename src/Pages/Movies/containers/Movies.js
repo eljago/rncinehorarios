@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    borderBottomWidth: 4,
+    borderBottomWidth: 3,
     backgroundColor: 'white'
   },
   headerText: {
