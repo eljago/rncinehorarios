@@ -1,4 +1,4 @@
-package com.cinehorarios;
+package com.jagochile.cinehorarios;
 
 import com.facebook.react.ReactActivity;
 

@@ -1,4 +1,4 @@
-package com.cinehorarios;
+package com.jagochile.cinehorarios;
 
 import android.app.Application;
 import android.util.Log;
