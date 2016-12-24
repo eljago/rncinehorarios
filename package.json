@@ -12,8 +12,7 @@
     "react": "15.4.1",
     "react-native": "0.39.2",
     "react-native-orientation": "git+https://github.com/8fit/react-native-orientation",
-    "react-relay": "^0.10.0",
-    "rn-viewpager": "^1.1.4"
+    "react-relay": "^0.10.0"
   },
   "devDependencies": {
     "babel-jest": "18.0.0",
