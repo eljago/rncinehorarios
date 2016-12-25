@@ -18,6 +18,8 @@ export default Relay.createContainer(Videos, {
         latestVideos: videos(cacheTime: $cacheTime, page: $page){
           name
           image
+          code
+          video_type
           show{
             name
             cover
@@ -26,6 +28,8 @@ export default Relay.createContainer(Videos, {
         billboardVideos: videos(cacheTime: $cacheTime, filter: "billboard"){
           name
           image
+          code
+          video_type
           show{
             name
             cover
@@ -34,6 +38,8 @@ export default Relay.createContainer(Videos, {
         comingSoonVideos: videos(cacheTime: $cacheTime, filter: "coming_soon"){
           name
           image
+          code
+          video_type
           show{
             name
             cover

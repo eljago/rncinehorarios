@@ -7,7 +7,9 @@ import {
   Image,
   Dimensions,
   View,
-  Text
+  Text,
+  Linking,
+  TouchableOpacity
 } from 'react-native'
 
 import {getImageVersion} from '../../../utils/ImageHelper'
@@ -41,7 +43,7 @@ export default class VideosList extends React.Component {
         pagingEnabled
         style={[styles.listView, this.props.style]}
         dataSource={this.state.dataSource}
-        renderRow={this._renderRow}
+        renderRow={this._renderRow.bind(this)}
       />
     )
   }
@@ -55,11 +57,16 @@ export default class VideosList extends React.Component {
           style={styles.poster}
           resizeMode='cover'
         />
-        <Image
-          source={{uri: getImageVersion(rowData.image, 'small')}}
+        <TouchableOpacity
           style={styles.image}
-          resizeMode='cover'
-        />
+          onPress={this._onWatchVideo.bind(this, rowData.code)}
+        >
+          <Image
+            source={{uri: getImageVersion(rowData.image, 'small')}}
+            style={styles.image}
+            resizeMode='cover'
+          />
+        </TouchableOpacity>
         <Text style={[styles.title, styles.titleTop]}>
           {rowData.show.name}
         </Text>
@@ -69,6 +76,17 @@ export default class VideosList extends React.Component {
       </View>
     )
   }
+
+  _onWatchVideo (videoCode) {
+    const url = `http://www.youtube.com/watch?v=${videoCode}`
+    Linking.canOpenURL(url).then(supported => {
+      if (supported) {
+        Linking.openURL(url);
+      } else {
+        console.log('Don\'t know how to open URI: ' + url);
+      }
+    });
+  };
 }
 
 const styles = StyleSheet.create({
