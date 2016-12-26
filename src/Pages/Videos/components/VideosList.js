@@ -38,10 +38,7 @@ export default class VideosList extends React.Component {
   render () {
     return (
       <ListView
-        horizontal
-        enableEmptySections
-        pagingEnabled
-        style={[styles.listView, this.props.style]}
+        style={[styles.container, this.props.style]}
         dataSource={this.state.dataSource}
         renderRow={this._renderRow.bind(this)}
       />
@@ -51,28 +48,42 @@ export default class VideosList extends React.Component {
   _renderRow (rowData, sectionID, rowID, highlightRow) {
     const {width} = Dimensions.get('window')
     return (
-      <View style={[styles.row, {width: width}]}>
-        <Image
-          source={{uri: getImageVersion(rowData.show.cover, 'small')}}
-          style={styles.poster}
-          resizeMode='cover'
-        />
-        <TouchableOpacity
-          style={styles.image}
-          onPress={this._onWatchVideo.bind(this, rowData.code)}
-        >
-          <Image
-            source={{uri: getImageVersion(rowData.image, 'small')}}
-            style={styles.image}
-            resizeMode='cover'
-          />
-        </TouchableOpacity>
-        <Text style={[styles.title, styles.titleTop]}>
-          {rowData.show.name}
-        </Text>
-        <Text style={[styles.title, styles.titleBot]}>
-          {rowData.name}
-        </Text>
+      <View style={[styles.container, {
+        width: width,
+        backgroundColor: parseInt(rowID) % 2 === 0 ? 'white' : '#DFE4E5'
+      }]}>
+        <View style={styles.content}>
+          <Text style={styles.title}>
+            {rowData.show.name}
+          </Text>
+          <View style={styles.contentRow}>
+            <TouchableOpacity
+              style={styles.poster}
+              onPress={this._onWatchVideo.bind(this, rowData.code)}
+              activeOpacity={0.8}
+            >
+              <Image
+                source={{uri: getImageVersion(rowData.show.cover, 'small')}}
+                style={styles.poster}
+                resizeMode='cover'
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.image}
+              onPress={this._onWatchVideo.bind(this, rowData.code)}
+              activeOpacity={0.8}
+            >
+              <Image
+                source={{uri: getImageVersion(rowData.image, 'small')}}
+                style={styles.image}
+                resizeMode='cover'
+              />
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.title}>
+            {rowData.name}
+          </Text>
+        </View>
       </View>
     )
   }
@@ -90,36 +101,29 @@ export default class VideosList extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  listView: {
-    height: 180
-  },
-  row: {
+  container: {
     flex: 1,
-    flexDirection: 'row',
-    padding: 8
+  },
+  content: {
+    margin: 10
+  },
+  contentRow: {
+    flexDirection: 'row'
   },
   image: {
     flex: 1
   },
   poster: {
-    width: 110
+    width: 100,
+    height: 150
   },
   title: {
-    position: 'absolute',
     paddingLeft: 10,
     paddingRight: 8,
-    paddingTop: 5,
-    paddingBottom: 5,
+    paddingTop: 4,
+    paddingBottom: 4,
     color: 'white',
     fontSize: 16,
-    backgroundColor: 'rgba(0,0,0,0.45)',
-    left: 8,
-    right: 8
-  },
-  titleBot: {
-    bottom: 8
-  },
-  titleTop: {
-    top: 8
+    backgroundColor: '#575757',
   }
 })

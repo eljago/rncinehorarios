@@ -1,7 +1,7 @@
 'use strict'
 
 import React, { PropTypes } from 'react'
-import { ListView } from 'react-native'
+import { ListView, StyleSheet } from 'react-native'
 
 export default class MyGiftedListView extends React.Component {
 
@@ -30,6 +30,7 @@ export default class MyGiftedListView extends React.Component {
   render () {
     return (
       <ListView
+        style={styles.container}
         dataSource={this.state.dataSource}
         scrollsToTop={this.props.scrollsToTop}
         renderRow={this.props.renderRow}
@@ -48,3 +49,9 @@ export default class MyGiftedListView extends React.Component {
     })
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  }
+})

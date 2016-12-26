@@ -9,8 +9,12 @@ export default class MyListViewCell extends React.Component {
 
   static propTypes = {
     rowNumber: PropTypes.number,
-    onPress: PropTypes.func
+    onPress: PropTypes.func,
+    hideAccessoryView: PropTypes.bool,
   };
+  static defaultProps = {
+    hideAccessoryView: false
+  }
 
   render () {
     const {rowNumber, onPress, children} = this.props
@@ -26,10 +30,19 @@ export default class MyListViewCell extends React.Component {
           <View style={styles.container}>
             {children}
           </View>
-          <RightAccessoryView />
+          {this._getAccessoryView()}
         </View>
       </TouchableHighlight>
     )
+  }
+
+  _getAccessoryView () {
+    if (this.props.hideAccessoryView) {
+      return null
+    }
+    else {
+      return (<RightAccessoryView />);
+    }
   }
 }
 
