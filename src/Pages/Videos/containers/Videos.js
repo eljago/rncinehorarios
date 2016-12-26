@@ -7,9 +7,8 @@ import MyHeaderListView from '../../../components/MyHeaderListView'
 
 export default class Videos extends React.Component {
   static propTypes = {
-    onPushRoute: PropTypes.func,
-    onPopRoute: PropTypes.func
-  };
+    onPushRoute: PropTypes.func.isRequired
+  }
 
   render () {
     const {latestVideos, billboardVideos, comingSoonVideos} = this.props.viewer;
@@ -17,14 +16,14 @@ export default class Videos extends React.Component {
       <MyHeaderListView
         dataRows={[latestVideos, billboardVideos, comingSoonVideos]}
         titles={['Últimos Videos', 'Cartelera', 'Próximamente']}
-        renderPage={this._renderPage}
+        renderPage={this._renderPage.bind(this)}
       />
     )
   }
 
   _renderPage (rowData, sectionID, rowID, highlightRow) {
     return (
-      <VideosList videos={rowData} />
+      <VideosList onPushRoute={this.props.onPushRoute} videos={rowData} />
     )
   }
 }

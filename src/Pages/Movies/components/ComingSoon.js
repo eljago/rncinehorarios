@@ -9,6 +9,7 @@ import MovieCell from './MovieCell'
 
 export default class ComingSoon extends React.Component {
   static propTypes = {
+    onPushRoute: PropTypes.func.isRequired,
     shows: PropTypes.array
   }
   static defaultProps = {

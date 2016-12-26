@@ -11,6 +11,7 @@ import {getShowRoute} from '../../../../data/routes'
 
 export default class Billboard extends React.Component {
   static propTypes = {
+    onPushRoute: PropTypes.func.isRequired,
     shows: PropTypes.array
   }
   static defaultProps = {
