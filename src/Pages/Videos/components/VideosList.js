@@ -8,7 +8,8 @@ import VideoCell from './VideoCell'
 export default class VideosList extends React.Component {
   static propTypes = {
     onPushRoute: PropTypes.func.isRequired,
-    videos: PropTypes.array
+    videos: PropTypes.array,
+    onScroll: PropTypes.func
   };
 
   constructor (props) {
@@ -30,15 +31,17 @@ export default class VideosList extends React.Component {
   render () {
     return (
       <ListView
+        enableEmptySections
         style={[{flex: 1}, this.props.style]}
         dataSource={this.state.dataSource}
         renderRow={this._renderRow.bind(this)}
+        onScroll={this.props.onScroll}
       />
     )
   }
 
   _renderRow (rowData, sectionID, rowID, highlightRow) {
-    const video = rowData
+    const video = rowData.node
     return (
       <VideoCell
         onPushRoute={this.props.onPushRoute}
