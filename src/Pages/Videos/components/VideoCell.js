@@ -12,6 +12,7 @@ import {
 } from 'react-native'
 
 import {getImageVersion} from '../../../utils/ImageHelper'
+import Colors from '../../../../data/Colors'
 
 export default class VideoCell extends React.Component {
   static propTypes = {
@@ -47,26 +48,33 @@ export default class VideoCell extends React.Component {
           </Text>
           <View style={styles.contentRow}>
             <TouchableOpacity
-              style={styles.poster}
+              style={styles.buttonPoster}
               onPress={this._onWatchVideo.bind(this, videoCode)}
-              activeOpacity={0.8}
+              activeOpacity={0.85}
             >
               <Image
                 source={{uri: getImageVersion(showCoverUrl, 'small')}}
-                style={styles.poster}
+                style={styles.container}
                 resizeMode='cover'
               />
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.image}
+              style={styles.container}
               onPress={this._onWatchVideo.bind(this, videoCode)}
-              activeOpacity={0.8}
+              activeOpacity={0.85}
             >
               <Image
                 source={{uri: getImageVersion(videoPortraitUrl, 'small')}}
                 style={styles.image}
                 resizeMode='cover'
               />
+              <View style={styles.playContainer}>
+                <Image
+                  source={require('../../../../assets/VIdeoPlay.png')}
+                  resizeMode={'cover'}
+                  style={styles.videoPlay}
+                />
+              </View>
             </TouchableOpacity>
           </View>
           <Text style={styles.title}>
@@ -100,9 +108,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   image: {
-    flex: 1
+    flex: 1,
   },
-  poster: {
+  playContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.2)',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  videoPlay: {
+    tintColor: '#C91800'
+  },
+  buttonPoster: {
     width: 100,
     height: 150
   },
