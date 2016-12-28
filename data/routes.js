@@ -4,6 +4,7 @@
 import Relay from 'react-relay'
 import moment from 'moment'
 
+import TabsNavigator from '../src/main/TabsNavigator'
 import Cinemas from '../src/Pages/Cinemas'
 import Movies from '../src/Pages/Movies'
 import Theaters from '../src/Pages/Theaters'
@@ -26,10 +27,20 @@ class ViewerQueryConfig extends Relay.Route {
   }
 }
 
-function getTabBarRoute () {
+function getMainAppRoute () {
+  return {
+    index: 0,
+    routes: [{
+      key: 'super_tabs',
+      component: TabsNavigator,
+      navBarHidden: true
+    }]
+  }
+}
+
+function getTabBarRoutes () {
   return ({
     tabs: {
-      index: 0,
       routes: [
         {key: 'videos', title: 'Videos'},
         {key: 'movies', title: 'Películas'},
@@ -152,7 +163,8 @@ function getCacheTime () {
 }
 
 export {
-  getTabBarRoute,
+  getMainAppRoute,
+  getTabBarRoutes,
   getTheatersRoute,
   getFunctionsRoute,
   getShowRoute,

@@ -9,7 +9,7 @@ export default Relay.createContainer(Videos, {
 
   initialVariables: {
     cacheTime: 'defaultCacheDate',
-    totalVideos: 10
+    totalVideos: 15
   },
 
   fragments: {

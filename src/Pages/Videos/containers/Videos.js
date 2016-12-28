@@ -29,7 +29,7 @@ export default class Videos extends React.Component {
           onPushRoute={this.props.onPushRoute}
           videos={rowData}
           onReachBottom={() => {
-            this.props.relay.setVariables({totalVideos: this.props.relay.variables.totalVideos + 10})
+            this.props.relay.setVariables({totalVideos: this.props.relay.variables.totalVideos + 15})
           }}
         />
       )

@@ -16,7 +16,8 @@ Relay.injectNetworkLayer(
 
 import Orientation from 'react-native-orientation'
 
-import SuperNavigator from './SuperNavigator'
+import CardNavigator from './CardNavigator'
+import {getMainAppRoute} from '../../data/routes'
 
 export default class CineHorariosApp extends React.Component {
 
@@ -26,7 +27,7 @@ export default class CineHorariosApp extends React.Component {
 
   render () {
     return (
-      <SuperNavigator />
+      <CardNavigator initialNavigationState={getMainAppRoute()} />
     )
   }
 }
