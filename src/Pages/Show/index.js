@@ -16,7 +16,7 @@ export default Relay.createContainer(Show, {
     viewer: () => Relay.QL`
       fragment on Viewer {
         show(show_id: $show_id, cacheTime: $cacheTime){
-          id
+          show_id
           name
           name_original
           year
