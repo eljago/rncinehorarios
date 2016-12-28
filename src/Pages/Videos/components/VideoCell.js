@@ -124,8 +124,8 @@ const styles = StyleSheet.create({
     tintColor: '#C91800'
   },
   buttonPoster: {
-    width: 100,
-    height: 150
+    width: 80,
+    height: 110
   },
   title: {
     paddingLeft: 10,
