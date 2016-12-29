@@ -3,6 +3,7 @@
 
 import React, { PropTypes } from 'react'
 import {
+  View,
   TabBarIOS,
   BackAndroid
 } from 'react-native'
@@ -51,7 +52,9 @@ export default class TabsNavigator extends React.Component {
             this.setState({selectedTab: key})
           }}
         >
-          <CardNavigator initialNavigationState={tabBarRoute[key]}/>
+          <View style={{flex: 1, paddingBottom: 50}}>
+            <CardNavigator initialNavigationState={tabBarRoute[key]}/>
+          </View>
         </TabBarIOS.Item>
       )
     })

@@ -35,7 +35,7 @@ export default class CardNavigator extends React.Component {
 
   render () {
     return (
-      <View style={styles.navigator}>
+      <View style={styles.container}>
         <NavigationCardStack
           key={'super_stack'}
           onNavigateBack={this._onPopRoute}
@@ -81,7 +81,7 @@ function renderScene (sceneProps: Object): React.Element {
   const route = sceneProps.scene.route
   const Component = route.component
   return (
-    <View style={styles.navigator}>
+    <View style={styles.container}>
       {getStatusBar(route)}
       <Component
         {...sceneProps}
@@ -99,7 +99,7 @@ function getStatusBar (route: Object): React.Element {
 }
 
 const styles = StyleSheet.create({
-  navigator: {
+  container: {
     flex: 1
   },
   navigatorCardStack: {
