@@ -21,7 +21,8 @@ import Colors from '../../../data/Colors'
 export default class MyHeader extends React.Component {
   static propTypes = {
     ...NavigationPropTypes.SceneRendererProps,
-    onPopRoute: PropTypes.func.isRequired
+    onPopRoute: PropTypes.func.isRequired,
+    onPressMenu: PropTypes.func
   };
 
   render (): React.Element {
@@ -30,7 +31,7 @@ export default class MyHeader extends React.Component {
         style={styles.header}
         {...this.props}
         renderTitleComponent={this._renderTitleComponent}
-        renderLeftComponent={this._renderLeftComponent}
+        renderLeftComponent={this._renderLeftComponent.bind(this)}
         renderRightComponent={this._renderRightComponent.bind(this)}
         onNavigateBack={this.props.onPopRoute}
       />
@@ -47,7 +48,17 @@ export default class MyHeader extends React.Component {
   }
 
   _renderLeftComponent (props: Object) {
-    if (props.scene.index === 0 || !props.onNavigateBack) {
+    if (props.scene.index === 0) {
+      if (Platform.OS === 'android') {
+        return (
+          <TouchableOpacity style={styles.buttonContainer} onPress={this.props.onPressMenu}>
+            <Image style={styles.button} source={require('../../../assets/MenuIcon.png')} />
+          </TouchableOpacity>
+        )
+      }
+      return null
+    }
+    if (!props.onNavigateBack) {
       return null
     }
     return (

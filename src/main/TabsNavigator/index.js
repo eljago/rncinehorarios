@@ -9,7 +9,7 @@ import {
 } from 'react-native'
 
 import CardNavigator from '../CardNavigator'
-import {getTabBarRoutes} from '../../../data/routes'
+import {getMainAppItems} from '../../../data/routes'
 import Colors from '../../../data/Colors'
 
 export default class TabsNavigator extends React.Component {
@@ -23,7 +23,7 @@ export default class TabsNavigator extends React.Component {
     super(props)
     BackAndroid.addEventListener('hardwareBackPress', this._onPopRoute)
     this.state = {
-      selectedTab: getTabBarRoutes().tabs.routes[0].key
+      selectedTab: getMainAppItems().items.routes[0].key
     }
   }
 
@@ -40,8 +40,8 @@ export default class TabsNavigator extends React.Component {
   }
 
   _getTabItems() {
-    const tabBarRoute = getTabBarRoutes();
-    return tabBarRoute.tabs.routes.map((route) => {
+    const mainAppItems = getMainAppItems()
+    return mainAppItems.items.routes.map((route) => {
       const {key, title} = route
       return (
         <TabBarIOS.Item
@@ -53,7 +53,7 @@ export default class TabsNavigator extends React.Component {
           }}
         >
           <View style={{flex: 1, paddingBottom: 50}}>
-            <CardNavigator initialNavigationState={tabBarRoute[key]}/>
+            <CardNavigator navigationState={mainAppItems[key]}/>
           </View>
         </TabBarIOS.Item>
       )

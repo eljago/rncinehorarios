@@ -21,16 +21,24 @@ import MyHeader from './MyHeader'
 // Main Navigator of the app. Receives the whole app navigaiton state passed from props.
 export default class CardNavigator extends React.Component {
   static propTypes = {
-    initialNavigationState: PropTypes.object
+    navigationState: PropTypes.object,
+    onPressMenu: PropTypes.func
   }
 
   constructor (props, context) {
     super(props, context)
     this.state = {
-      navigationState: props.initialNavigationState
+      navigationState: props.navigationState
     }
     _.bindAll(this, ['_onPushRoute', '_onPopRoute'])
     BackAndroid.addEventListener('hardwareBackPress', this._onPopRoute)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.state.navigationState !== nextProps.navigationState) {}
+    this.setState({
+       navigationState: nextProps.navigationState
+    })
   }
 
   render () {
@@ -73,6 +81,7 @@ function renderHeader (sceneProps: Object): React.Element {
       ref={(header) => { this.header = header }}
       {...sceneProps}
       onPopRoute={this._onPopRoute}
+      onPressMenu={this.props.onPressMenu}
     />
   )
 }

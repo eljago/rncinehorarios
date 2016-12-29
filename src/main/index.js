@@ -3,6 +3,10 @@
 
 import React from 'react'
 import Relay from 'react-relay'
+import {
+  View,
+  Platform
+} from 'react-native'
 
 import config from '../../data/config'
 
@@ -17,6 +21,7 @@ Relay.injectNetworkLayer(
 import Orientation from 'react-native-orientation'
 
 import CardNavigator from './CardNavigator'
+import DrawerLayout from './DrawerLayout'
 import {getMainAppRoute} from '../../data/routes'
 
 export default class CineHorariosApp extends React.Component {
@@ -26,8 +31,14 @@ export default class CineHorariosApp extends React.Component {
   }
 
   render () {
-    return (
-      <CardNavigator initialNavigationState={getMainAppRoute()} />
-    )
+    if (Platform.OS === 'ios') {
+      return (
+        <CardNavigator navigationState={getMainAppRoute()} />
+      )
+    }
+    else if (Platform.OS === 'android') {
+      return <DrawerLayout />
+    }
+    return <View />
   }
 }

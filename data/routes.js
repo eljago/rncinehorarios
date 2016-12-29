@@ -38,9 +38,9 @@ function getMainAppRoute () {
   }
 }
 
-function getTabBarRoutes () {
+function getMainAppItems () {
   return ({
-    tabs: {
+    items: {
       routes: [
         {key: 'videos', title: 'Videos'},
         {key: 'movies', title: 'Películas'},
@@ -164,7 +164,7 @@ function getCacheTime () {
 
 export {
   getMainAppRoute,
-  getTabBarRoutes,
+  getMainAppItems,
   getTheatersRoute,
   getFunctionsRoute,
   getShowRoute,
