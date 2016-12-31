@@ -13,6 +13,10 @@
 		00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
 		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
 		00E356F31AD99517003FC87E /* CineHorariosTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* CineHorariosTests.m */; };
+		122032161E174CAA001997D2 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 122032151E174CAA001997D2 /* CoreData.framework */; };
+		122032181E174CB2001997D2 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 122032171E174CB2001997D2 /* SystemConfiguration.framework */; };
+		1220321A1E174CBF001997D2 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 122032191E174CBF001997D2 /* libz.tbd */; };
+		1220321C1E174CC9001997D2 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1220321B1E174CC9001997D2 /* libsqlite3.0.tbd */; };
 		1251EE701E16FAE70008241C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1251EE6F1E16FAE70008241C /* GoogleService-Info.plist */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
@@ -25,6 +29,7 @@
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		2BB050C056F14130ACDADFC0 /* libRCTOrientation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D51FEE7324E4D81A20604D2 /* libRCTOrientation.a */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
+		73A4FFF136EB4E789905FF1D /* libRCTGoogleAnalyticsBridge.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 742FE09E9CF64F7181AF3983 /* libRCTGoogleAnalyticsBridge.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 /* End PBXBuildFile section */
 
@@ -70,6 +75,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
 			remoteInfo = CineHorarios;
+		};
+		122032021E174C3B001997D2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8BAF3CDE334B4028B51EF63D /* RCTGoogleAnalyticsBridge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A79185C61C30694E001236A6;
+			remoteInfo = RCTGoogleAnalyticsBridge;
 		};
 		12AE6C3F1E0CA71B00C96BFC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -188,6 +200,10 @@
 		00E356EE1AD99517003FC87E /* CineHorariosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CineHorariosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* CineHorariosTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CineHorariosTests.m; sourceTree = "<group>"; };
+		122032151E174CAA001997D2 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		122032171E174CB2001997D2 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		122032191E174CBF001997D2 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		1220321B1E174CC9001997D2 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		1251EE6F1E16FAE70008241C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
@@ -202,8 +218,10 @@
 		33977D04CD994774A20EBDAE /* RCTOrientation.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTOrientation.xcodeproj; path = "../node_modules/react-native-orientation/iOS/RCTOrientation.xcodeproj"; sourceTree = "<group>"; };
 		3D51FEE7324E4D81A20604D2 /* libRCTOrientation.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTOrientation.a; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
+		742FE09E9CF64F7181AF3983 /* libRCTGoogleAnalyticsBridge.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTGoogleAnalyticsBridge.a; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		8BAF3CDE334B4028B51EF63D /* RCTGoogleAnalyticsBridge.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTGoogleAnalyticsBridge.xcodeproj; path = "../node_modules/react-native-google-analytics-bridge/ios/RCTGoogleAnalyticsBridge/RCTGoogleAnalyticsBridge.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,6 +237,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1220321C1E174CC9001997D2 /* libsqlite3.0.tbd in Frameworks */,
+				1220321A1E174CBF001997D2 /* libz.tbd in Frameworks */,
+				122032181E174CB2001997D2 /* SystemConfiguration.framework in Frameworks */,
+				122032161E174CAA001997D2 /* CoreData.framework in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
@@ -231,6 +253,7 @@
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				2BB050C056F14130ACDADFC0 /* libRCTOrientation.a in Frameworks */,
+				73A4FFF136EB4E789905FF1D /* libRCTGoogleAnalyticsBridge.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,6 +317,25 @@
 				00E356F11AD99517003FC87E /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		122031FB1E174C3B001997D2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				122032031E174C3B001997D2 /* libRCTGoogleAnalyticsBridge.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		122032141E174CAA001997D2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1220321B1E174CC9001997D2 /* libsqlite3.0.tbd */,
+				122032191E174CBF001997D2 /* libz.tbd */,
+				122032171E174CB2001997D2 /* SystemConfiguration.framework */,
+				122032151E174CAA001997D2 /* CoreData.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		12AE6C371E0CA71B00C96BFC /* Products */ = {
@@ -379,6 +421,7 @@
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				33977D04CD994774A20EBDAE /* RCTOrientation.xcodeproj */,
+				8BAF3CDE334B4028B51EF63D /* RCTGoogleAnalyticsBridge.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -399,6 +442,7 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* CineHorariosTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
+				122032141E174CAA001997D2 /* Frameworks */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -496,6 +540,10 @@
 					ProjectRef = 00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */;
 				},
 				{
+					ProductGroup = 122031FB1E174C3B001997D2 /* Products */;
+					ProjectRef = 8BAF3CDE334B4028B51EF63D /* RCTGoogleAnalyticsBridge.xcodeproj */;
+				},
+				{
 					ProductGroup = 00C302BC1ABCB91800DB3ED1 /* Products */;
 					ProjectRef = 00C302BB1ABCB91800DB3ED1 /* RCTImage.xcodeproj */;
 				},
@@ -574,6 +622,13 @@
 			fileType = archive.ar;
 			path = libRCTVibration.a;
 			remoteRef = 00C302E31ABCB9EE00DB3ED1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		122032031E174C3B001997D2 /* libRCTGoogleAnalyticsBridge.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTGoogleAnalyticsBridge.a;
+			remoteRef = 122032021E174C3B001997D2 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		12AE6C401E0CA71B00C96BFC /* libRCTImage-tvOS.a */ = {
@@ -776,6 +831,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CineHorarios.app/CineHorarios";
@@ -793,6 +849,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -878,6 +935,7 @@
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native/ReactCommon/**",
 					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
+					"$(SRCROOT)/../node_modules/react-native-google-analytics-bridge/ios/RCTGoogleAnalyticsBridge/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -919,6 +977,7 @@
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native/ReactCommon/**",
 					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
+					"$(SRCROOT)/../node_modules/react-native-google-analytics-bridge/ios/RCTGoogleAnalyticsBridge/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
