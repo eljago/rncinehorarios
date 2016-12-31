@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "1029811994247",
+    "firebase_url": "https://cinehorarios-153505.firebaseio.com",
+    "project_id": "cinehorarios-153505",
+    "storage_bucket": "cinehorarios-153505.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1029811994247:android:d81d3216b4a83120",
+        "android_client_info": {
+          "package_name": "com.jagochile.cinehorarios"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1029811994247-bqlvn74fdnt1tf28tr0hjl7mvtq5qb6h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jagochile.cinehorarios",
+            "certificate_hash": "FB84CAC18923339A7B7D9CBC6739F31EC29EC0A9"
+          }
+        },
+        {
+          "client_id": "1029811994247-d3a6lc4aiphi0npv61eh84c8t667ka5e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLlNpyuP2d3vTZ3lwJUkc8ackExDiNzqA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1029811994247-adbqs149polluoa78jr4an2nmj93q9f2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.jagochile.cinehorarios",
+                "app_store_id": "469612283"
+              }
+            },
+            {
+              "client_id": "1029811994247-d3a6lc4aiphi0npv61eh84c8t667ka5e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
