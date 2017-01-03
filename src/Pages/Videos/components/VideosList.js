@@ -1,7 +1,7 @@
 'use strict'
 
 import React, { PropTypes } from 'react'
-import {ListView, Dimensions} from 'react-native'
+import {ListView} from 'react-native'
 
 import VideoCell from './VideoCell'
 

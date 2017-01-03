@@ -12,7 +12,7 @@ export default class Videos extends React.Component {
   }
 
   render () {
-    const {latestVideos, billboardVideos, comingSoonVideos} = this.props.viewer;
+    const {latestVideos, billboardVideos, comingSoonVideos} = this.props.viewer
     return (
       <MyHeaderListView
         dataRows={[latestVideos.edges, billboardVideos.edges, comingSoonVideos.edges]}
@@ -33,8 +33,7 @@ export default class Videos extends React.Component {
           }}
         />
       )
-    }
-    else {
+    } else {
       return (
         <VideosList onPushRoute={this.props.onPushRoute} videos={rowData} />
       )

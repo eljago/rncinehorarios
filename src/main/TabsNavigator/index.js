@@ -39,7 +39,7 @@ export default class TabsNavigator extends React.Component {
     )
   }
 
-  _getTabItems() {
+  _getTabItems () {
     const mainAppItems = getMainAppItems()
     return mainAppItems.items.routes.map((route) => {
       const {key, title} = route
@@ -53,7 +53,7 @@ export default class TabsNavigator extends React.Component {
           }}
         >
           <View style={{flex: 1, paddingBottom: 50}}>
-            <CardNavigator navigationState={mainAppItems[key]}/>
+            <CardNavigator navigationState={mainAppItems[key]} />
           </View>
         </TabBarIOS.Item>
       )

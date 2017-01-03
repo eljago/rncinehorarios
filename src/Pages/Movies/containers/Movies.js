@@ -28,8 +28,7 @@ export default class Movies extends React.Component {
       return (
         <Billboard onPushRoute={this.props.onPushRoute} shows={rowData} />
       )
-    }
-    else if (rowID === '1') {
+    } else if (rowID === '1') {
       return (
         <ComingSoon onPushRoute={this.props.onPushRoute} shows={rowData} />
       )

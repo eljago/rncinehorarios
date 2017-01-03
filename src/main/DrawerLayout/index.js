@@ -1,6 +1,6 @@
 'use strict'
 
-import React, {PropTypes} from 'react'
+import React from 'react'
 import {
   View,
   DrawerLayoutAndroid,
@@ -10,11 +10,10 @@ import {
 
 import CardNavigator from '../CardNavigator'
 import {getMainAppItems} from '../../../data/routes'
-import Colors from '../../../data/Colors'
 
 export default class DrawerLayout extends React.Component {
 
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       routeIndex: 0
@@ -26,7 +25,7 @@ export default class DrawerLayout extends React.Component {
     const {key} = mainAppItems.items.routes[this.state.routeIndex]
     return (
       <DrawerLayoutAndroid
-        ref={(comp) => {this._drawer = comp}}
+        ref={(comp) => { this._drawer = comp }}
         drawerWidth={200}
         drawerPosition={DrawerLayoutAndroid.positions.Left}
         renderNavigationView={this._getNavigationView.bind(this)}
@@ -41,7 +40,7 @@ export default class DrawerLayout extends React.Component {
     )
   }
 
-  _getNavigationView() {
+  _getNavigationView () {
     const mainAppItems = getMainAppItems()
     return (
       <View style={{

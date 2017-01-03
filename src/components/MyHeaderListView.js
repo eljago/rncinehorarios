@@ -1,6 +1,6 @@
 'use strict'
 
-import React, {PropTypes} from 'react'
+import React, {PropTypes} from 'react'
 import {
   ListView,
   StyleSheet,
@@ -8,7 +8,7 @@ import {
   Text,
   TouchableOpacity,
   Dimensions
-} from 'react-native'
+} from 'react-native'
 
 import Colors from '../../data/Colors'
 const HEADERHEIGHT = 40
@@ -45,7 +45,7 @@ export default class MyHeaderListView extends React.Component {
         {this._getHeaderView()}
         <ListView
           style={styles.container}
-          ref={(comp) => {this._listView = comp}}
+          ref={(comp) => { this._listView = comp }}
           horizontal
           pagingEnabled
           dataSource={this.state.dataSource}
@@ -84,7 +84,7 @@ export default class MyHeaderListView extends React.Component {
     )
   }
 
-  _getHeaderItem(title, page) {
+  _getHeaderItem (title, page) {
     return (
       <TouchableOpacity
         style={[styles.button, {

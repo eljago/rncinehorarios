@@ -9,10 +9,9 @@ import {
   StyleSheet,
   Linking,
   Dimensions
-} from 'react-native'
+} from 'react-native'
 
 import {getImageVersion} from '../../../utils/ImageHelper'
-import Colors from '../../../../data/Colors'
 
 export default class VideoCell extends React.Component {
   static propTypes = {
@@ -89,17 +88,17 @@ export default class VideoCell extends React.Component {
     const url = `http://www.youtube.com/watch?v=${videoCode}`
     Linking.canOpenURL(url).then(supported => {
       if (supported) {
-        Linking.openURL(url);
+        Linking.openURL(url)
       } else {
-        console.log('Don\'t know how to open URI: ' + url);
+        console.log('Don\'t know how to open URI: ' + url)
       }
-    });
+    })
   };
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1
   },
   content: {
     margin: 10
@@ -108,7 +107,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   image: {
-    flex: 1,
+    flex: 1
   },
   playContainer: {
     position: 'absolute',
@@ -134,6 +133,6 @@ const styles = StyleSheet.create({
     paddingBottom: 4,
     color: 'white',
     fontSize: 16,
-    backgroundColor: '#575757',
+    backgroundColor: '#575757'
   }
 })

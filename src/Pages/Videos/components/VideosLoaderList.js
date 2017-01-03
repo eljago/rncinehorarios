@@ -11,7 +11,7 @@ export default class VideosLoaderList extends React.Component {
     onReachBottom: PropTypes.func
   }
 
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.distanceToBottom = 0
   }
@@ -19,7 +19,7 @@ export default class VideosLoaderList extends React.Component {
   render () {
     return (
       <VideosList
-        onPushRoute={this.props.onPushRoute} 
+        onPushRoute={this.props.onPushRoute}
         videos={this.props.videos}
         onScroll={this._onScroll.bind(this)}
       />

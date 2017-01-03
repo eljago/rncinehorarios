@@ -10,7 +10,7 @@ export default class MyListViewCell extends React.Component {
   static propTypes = {
     rowNumber: PropTypes.number,
     onPress: PropTypes.func,
-    hideAccessoryView: PropTypes.bool,
+    hideAccessoryView: PropTypes.bool
   };
   static defaultProps = {
     hideAccessoryView: false
@@ -39,9 +39,8 @@ export default class MyListViewCell extends React.Component {
   _getAccessoryView () {
     if (this.props.hideAccessoryView) {
       return null
-    }
-    else {
-      return (<RightAccessoryView />);
+    } else {
+      return (<RightAccessoryView />)
     }
   }
 }

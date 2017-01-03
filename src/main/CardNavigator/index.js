@@ -34,10 +34,10 @@ export default class CardNavigator extends React.Component {
     BackAndroid.addEventListener('hardwareBackPress', this._onPopRoute)
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps (nextProps) {
     if (this.state.navigationState !== nextProps.navigationState) {}
     this.setState({
-       navigationState: nextProps.navigationState
+      navigationState: nextProps.navigationState
     })
   }
 
@@ -75,7 +75,7 @@ export default class CardNavigator extends React.Component {
 
 function renderHeader (sceneProps: Object): React.Element {
   const route = sceneProps.scene.route
-  if (route.navBarHidden) {return null}
+  if (route.navBarHidden) { return null }
   return (
     <MyHeader
       ref={(header) => { this.header = header }}
