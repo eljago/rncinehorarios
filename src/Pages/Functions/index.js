@@ -17,6 +17,7 @@ export default Relay.createContainer(Functions, {
     viewer: () => Relay.QL`
       fragment on Viewer {
         shows(theater_id: $theater_id, date: $date, cacheTime: $cacheTime){
+          show_id
           name
           cover
           functions{

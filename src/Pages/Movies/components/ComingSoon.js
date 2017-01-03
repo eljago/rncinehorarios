@@ -6,6 +6,7 @@ import _ from 'lodash'
 
 import MyGiftedListView from '../../../components/MyGiftedListView'
 import MovieCell from './MovieCell'
+import {getShowRoute} from '../../../../data/routes'
 
 export default class ComingSoon extends React.Component {
   static propTypes = {
@@ -34,15 +35,15 @@ export default class ComingSoon extends React.Component {
   }
 
   _onPress (rowData) {
-    // const showRoute = getShowRoute(rowData.get('show_id'))
-    // this.props.navigator.push(showRoute)
+    const showRoute = getShowRoute(rowData.show_id, rowData.name)
+    this.props.onPushRoute(showRoute, true)
   }
 
   _renderRow (rowData, sectionID, rowID, highlightRow) {
     return (
       <MovieCell
         rowNumber={rowData.rowNumber}
-        onPress={this._onPress}
+        onPress={() => this._onPress(rowData)}
         showName={rowData.name}
         showDebut={rowData.debut}
         showCover={rowData.cover}

@@ -6,7 +6,6 @@ import _ from 'lodash'
 
 import MyGiftedListView from '../../../components/MyGiftedListView'
 import MovieCell from './MovieCell'
-
 import {getShowRoute} from '../../../../data/routes'
 
 export default class Billboard extends React.Component {

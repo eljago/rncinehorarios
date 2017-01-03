@@ -10,6 +10,7 @@ import MyGiftedListView from '../../../components/MyGiftedListView'
 import FunctionsCell from '../components/FunctionsCell'
 import MenuItem from '../components/MenuItem'
 import Colors from '../../../../data/Colors'
+import {getShowRoute} from '../../../../data/routes'
 
 const PICKER_OFFSET = 100
 
@@ -104,14 +105,14 @@ export default class Functions extends React.Component {
         title={rowData.name}
         cover={rowData.cover}
         functions={rowData.functions}
-        onPress={this._onPress}
+        onPress={() => this._onPress(rowData)}
       />
     )
   }
 
   _onPress (rowData) {
-    // const showRoute = getShowRoute(rowData.get('show_id'))
-    // this.props.navigator.navigator.push(showRoute)
+    const showRoute = getShowRoute(rowData.show_id, rowData.name)
+    this.props.onPushRoute(showRoute, true)
   }
 
   _getDateMenuItems () {
@@ -143,7 +144,7 @@ export default class Functions extends React.Component {
 function getDataRows (date, showsFunctions) {
   let dataRows = []
   for (const show of showsFunctions) {
-    const {id, name, information, genres, cover, show_id} = show
+    const {name, cover, show_id} = show
 
     const functions = show.functions.filter((obj) => {
       return (obj.date === date)
@@ -151,10 +152,7 @@ function getDataRows (date, showsFunctions) {
 
     if (functions.length > 0) {
       dataRows.push({
-        id: id,
         name: name,
-        information: information,
-        genres: genres,
         cover: cover,
         functions: functions,
         show_id: show_id
