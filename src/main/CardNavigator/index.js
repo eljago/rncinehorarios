@@ -21,10 +21,10 @@ import MyHeader from './MyHeader'
 // Main Navigator of the app. Receives the whole app navigaiton state passed from props.
 export default class CardNavigator extends React.Component {
   static propTypes = {
-    navigationState: PropTypes.object,
-    onPressMenu: PropTypes.func,
-    onPushRoute: PropTypes.func,
-    onPopRoute: PropTypes.func
+    navigationState: PropTypes.object.isRequired,
+    onPressMenu: PropTypes.func.isRequired,
+    onPushRoute: PropTypes.func.isRequired,
+    onPopRoute: PropTypes.func.isRequired
   }
 
   constructor (props, context) {

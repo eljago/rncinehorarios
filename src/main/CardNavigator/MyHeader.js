@@ -22,8 +22,7 @@ export default class MyHeader extends React.Component {
   static propTypes = {
     ...NavigationPropTypes.SceneRendererProps,
     onPopRoute: PropTypes.func.isRequired,
-    onPressMenu: PropTypes.func,
-    style: PropTypes.object
+    onPressMenu: PropTypes.func.isRequired,
   };
 
   render (): React.Element {

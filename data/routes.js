@@ -4,7 +4,6 @@
 import Relay from 'react-relay'
 import moment from 'moment'
 
-import TabsNavigator from '../src/main/TabsNavigator'
 import Cinemas from '../src/Pages/Cinemas'
 import Movies from '../src/Pages/Movies'
 import Theaters from '../src/Pages/Theaters'
