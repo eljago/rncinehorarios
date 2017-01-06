@@ -7,15 +7,20 @@ import {
   TouchableOpacity,
   Image,
   StyleSheet,
-  Linking,
   Dimensions
 } from 'react-native'
 
 import {getImageVersion} from '../../../utils/ImageHelper'
+import {getShowRoute} from '../../../../data/routes'
+import {goToVideo} from '../../../utils/VideoHelper'
+
+const MARGINCELL = 10
+const POSTERWIDTH = 80
 
 export default class VideoCell extends React.Component {
   static propTypes = {
     onPushRoute: PropTypes.func.isRequired,
+    showId: PropTypes.number,
     showName: PropTypes.string,
     showCoverUrl: PropTypes.string,
     videoName: PropTypes.string,
@@ -27,7 +32,10 @@ export default class VideoCell extends React.Component {
 
   render () {
     const {width} = Dimensions.get('window')
+    const availWidth = width - MARGINCELL * 2
+    const posterHeight = availWidth / (8/11 + 2.5)
     const {
+      showId,
       showName,
       showCoverUrl,
       videoName,
@@ -47,8 +55,8 @@ export default class VideoCell extends React.Component {
           </Text>
           <View style={styles.contentRow}>
             <TouchableOpacity
-              style={styles.buttonPoster}
-              onPress={this._onWatchVideo.bind(this, videoCode)}
+              style={[styles.buttonPoster, {height: posterHeight}]}
+              onPress={this._onGoToMovie.bind(this, showId, showName)}
               activeOpacity={0.85}
             >
               <Image
@@ -59,7 +67,7 @@ export default class VideoCell extends React.Component {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.container}
-              onPress={this._onWatchVideo.bind(this, videoCode)}
+              onPress={() => {goToVideo(videoCode)}}
               activeOpacity={0.85}
             >
               <Image
@@ -84,16 +92,10 @@ export default class VideoCell extends React.Component {
     )
   }
 
-  _onWatchVideo (videoCode) {
-    const url = `http://www.youtube.com/watch?v=${videoCode}`
-    Linking.canOpenURL(url).then(supported => {
-      if (supported) {
-        Linking.openURL(url)
-      } else {
-        console.log('Don\'t know how to open URI: ' + url)
-      }
-    })
-  };
+  _onGoToMovie (showId, showName) {
+    const showRoute = getShowRoute(showId, showName)
+    this.props.onPushRoute(showRoute, true)
+  }
 }
 
 const styles = StyleSheet.create({
@@ -101,7 +103,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   content: {
-    margin: 10
+    margin: MARGINCELL
   },
   contentRow: {
     flexDirection: 'row'
@@ -123,8 +125,7 @@ const styles = StyleSheet.create({
     tintColor: '#C91800'
   },
   buttonPoster: {
-    width: 80,
-    height: 110
+    width: POSTERWIDTH
   },
   title: {
     paddingLeft: 10,

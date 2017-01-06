@@ -17,6 +17,8 @@ export default {
 
   titleText: 'black',
   functionTypes: 'gray',
-  showtimes: 'black'
+  showtimes: 'black',
+
+  menuBackground: '#1B1B1B'
 }
 

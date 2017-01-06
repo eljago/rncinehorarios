@@ -22,13 +22,14 @@ export default class MyHeader extends React.Component {
   static propTypes = {
     ...NavigationPropTypes.SceneRendererProps,
     onPopRoute: PropTypes.func.isRequired,
-    onPressMenu: PropTypes.func
+    onPressMenu: PropTypes.func,
+    style: PropTypes.object
   };
 
   render (): React.Element {
     return (
       <NavigationHeader
-        style={styles.header}
+        style={[styles.header, this.props.scene.route.headerStyle]}
         {...this.props}
         renderTitleComponent={this._renderTitleComponent}
         renderLeftComponent={this._renderLeftComponent.bind(this)}
@@ -41,7 +42,7 @@ export default class MyHeader extends React.Component {
   _renderTitleComponent (props: Object): React.Element {
     const route = props.scene.route
     return (
-      <NavigationHeader.Title textStyle={[styles.title, route.headerStyle]}>
+      <NavigationHeader.Title textStyle={styles.title}>
         {route.title ? route.title : route.key}
       </NavigationHeader.Title>
     )
@@ -49,13 +50,6 @@ export default class MyHeader extends React.Component {
 
   _renderLeftComponent (props: Object) {
     if (props.scene.index === 0) {
-      if (Platform.OS === 'android') {
-        return (
-          <TouchableOpacity style={styles.buttonContainer} onPress={this.props.onPressMenu}>
-            <Image style={styles.button} source={require('../../../assets/MenuIcon.png')} />
-          </TouchableOpacity>
-        )
-      }
       return null
     }
     if (!props.onNavigateBack) {
@@ -69,6 +63,13 @@ export default class MyHeader extends React.Component {
   }
 
   _renderRightComponent (props: Object) {
+    if (props.scene.index === 0) {
+      return (
+        <TouchableOpacity style={styles.buttonContainer} onPress={this.props.onPressMenu}>
+          <Image style={[styles.button, styles.buttonMenu]} source={require('../../../assets/MenuIcon.png')} />
+        </TouchableOpacity>
+      )
+    }
     const RightComp = props.scene.route.rightComponent
     if (RightComp) {
       return <RightComp ref={(rc) => { this.rightComp = rc }} />
@@ -101,5 +102,8 @@ const styles = StyleSheet.create({
     margin: Platform.OS === 'ios' ? 10 : 16,
     resizeMode: 'contain',
     transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]
+  },
+  buttonMenu: {
+    margin: 16
   }
 })

@@ -48,6 +48,7 @@ export default class ShowImagesRow extends React.Component {
       <TouchableOpacity
         style={styles.cellContainer}
         onPress={() => { this._onPress(rowID) }}
+        activeOpacity={0.85}
       >
         <Image
           style={styles.image}

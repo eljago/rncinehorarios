@@ -45,7 +45,10 @@ export default class ShowImagesRow extends React.Component {
 
   _renderRow (showPersonRole) {
     return (
-      <TouchableOpacity style={styles.cellContainer}>
+      <TouchableOpacity
+        style={styles.cellContainer}
+        activeOpacity={0.85}
+      >
         <Image
           style={styles.image}
           source={{uri: getImageVersion(showPersonRole.person.image, 'smaller')}}

@@ -24,6 +24,7 @@ export default Relay.createContainer(Videos, {
               code
               video_type
               show{
+                show_id
                 name
                 cover
               }
@@ -42,6 +43,7 @@ export default Relay.createContainer(Videos, {
               code
               video_type
               show{
+                show_id
                 name
                 cover
               }
@@ -57,6 +59,7 @@ export default Relay.createContainer(Videos, {
               code
               video_type
               show{
+                show_id
                 name
                 cover
               }

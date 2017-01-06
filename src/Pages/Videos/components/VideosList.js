@@ -45,6 +45,7 @@ export default class VideosList extends React.Component {
     return (
       <VideoCell
         onPushRoute={this.props.onPushRoute}
+        showId={video.show.show_id}
         showName={video.show.name}
         showCoverUrl={video.show.cover}
         videoName={video.name}

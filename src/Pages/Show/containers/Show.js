@@ -5,7 +5,6 @@ import React from 'react'
 import {Image, StyleSheet, View, ScrollView} from 'react-native'
 
 import ShowData from '../components/ShowData'
-import ShowHeader from '../components/ShowHeader'
 import ShowImagesRow from '../components/ShowImagesRow'
 import ShowCastRow from '../components/ShowCastRow'
 import ShowVideosRow from '../components/ShowVideosRow'
@@ -23,12 +22,6 @@ export default class Show extends React.Component {
         resizeMode='cover'
       >
         <View style={styles.imageContent}>
-          <ShowHeader
-            showName={show.name}
-            showOriginalName={show.name_original}
-            showYear={show.year}
-            onNavigateBack={this.props.onPopRoute}
-          />
           <ScrollView>
             <ShowData
               showInformation={show.information}

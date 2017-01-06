@@ -5,11 +5,19 @@ import React from 'react'
 import Relay from 'react-relay'
 import {
   View,
-  Platform,
   AppState
 } from 'react-native'
 
 import config from '../../data/config'
+
+import {
+  GoogleAnalyticsTracker,
+  GoogleAnalyticsSettings
+} from 'react-native-google-analytics-bridge'
+
+import Orientation from 'react-native-orientation'
+import MainApp from './MainApp'
+
 
 Relay.injectNetworkLayer(
   new Relay.DefaultNetworkLayer(`${config.URL}${config.graphqlPath}`, {
@@ -18,18 +26,6 @@ Relay.injectNetworkLayer(
     retryDelays: [5000, 10000]
   })
 )
-
-import {
-  GoogleAnalyticsTracker,
-  GoogleAnalyticsSettings
-} from 'react-native-google-analytics-bridge'
-
-import Orientation from 'react-native-orientation'
-
-import CardNavigator from './CardNavigator'
-import DrawerLayout from './DrawerLayout'
-import {getMainAppRoute} from '../../data/routes'
-
 export default class CineHorariosApp extends React.Component {
 
   constructor (props) {
@@ -41,25 +37,20 @@ export default class CineHorariosApp extends React.Component {
 
   componentDidMount () {
     Orientation.lockToPortrait()
-    AppState.addEventListener('change', this._handleAppStateChange)
+    AppState.addEventListener('change', handleAppStateChange)
   }
 
   componentWillUnmount () {
-    AppState.removeEventListener('change', this._handleAppStateChange)
+    AppState.removeEventListener('change', handleAppStateChange)
   }
 
   render () {
-    if (Platform.OS === 'ios') {
-      return (
-        <CardNavigator navigationState={getMainAppRoute()} />
-      )
-    } else if (Platform.OS === 'android') {
-      return <DrawerLayout />
-    }
-    return <View />
+    return <MainApp />
   }
+}
 
-  _handleAppStateChange (currentAppState) {
+function handleAppStateChange (currentAppState) {
+  if (currentAppState === 'active') {
     reportAnalytics()
   }
 }

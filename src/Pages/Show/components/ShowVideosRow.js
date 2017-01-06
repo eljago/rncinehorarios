@@ -2,10 +2,18 @@
 'use strict'
 
 import React, {PropTypes} from 'react'
-import {ListView, TouchableOpacity, Image, StyleSheet} from 'react-native'
+import {
+  View,
+  ListView,
+  TouchableOpacity,
+  Image,
+  StyleSheet
+} from 'react-native'
 import _ from 'lodash'
 
 import {getImageVersion} from '../../../utils/ImageHelper'
+
+const VIDEOROWHEIGHT = 100
 
 export default class ShowVideosRow extends React.Component {
   static propTypes = {
@@ -42,11 +50,21 @@ export default class ShowVideosRow extends React.Component {
 
   _renderRow (video) {
     return (
-      <TouchableOpacity style={styles.cellContainer}>
+      <TouchableOpacity
+        style={styles.cellContainer}
+        activeOpacity={0.85}
+      >
         <Image
           style={styles.video}
           source={{uri: getImageVersion(video.image, 'smaller')}}
         />
+        <View style={styles.playContainer}>
+          <Image
+            source={require('../../../../assets/VIdeoPlay.png')}
+            resizeMode={'cover'}
+            style={styles.videoPlay}
+          />
+        </View>
       </TouchableOpacity>
     )
   }
@@ -57,11 +75,23 @@ const styles = StyleSheet.create({
     margin: 7
   },
   cellContainer: {
-    width: 256,
-    height: 144
+    width: VIDEOROWHEIGHT * 2.5,
+    height: VIDEOROWHEIGHT
   },
   video: {
     flex: 1,
-    margin: 3
+  },
+  playContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.2)',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  videoPlay: {
+    tintColor: '#C91800'
   }
 })

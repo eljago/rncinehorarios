@@ -27,63 +27,48 @@ class ViewerQueryConfig extends Relay.Route {
   }
 }
 
-function getMainAppRoute () {
+function getMenuRoutes () {
+  return [
+    getCinemasRoute(),
+    getMoviesRoute(),
+    getVideosRoute()
+  ]
+}
+
+function getCinemasRoute () {
   return {
-    index: 0,
-    routes: [{
-      key: 'super_tabs',
-      component: TabsNavigator,
-      navBarHidden: true
-    }]
+    key: 'cinemas',
+    title: 'Cines',
+    component: Cinemas
   }
 }
 
-function getMainAppItems () {
-  return ({
-    items: {
-      routes: [
-        {key: 'videos', title: 'Videos'},
-        {key: 'movies', title: 'Películas'},
-        {key: 'cinemas', title: 'Cines'}
-      ]
-    },
-    cinemas: {
-      index: 0,
-      routes: [{
-        key: 'cinemas',
-        title: 'Cines',
-        component: Cinemas
-      }]
-    },
-    movies: {
-      index: 0,
-      routes: [{
-        key: 'movies',
-        title: 'Películas',
-        component: RelayContainer,
-        props: {
-          component: Movies,
-          queryConfig: new ViewerQueryConfig({
-            cacheTime: getCacheTime()
-          })
-        }
-      }]
-    },
-    videos: {
-      index: 0,
-      routes: [{
-        key: 'videos',
-        title: 'Videos',
-        component: RelayContainer,
-        props: {
-          component: Videos,
-          queryConfig: new ViewerQueryConfig({
-            cacheTime: getCacheTime()
-          })
-        }
-      }]
+function getMoviesRoute () {
+  return {
+    key: 'movies',
+    title: 'Películas',
+    component: RelayContainer,
+    props: {
+      component: Movies,
+      queryConfig: new ViewerQueryConfig({
+        cacheTime: getCacheTime()
+      })
     }
-  })
+  }
+}
+
+function getVideosRoute () {
+  return {
+    key: 'videos',
+    title: 'Videos',
+    component: RelayContainer,
+    props: {
+      component: Videos,
+      queryConfig: new ViewerQueryConfig({
+        cacheTime: getCacheTime()
+      })
+    }
+  }
 }
 
 function getTheatersRoute (cinemaId, cinemaName) {
@@ -163,8 +148,7 @@ function getCacheTime () {
 }
 
 export {
-  getMainAppRoute,
-  getMainAppItems,
+  getMenuRoutes,
   getTheatersRoute,
   getFunctionsRoute,
   getShowRoute,
