@@ -22,23 +22,14 @@ import MyHeader from './MyHeader'
 export default class CardNavigator extends React.Component {
   static propTypes = {
     navigationState: PropTypes.object,
-    onPressMenu: PropTypes.func
+    onPressMenu: PropTypes.func,
+    onPushRoute: PropTypes.func,
+    onPopRoute: PropTypes.func
   }
 
   constructor (props, context) {
     super(props, context)
-    this.state = {
-      navigationState: props.navigationState
-    }
-    _.bindAll(this, ['_onPushRoute', '_onPopRoute'])
     BackAndroid.addEventListener('hardwareBackPress', this._onPopRoute)
-  }
-
-  componentWillReceiveProps (nextProps) {
-    if (this.state.navigationState !== nextProps.navigationState) {}
-    this.setState({
-      navigationState: nextProps.navigationState
-    })
   }
 
   render () {
@@ -47,29 +38,13 @@ export default class CardNavigator extends React.Component {
         <NavigationCardStack
           key={'super_stack'}
           onNavigateBack={this._onPopRoute}
-          navigationState={this.state.navigationState}
+          navigationState={this.props.navigationState}
           renderScene={renderScene.bind(this)}
           renderHeader={renderHeader.bind(this)}
           style={styles.navigatorCardStack}
         />
       </View>
     )
-  }
-
-  _onPushRoute (route) {
-    const navigationState = NavigationStateUtils.push(this.state.navigationState, route)
-    if (this.state.navigationState !== navigationState) {
-      this.setState({navigationState})
-    }
-  }
-
-  _onPopRoute () {
-    const navigationState = NavigationStateUtils.pop(this.state.navigationState)
-    if (this.state.navigationState !== navigationState) {
-      this.setState({navigationState})
-      return true
-    }
-    return false
   }
 }
 
@@ -80,7 +55,7 @@ function renderHeader (sceneProps: Object): React.Element {
     <MyHeader
       ref={(header) => { this.header = header }}
       {...sceneProps}
-      onPopRoute={this._onPopRoute}
+      onPopRoute={this.props.onPopRoute}
       onPressMenu={this.props.onPressMenu}
     />
   )
@@ -94,8 +69,8 @@ function renderScene (sceneProps: Object): React.Element {
       {getStatusBar(route)}
       <Component
         {...sceneProps}
-        onPushRoute={this._onPushRoute}
-        onPopRoute={this._onPopRoute}
+        onPushRoute={this.props.onPushRoute}
+        onPopRoute={this.props.onPopRoute}
         getHeader={() => this.header}
         {...route.props}
       />

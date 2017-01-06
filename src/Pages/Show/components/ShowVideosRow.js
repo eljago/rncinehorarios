@@ -12,6 +12,7 @@ import {
 import _ from 'lodash'
 
 import {getImageVersion} from '../../../utils/ImageHelper'
+import {goToVideo} from '../../../utils/VideoHelper'
 
 const VIDEOROWHEIGHT = 100
 
@@ -52,11 +53,12 @@ export default class ShowVideosRow extends React.Component {
     return (
       <TouchableOpacity
         style={styles.cellContainer}
+        onPress={() => {goToVideo(video.code)}}
         activeOpacity={0.85}
       >
         <Image
           style={styles.video}
-          source={{uri: getImageVersion(video.image, 'smaller')}}
+          source={{uri: getImageVersion(video.image, 'small')}}
         />
         <View style={styles.playContainer}>
           <Image
@@ -80,6 +82,7 @@ const styles = StyleSheet.create({
   },
   video: {
     flex: 1,
+    margin: 3
   },
   playContainer: {
     position: 'absolute',

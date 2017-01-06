@@ -22,14 +22,25 @@ export default class ShowData extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.showData}>
-          <Text style={styles.dataText}>{showDuration} minutos</Text>
-          <Text style={styles.dataText}>Estreno: {showDebut}</Text>
-          <Text style={styles.dataText}>{showGenres}</Text>
-          <Text style={styles.information}>{showInformation}</Text>
+          {getDataText(showDuration, {suffix: ' minutos'})}
+          {getDataText(showDebut, {prefix: 'Estreno: '})}
+          {getDataText(showGenres)}
+          {getDataText(showInformation, {style: styles.information})}
         </View>
       </View>
     )
   }
+}
+
+function getDataText (text, options = {}) {
+  if (typeof text === 'string') {
+    return (
+      <Text style={options.style ? options.style : styles.dataText}>
+        {`${options.prefix ? options.prefix : ''}${text}${options.suffix ? options.suffix : ''}`}
+      </Text>
+    )
+  }
+  return null
 }
 
 const styles = StyleSheet.create({
