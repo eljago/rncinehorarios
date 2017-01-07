@@ -8,7 +8,8 @@ import {
   Modal,
   View,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  Animated
 } from 'react-native'
 
 import Orientation from 'react-native-orientation'
@@ -32,11 +33,13 @@ export default class PhotoBrowser extends React.Component {
     }
     const orientation = Orientation.getInitialOrientation()
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
+    this._headerVisible = false
     this.state = {
       dataSource: ds.cloneWithRows(props.images),
       orientation: orientation != null ? orientation : 'PORTRAIT',
+      rotationValue: new Animated.Value(0),
       page: parseInt(props.index),
-      headerVisible: false
+      headerOpacity: new Animated.Value(this._headerVisible ? 1 : 0)
     }
   }
 
@@ -86,17 +89,17 @@ export default class PhotoBrowser extends React.Component {
           scrollEventThrottle={8}
           initialListSize={1}
           renderRow={this._renderRow.bind(this)}
-          style={[{
+          style={[this._getListViewOrientationStyles(), {
             backgroundColor: 'black',
             alignSelf: 'center'
-          }, this._getListViewOrientationStyles()]}
+          }]}
           contentContainerStyle={{
             backgroundColor: 'black',
             alignItems: 'center'
           }}
           onScroll={this._onScroll.bind(this)}
         />
-        <Text
+        <Animated.Text
           style={{
             position: 'absolute',
             top: 0, left: 0, right: 0,
@@ -105,11 +108,15 @@ export default class PhotoBrowser extends React.Component {
             padding: 10,
             paddingTop: 15,
             textAlign: 'center',
-            opacity: this.state.headerVisible ? 1 : 0
+            opacity: this.state.headerOpacity,
+            width: this._getDimensions().width,
+            transform: [{
+              rotate: this._isPortrait() ? '0deg' : '90deg'
+            }]
           }}
         >
-          {`${this.state.page} / ${this.props.images.length}`}
-        </Text>
+          {`${this.state.page + 1} / ${this.props.images.length}`}
+        </Animated.Text>
       </Modal>
     )
   }
@@ -177,13 +184,21 @@ export default class PhotoBrowser extends React.Component {
     )
   }
 
-  _onPressImage (event) {
-    this.setState({headerVisible: !this.state.headerVisible})
+  _onPressImage () {
+    this._headerVisible = !this._headerVisible
+    Animated.spring(
+      this.state.headerOpacity,
+      {
+        toValue: this._headerVisible ? 1 : 0,
+        tension: 50,
+        friction: 10
+      }
+    ).start()
   }
 
   _getListViewOrientationStyles () {
-    const dimensions = this._getDimensions()
     const {orientation} = this.state
+    const dimensions = this._getDimensions()
     if (orientation === 'PORTRAIT') {
       return {...dimensions, transform: [{rotate: '0deg'}]}
     }
@@ -199,4 +214,3 @@ export default class PhotoBrowser extends React.Component {
     return null
   }
 }
-
