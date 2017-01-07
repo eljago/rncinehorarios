@@ -42,14 +42,16 @@ export default class PhotoBrowserImage extends React.Component {
           this.state.rotationValue,
           {
             toValue: 0,
-            tension: 10,
-            friction: 5
+            tension: 50,
+            friction: 10
           }
         ).start()
         Animated.spring(
           this.state.scaleValue,
           {
-            toValue: this._getTransformScale(this.state.orientation)
+            toValue: this._getTransformScale(this.state.orientation),
+            tension: 50,
+            friction: 10
           }
         ).start()
       }
