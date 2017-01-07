@@ -6,7 +6,7 @@ import {
   Dimensions,
   Animated,
   PixelRatio,
-  View
+  TouchableOpacity
 } from 'react-native'
 
 export default class PhotoBrowserImage extends React.Component {
@@ -15,7 +15,9 @@ export default class PhotoBrowserImage extends React.Component {
     imageUrl: PropTypes.string,
     imageWidth: PropTypes.number,
     imageHeight: PropTypes.number,
-    initialOrientation: PropTypes.string
+    initialOrientation: PropTypes.string,
+    onPress: PropTypes.func,
+    getDimensions: PropTypes.func
   }
 
   constructor (props) {
@@ -55,38 +57,32 @@ export default class PhotoBrowserImage extends React.Component {
   }
 
   render () {
-    const {width, height} = Dimensions.get('window')
-    const {scaleValue, rotationValue, orientation} = this.state
-
-    const isPortrait = getIsPortrait(orientation)
-    const rotationWidth = isPortrait ? width : height
-    const rotationHeight = isPortrait ? height : width
-    const left = (rotationWidth / 2) - (this._imageWidth / 2)
-    const top = (rotationHeight / 2) - (this._imageHeight / 2)
-
+    const {width, height} = this.props.getDimensions()
     return (
-      <View
+      <TouchableOpacity
         style={{
           flex: 1,
           backgroundColor: 'black',
-          width: rotationWidth,
-          height: rotationHeight,
+          width: width,
+          height: height,
           alignItems: 'center',
           justifyContent: 'center'
         }}
+        onPress={this.props.onPress}
+        activeOpacity={1}
       >
         <Animated.Image
           style={{
             position: 'absolute',
-            left: left,
-            top: top,
+            left: (width / 2) - (this._imageWidth / 2),
+            top: (height / 2) - (this._imageHeight / 2),
             backgroundColor: 'black',
             width: this._imageWidth,
             height: this._imageHeight,
             transform: [{
-              scale: scaleValue
+              scale: this.state.scaleValue
             }, {
-              rotate: rotationValue.interpolate({
+              rotate: this.state.rotationValue.interpolate({
                 inputRange: [-3600, 3600],
                 outputRange: ['-3600deg', '3600deg']
               })
@@ -95,17 +91,14 @@ export default class PhotoBrowserImage extends React.Component {
           source={{uri: this.props.imageUrl}}
           resizeMode='contain'
         />
-      </View>
+      </TouchableOpacity>
     )
   }
 
   _getTransformScale (orientation: string) {
-    const {width, height} = Dimensions.get('window')
-    const isPortrait = getIsPortrait(orientation)
-    const rotationWidth = isPortrait ? width : height
-    const rotationHeight = isPortrait ? height : width
-    const fitHorizontally = (this._imageWidth / this._imageHeight) > (rotationWidth / rotationHeight)
-    return fitHorizontally ? (rotationWidth / this._imageWidth) : (rotationHeight / this._imageHeight)
+    const {width, height} = this.props.getDimensions()
+    const fitHorizontally = (this._imageWidth / this._imageHeight) > (width / height)
+    return fitHorizontally ? (width / this._imageWidth) : (height / this._imageHeight)
   }
 
   changeOrientation (orientation, animated = false) {
@@ -124,10 +117,6 @@ export default class PhotoBrowserImage extends React.Component {
       }
     }
   }
-}
-
-function getIsPortrait (orientation: string): boolean {
-  return orientation === 'PORTRAIT' || orientation === 'PORTRAITUPSIDEDOWN'
 }
 
 function getRotationInitialValue (oldOrientation: string, newOrientation: string): boolean {
