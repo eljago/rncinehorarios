@@ -103,7 +103,12 @@ const styles = StyleSheet.create({
     flex: 1
   },
   content: {
-    margin: MARGINCELL
+    margin: MARGINCELL,
+    shadowRadius: 3,
+    shadowOpacity: 1,
+    shadowOffset: {
+      width: 0, height: 0
+    }
   },
   contentRow: {
     flexDirection: 'row'
@@ -139,6 +144,6 @@ const styles = StyleSheet.create({
     paddingBottom: 4,
     color: 'white',
     fontSize: 16,
-    backgroundColor: '#575757'
+    backgroundColor: '#373737'
   }
 })

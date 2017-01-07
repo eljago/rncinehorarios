@@ -2,7 +2,7 @@
 'use strict'
 
 import React, {PropTypes} from 'react'
-import {ListView, TouchableOpacity, Image, StyleSheet} from 'react-native'
+import {ListView, TouchableOpacity, Image, StyleSheet, View, Text} from 'react-native'
 import _ from 'lodash'
 
 import {getImageVersion} from '../../../utils/ImageHelper'
@@ -35,7 +35,7 @@ export default class ShowImagesRow extends React.Component {
     }
     return (
       <ListView
-        style={styles.listView}
+        style={styles.container}
         horizontal
         dataSource={this.state.dataSource}
         renderRow={this._renderRow}
@@ -44,6 +44,7 @@ export default class ShowImagesRow extends React.Component {
   }
 
   _renderRow (showPersonRole) {
+    const {person} = showPersonRole
     return (
       <TouchableOpacity
         style={styles.cellContainer}
@@ -53,21 +54,64 @@ export default class ShowImagesRow extends React.Component {
           style={styles.image}
           source={{uri: getImageVersion(showPersonRole.person.image, 'smaller')}}
         />
+        {this._getDirectorText(showPersonRole)}
+        <Text style={[styles.textOverlay, {bottom: 0}]}>
+          {person.name}
+          {this._getCharacterText(showPersonRole)}
+        </Text>
       </TouchableOpacity>
     )
+  }
+
+  _getDirectorText (showPersonRole) {
+    if (showPersonRole && showPersonRole.director) {
+      return (
+        <Text style={[styles.textOverlay, {top: 0, textAlign: 'center'}]}>
+          Director
+        </Text>
+      )
+    }
+    return null
+  }
+
+  _getCharacterText (showPersonRole) {
+    if (showPersonRole && showPersonRole.character) {
+      return (
+        <Text style={{
+          backgroundColor: 'transparent',
+          textAlign: 'center',
+          color: 'gray',
+          fontSize: 12,
+        }}>
+          {`\n${showPersonRole.character}`}
+        </Text>
+      )
+    }
+    return null
   }
 }
 
 const styles = StyleSheet.create({
-  listView: {
-    margin: 7
+  container: {
+    flex: 1
   },
   cellContainer: {
     width: 100,
-    height: 200
+    height: 200,
+    margin: 3
   },
   image: {
     flex: 1,
-    margin: 3
+    backgroundColor: '#2F2F2F'
+  },
+  textOverlay: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    fontSize: 14,
+    color: 'white',
+    padding: 2,
+    backgroundColor: 'rgba(0,0,0,0.7)',
+    textAlign: 'center'
   }
 })

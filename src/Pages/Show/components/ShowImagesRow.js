@@ -35,7 +35,7 @@ export default class ShowImagesRow extends React.Component {
   render () {
     return (
       <ListView
-        style={styles.listView}
+        style={styles.container}
         horizontal
         dataSource={this.state.dataSource}
         renderRow={this._renderRow}
@@ -66,8 +66,8 @@ export default class ShowImagesRow extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  listView: {
-    margin: 7
+  container: {
+    flex: 1
   },
   cellContainer: {
     width: 100,
@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    margin: 3
+    margin: 3,
+    backgroundColor: '#2F2F2F'
   }
 })

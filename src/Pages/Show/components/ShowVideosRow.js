@@ -7,7 +7,8 @@ import {
   ListView,
   TouchableOpacity,
   Image,
-  StyleSheet
+  StyleSheet,
+  Text
 } from 'react-native'
 import _ from 'lodash'
 
@@ -41,10 +42,10 @@ export default class ShowVideosRow extends React.Component {
   render () {
     return (
       <ListView
-        style={styles.listView}
+        style={styles.container}
         horizontal
         dataSource={this.state.dataSource}
-        renderRow={this._renderRow}
+        renderRow={this._renderRow.bind(this)}
       />
     )
   }
@@ -56,16 +57,23 @@ export default class ShowVideosRow extends React.Component {
         onPress={() => {goToVideo(video.code)}}
         activeOpacity={0.85}
       >
-        <Image
-          style={styles.video}
-          source={{uri: getImageVersion(video.image, 'small')}}
-        />
-        <View style={styles.playContainer}>
+        <View style={styles.imageContainer}>
           <Image
-            source={require('../../../../assets/VIdeoPlay.png')}
-            resizeMode={'cover'}
-            style={styles.videoPlay}
+            style={styles.video}
+            source={{uri: getImageVersion(video.image, 'small')}}
           />
+          <View style={styles.videoOverlay}>
+            <Text style={styles.textVideoName}>
+              {video.name}
+            </Text>
+            <View style={styles.playImageContainer}>
+              <Image
+                source={require('../../../../assets/VIdeoPlay.png')}
+                resizeMode={'cover'}
+                style={styles.imagePlay}
+              />
+            </View>
+          </View>
         </View>
       </TouchableOpacity>
     )
@@ -73,28 +81,43 @@ export default class ShowVideosRow extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  listView: {
-    margin: 7
+  container: {
+    flex: 1
   },
   cellContainer: {
+    flex: 1,
+    margin: 3,
+    backgroundColor: '#2F2F2F'
+  },
+  imageContainer: {
     width: VIDEOROWHEIGHT * 2.5,
     height: VIDEOROWHEIGHT
   },
   video: {
     flex: 1,
-    margin: 3
   },
-  playContainer: {
+  videoOverlay: {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0,0,0,0.2)',
+    alignItems: 'stretch'
+  },
+  playImageContainer: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
   },
-  videoPlay: {
-    tintColor: '#C91800'
+  imagePlay: {
+    tintColor: '#C91800',
+    height: VIDEOROWHEIGHT * 0.8,
+    width: VIDEOROWHEIGHT * 0.8
+  },
+  textVideoName: {
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    color: 'white',
+    padding: 2,
+    fontSize: 18
   }
 })

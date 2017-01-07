@@ -8,6 +8,7 @@ import ShowData from '../components/ShowData'
 import ShowImagesRow from '../components/ShowImagesRow'
 import ShowCastRow from '../components/ShowCastRow'
 import ShowVideosRow from '../components/ShowVideosRow'
+import MediaRowWithTitle from '../components/MediaRowWithTitle'
 
 import {getImageVersion} from '../../../utils/ImageHelper'
 
@@ -29,20 +30,52 @@ export default class Show extends React.Component {
               showDebut={show.debut}
               showGenres={show.genres}
             />
-            <ShowImagesRow
-              images={show.images}
-              onPushRoute={this.props.onPushRoute}
-            />
-            <ShowCastRow
-              cast={show.cast}
-            />
-            <ShowVideosRow
-              videos={show.videos}
-            />
+            {this._getImages()}
+            {this._getCast()}
+            {this._getVideos()}
           </ScrollView>
         </View>
       </Image>
     )
+  }
+
+  _getImages () {
+    const {images} = this.props.viewer.show
+    if (images.length > 0) {
+      return (
+        <MediaRowWithTitle title='Imágenes: '>
+          <ShowImagesRow
+            images={images}
+            onPushRoute={this.props.onPushRoute}
+          />
+        </MediaRowWithTitle>
+      )
+    }
+    return null;
+  }
+
+  _getCast () {
+    const {cast} = this.props.viewer.show
+    if (cast.length > 0) {
+      return (
+        <MediaRowWithTitle title='Elenco: '>
+          <ShowCastRow cast={cast} />
+        </MediaRowWithTitle>
+      )
+    }
+    return null;
+  }
+
+  _getVideos () {
+    const {videos} = this.props.viewer.show
+    if (videos.length > 0) {
+      return (
+        <MediaRowWithTitle title='Videos: '>
+          <ShowVideosRow videos={videos} />
+        </MediaRowWithTitle>
+      )
+    }
+    return null;
   }
 }
 
