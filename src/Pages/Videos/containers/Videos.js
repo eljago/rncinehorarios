@@ -16,7 +16,7 @@ export default class Videos extends React.Component {
     return (
       <MyHeaderListView
         dataRows={[latestVideos.edges, billboardVideos.edges, comingSoonVideos.edges]}
-        titles={['Últimos Videos', 'Cartelera', 'Próximamente']}
+        titles={['Últimos', 'Cartelera', 'Próximamente']}
         renderPage={this._renderPage.bind(this)}
       />
     )

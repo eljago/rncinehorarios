@@ -11,7 +11,6 @@ import {
 } from 'react-native'
 
 import Colors from '../../data/Colors'
-const HEADERHEIGHT = 40
 
 export default class MyHeaderListView extends React.Component {
   static propTypes = {
@@ -88,7 +87,7 @@ export default class MyHeaderListView extends React.Component {
     return (
       <TouchableOpacity
         style={[styles.button, {
-          borderBottomColor: this.state.page === page ? Colors.navBar : 'transparent'
+          borderTopColor: this.state.page === page ? 'white' : 'rgba(1,1,1,0.4)'
         }]}
         key={title}
         onPress={this._onPressHeaderButton.bind(this, page)}
@@ -108,20 +107,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
+  header: {
+    backgroundColor: Colors.navBar,
+    flexDirection: 'row',
+    height: 30,
+    paddingLeft: 3,
+    paddingRight: 3
+  },
   button: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    borderBottomWidth: 3,
-    backgroundColor: 'white'
+    borderTopWidth: 0.5,
+    marginLeft: 3,
+    marginRight: 3
   },
   headerText: {
-    color: Colors.navBar,
+    color: 'white',
     fontWeight: '500',
-    fontSize: 16
-  },
-  header: {
-    flexDirection: 'row',
-    height: HEADERHEIGHT
+    fontSize: 14
   }
 })

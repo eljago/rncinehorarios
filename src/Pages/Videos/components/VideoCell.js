@@ -66,7 +66,7 @@ export default class VideoCell extends React.Component {
               />
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.container}
+              style={styles.buttonPortrait}
               onPress={() => {goToVideo(videoCode)}}
               activeOpacity={0.85}
             >
@@ -124,8 +124,13 @@ const styles = StyleSheet.create({
   videoPlay: {
     tintColor: '#C91800'
   },
+  buttonPortrait: {
+    flex: 1,
+    backgroundColor: 'gray'
+  },
   buttonPoster: {
-    width: POSTERWIDTH
+    width: POSTERWIDTH,
+    backgroundColor: 'gray'
   },
   title: {
     paddingLeft: 10,

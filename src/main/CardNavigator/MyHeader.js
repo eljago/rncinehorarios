@@ -83,7 +83,8 @@ export default class MyHeader extends React.Component {
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: Colors.navBar
+    backgroundColor: Colors.navBar,
+    borderBottomWidth: 0
   },
   title: {
     color: 'white'

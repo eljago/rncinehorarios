@@ -52,7 +52,7 @@ export default class MainApp extends React.Component {
         ref={(comp) => { this._drawer = comp }}
         drawerWidth={200}
         drawerPosition={DrawerLayout.positions.Right}
-        renderNavigationView={this._getNavigationView.bind(this)}
+        renderNavigationView={this._getMenuView.bind(this)}
       >
         <CardNavigator
           key={'stack_' + menuItemKey}
@@ -93,14 +93,23 @@ export default class MainApp extends React.Component {
     return false
   }
 
-  _getNavigationView () {
+  _getMenuView () {
+    const {navigationState} = this.state
+    const {menuItems} = navigationState
+    const menuItemKey = menuItems.routes[menuItems.index].key
     return (
       <View style={styles.menu}>
         {getMenuRoutes().map((route) => {
           return (
             <TouchableOpacity
               key={route.key}
-              style={styles.menuButton}
+              style={[styles.menuButton, {
+                backgroundColor: route.key === menuItemKey ? 'rgba(0,0,0,0.5)' : 'transparent',
+                borderTopWidth: route.key === menuItemKey ? 0.5 : 0,
+                borderTopColor: '#000',
+                borderBottomWidth: route.key === menuItemKey ? 0.5 : 0,
+                borderBottomColor: '#2F2F2F',
+              }]}
               onPress={this._onPressMenuitem.bind(this, route.key)}
             >
               <Text style={styles.menuText}>{route.title}</Text>
@@ -112,15 +121,26 @@ export default class MainApp extends React.Component {
   }
 
   _onPressMenuitem (menuItemKey) {
-    const {menuItems} = this.state.navigationState
-    const newMenuItems = NavigationStateUtils.jumpTo(menuItems, menuItemKey);
-    const menuItem = this.state.navigationState[menuItemKey]
-    const scenes = NavigationStateUtils.reset(menuItem, [menuItem.routes[0]])
-    if (menuItems !== newMenuItems) {
-      const navigationState = update(this.state.navigationState, {
-        menuItems: {$set: newMenuItems},
-        [menuItemKey]: {$set: scenes}
+    let {navigationState} = this.state
+    const {menuItems} = navigationState
+    const oldMenuItemKey = menuItems.routes[menuItems.index].key
+    const scenes = navigationState[oldMenuItemKey]
+    const newScenes = NavigationStateUtils.reset(scenes, [scenes.routes[0]])
+    const newMenuItems = NavigationStateUtils.jumpTo(menuItems, menuItemKey)
+    let updateNavState = false
+    if (newScenes !== scenes) {
+      navigationState = update(navigationState, {
+        [oldMenuItemKey]: {$set: newScenes}
       })
+      updateNavState = true
+    }
+    if (menuItems !== newMenuItems) {
+      navigationState = update(navigationState, {
+        menuItems: {$set: newMenuItems}
+      })
+      updateNavState = true
+    }
+    if (updateNavState) {
       this.setState({navigationState})
     }
     this._drawer.closeDrawer()
