@@ -24,7 +24,8 @@ export default class CardNavigator extends React.Component {
     navigationState: PropTypes.object.isRequired,
     onPressMenu: PropTypes.func.isRequired,
     onPushRoute: PropTypes.func.isRequired,
-    onPopRoute: PropTypes.func.isRequired
+    onPopRoute: PropTypes.func.isRequired,
+    setDrawerLockMode: PropTypes.func.isRequired
   }
 
   constructor (props, context) {
@@ -71,6 +72,7 @@ function renderScene (sceneProps: Object): React.Element {
         {...sceneProps}
         onPushRoute={this.props.onPushRoute}
         onPopRoute={this.props.onPopRoute}
+        setDrawerLockMode={this.props.setDrawerLockMode}
         getHeader={() => this.header}
         {...route.props}
       />

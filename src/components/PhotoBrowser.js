@@ -9,47 +9,51 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Animated
+  Animated,
+  StatusBar,
+  StyleSheet
 } from 'react-native'
 
 import Orientation from 'react-native-orientation'
 import {getImageVersion} from '../utils/ImageHelper'
 import PhotoBrowserImage from './PhotoBrowserImage'
+import PhotoBrowserHeader from './PhotoBrowserHeader'
 
 export default class PhotoBrowser extends React.Component {
   static propTypes = {
     images: PropTypes.array,
-    index: PropTypes.string
+    onOpen: PropTypes.func,
+    onClose: PropTypes.func
   };
-  static defaultProps = {
-    index: '0'
-  };
+  // Where listView's cells refs are kept. Used to change orientation after rotation
+  _rows = {}
 
   constructor (props) {
     super(props)
-    this._rows = {}
     for (let index = 0; index < props.images.length; index++) {
       props.images[index].index = index
     }
     const orientation = Orientation.getInitialOrientation()
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
-    this._headerVisible = false
+
     this.state = {
+      visible: false,
+      headerVisible: false,
       dataSource: ds.cloneWithRows(props.images),
       orientation: orientation != null ? orientation : 'PORTRAIT',
       rotationValue: new Animated.Value(0),
-      page: parseInt(props.index),
-      headerOpacity: new Animated.Value(this._headerVisible ? 1 : 0)
+      page: 0
     }
   }
 
   componentWillMount () {
     const orientation = Orientation.getInitialOrientation()
-    this.setState({orientation: orientation != null ? orientation : 'PORTRAIT'})
+    this.setState({
+      orientation: orientation ? orientation : 'PORTRAIT'
+    })
   }
 
   componentDidMount () {
-    this._scrollToIndex(this.props.index)
     Orientation.addSpecificOrientationListener(this._orientationChanged.bind(this))
   }
 
@@ -58,15 +62,12 @@ export default class PhotoBrowser extends React.Component {
   }
 
   componentDidUpdate (prevProps, prevState) {
-    if (this.state.orientation !== prevState.orientation) {
-      if (this._scrollView) {
+    if (this.state.visible) {
+      if (this.state.orientation !== prevState.orientation) {
+        this._changeImagesOrientation(this.state.orientation)
+      }
+      if (prevState.visible !== this.state.visible && this.state.page !== prevState.page) {
         this._scrollToIndex(this.state.page)
-        for (let index = 0; index < this.props.images.length; index++) {
-          const rowView = this._rows[index]
-          if (rowView) {
-            rowView.changeOrientation(this.state.orientation, this.state.page === index)
-          }
-        }
       }
     }
   }
@@ -76,12 +77,13 @@ export default class PhotoBrowser extends React.Component {
       <Modal
         animationType={"slide"}
         transparent={false}
-        visible={true}
+        visible={this.state.visible}
         onRequestClose={() => {alert("Modal has been closed.")}}
       >
+        <StatusBar hidden={true}/>
         <ListView
           dataSource={this.state.dataSource}
-          ref={(scrollView) => { this._scrollView = scrollView }}
+          ref={(comp) => { this._scrollView = comp }}
           horizontal
           pagingEnabled
           showsHorizontalScrollIndicator={false}
@@ -89,50 +91,18 @@ export default class PhotoBrowser extends React.Component {
           scrollEventThrottle={8}
           initialListSize={1}
           renderRow={this._renderRow.bind(this)}
-          style={[this._getListViewOrientationStyles(), {
-            backgroundColor: 'black',
-            alignSelf: 'center'
-          }]}
-          contentContainerStyle={{
-            backgroundColor: 'black',
-            alignItems: 'center'
-          }}
+          style={[styles.listView, getListViewOrientationStyles(this.state.orientation)]}
+          contentContainerStyle={styles.listViewContentStyle}
           onScroll={this._onScroll.bind(this)}
         />
-        <Animated.Text
-          style={{
-            position: 'absolute',
-            top: 0, left: 0, right: 0,
-            backgroundColor: 'rgba(0,0,0,0.5)',
-            color: 'white',
-            padding: 10,
-            paddingTop: 15,
-            textAlign: 'center',
-            opacity: this.state.headerOpacity,
-            width: this._getDimensions().width,
-            transform: [{
-              rotate: this._isPortrait() ? '0deg' : '90deg'
-            }]
-          }}
-        >
-          {`${this.state.page + 1} / ${this.props.images.length}`}
-        </Animated.Text>
+        <PhotoBrowserHeader
+          numberOfImages={this.props.images.length}
+          page={this.state.page}
+          headerVisible={this.state.headerVisible}
+          onClose={this._onClose.bind(this)}
+        />
       </Modal>
     )
-  }
-
-  _isPortrait () {
-    return this.state.orientation === 'PORTRAIT' || this.state.orientation === 'PORTRAITUPSIDEDOWN'
-  }
-  _getDimensions () {
-    const {width, height} = Dimensions.get('window')
-    const isPortrait = this._isPortrait()
-    const bigger = width > height ? width : height
-    const smaller = width > height ? smaller : width
-    return {
-      width: isPortrait ? smaller : bigger,
-      height: isPortrait ? bigger : smaller
-    }
   }
 
   _onScroll (e) {
@@ -143,8 +113,10 @@ export default class PhotoBrowser extends React.Component {
   }
 
   _scrollToIndex (index, animated = false) {
-    const pageWidth = this._getDimensions().width
-    this._scrollView.scrollTo({x: pageWidth * index, animated: animated})
+    if (this.state.visible) {
+      const pageWidth = this._getDimensions().width
+      this._scrollView.scrollTo({x: pageWidth * index, animated: animated})
+    }
   }
 
   _orientationChanged (orientation: string) {
@@ -184,21 +156,69 @@ export default class PhotoBrowser extends React.Component {
     )
   }
 
-  _onPressImage () {
-    this._headerVisible = !this._headerVisible
-    Animated.spring(
-      this.state.headerOpacity,
-      {
-        toValue: this._headerVisible ? 1 : 0,
-        tension: 50,
-        friction: 10
-      }
-    ).start()
+  _getDimensions () {
+    return getDimensions(this.state.orientation)
   }
 
-  _getListViewOrientationStyles () {
-    const {orientation} = this.state
-    const dimensions = this._getDimensions()
+  _onPressImage () {
+    this.setState({headerVisible: !this.state.headerVisible})
+  }
+
+  _onClose () {
+    if (this.state.visible === true) {
+      this.setState({visible: false})
+    }
+    this.props.onClose()
+  }
+
+  _changeImagesOrientation(newOrientation) {
+    if (this._scrollView) {
+      this._scrollToIndex(this.state.page)
+      for (let index = 0; index < this.props.images.length; index++) {
+        const rowView = this._rows[index]
+        if (rowView) {
+          rowView.changeOrientation(newOrientation, this.state.page === index)
+        }
+      }
+    }
+  }
+
+  open (page) {
+    this.setState({
+      visible: true,
+      page: page
+    })
+  }
+}
+
+const styles = StyleSheet.create({
+  listView: {
+    backgroundColor: 'black',
+    alignSelf: 'center'
+  },
+  listViewContentStyle: {
+    backgroundColor: 'black',
+    alignItems: 'center'
+  }
+})
+
+function isPortrait (orientation) {
+  return orientation === 'PORTRAIT' || orientation === 'PORTRAITUPSIDEDOWN'
+}
+
+function getDimensions (orientation) {
+  const {width, height} = Dimensions.get('window')
+  const portrait = isPortrait(orientation)
+  const bigger = width > height ? width : height
+  const smaller = width > height ? smaller : width
+  return {
+    width: portrait ? smaller : bigger,
+    height: portrait ? bigger : smaller
+  }
+}
+
+function getListViewOrientationStyles (orientation) {
+    const dimensions = getDimensions(orientation)
     if (orientation === 'PORTRAIT') {
       return {...dimensions, transform: [{rotate: '0deg'}]}
     }
@@ -213,4 +233,3 @@ export default class PhotoBrowser extends React.Component {
     }
     return null
   }
-}

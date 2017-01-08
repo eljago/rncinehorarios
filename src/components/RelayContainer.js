@@ -18,6 +18,7 @@ export default class RelayContainer extends React.Component {
     extraProps: PropTypes.object,
     onPushRoute: PropTypes.func,
     onPopRoute: PropTypes.func,
+    setDrawerLockMode: PropTypes.func,
     getHeader: PropTypes.func
   };
 
@@ -28,6 +29,7 @@ export default class RelayContainer extends React.Component {
       extraProps,
       onPushRoute,
       onPopRoute,
+      setDrawerLockMode,
       getHeader
     } = this.props
 
@@ -57,6 +59,7 @@ export default class RelayContainer extends React.Component {
                   ref={(comp) => { this.comp = comp }}
                   onPushRoute={onPushRoute}
                   onPopRoute={onPopRoute}
+                  setDrawerLockMode={setDrawerLockMode}
                   getHeader={getHeader}
                   {...extraProps}
                   {...props}

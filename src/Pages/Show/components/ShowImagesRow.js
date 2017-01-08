@@ -2,11 +2,18 @@
 'use strict'
 
 import React, {PropTypes} from 'react'
-import {ListView, TouchableOpacity, Image, StyleSheet} from 'react-native'
+import {
+  ListView,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+  View
+} from 'react-native'
 import _ from 'lodash'
 
 import {getImageVersion} from '../../../utils/ImageHelper'
 import {getImageViewerRoute} from '../../../../data/routes'
+import PhotoBrowser from '../../../components/PhotoBrowser'
 
 export default class ShowImagesRow extends React.Component {
   static propTypes = {
@@ -34,16 +41,23 @@ export default class ShowImagesRow extends React.Component {
 
   render () {
     return (
-      <ListView
-        style={styles.container}
-        horizontal
-        dataSource={this.state.dataSource}
-        renderRow={this._renderRow}
-      />
+      <View>
+        <ListView
+          style={styles.container}
+          horizontal
+          dataSource={this.state.dataSource}
+          renderRow={this._renderRow}
+        />
+        <PhotoBrowser
+          ref={(comp) => {this._photoBrowser = comp}}
+          images={this.props.images}
+          onClose={this._onClosePhotoBrowser.bind(this)}
+        />
+      </View>
     )
   }
 
-  _renderRow (image: string, sectionID: number, rowID: number) {
+  _renderRow (image, sectionID, rowID) {
     return (
       <TouchableOpacity
         style={styles.cellContainer}
@@ -59,9 +73,12 @@ export default class ShowImagesRow extends React.Component {
     )
   }
 
-  _onPress (index: number) {
-    const photoBrowserRoute = getImageViewerRoute(this.props.images, index)
-    this.props.onPushRoute(photoBrowserRoute)
+  _onPress (index) {
+    this._photoBrowser.open(parseInt(index))
+  }
+
+  _onClosePhotoBrowser () {
+
   }
 }
 

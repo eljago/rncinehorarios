@@ -39,7 +39,10 @@ export default class MainApp extends React.Component {
         routes: [route]
       }
     }
-    this.state = {navigationState: navigationState};
+    this.state = {
+      navigationState: navigationState,
+      drawerLockMode: 'unlocked'
+    };
   }
 
   render () {
@@ -53,12 +56,14 @@ export default class MainApp extends React.Component {
         drawerWidth={200}
         drawerPosition={DrawerLayout.positions.Right}
         renderNavigationView={this._getMenuView.bind(this)}
+        drawerLockMode={this.state.drawerLockMode}
       >
         <CardNavigator
           key={'stack_' + menuItemKey}
           navigationState={scenes}
           onPushRoute={this._onPushRoute.bind(this)}
           onPopRoute={this._onPopRoute.bind(this)}
+          setDrawerLockMode={this._setDrawerLockMode.bind(this)}
           onPressMenu={() => {
             this._drawer.openDrawer()
           }}
@@ -144,6 +149,10 @@ export default class MainApp extends React.Component {
       this.setState({navigationState})
     }
     this._drawer.closeDrawer()
+  }
+
+  _setDrawerLockMode (drawerLockMode) {
+    this.setState({drawerLockMode})
   }
 }
 
