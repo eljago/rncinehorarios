@@ -39,10 +39,10 @@ export default class PhotoBrowser extends React.Component {
     this.state = {
       visible: false,
       headerVisible: false,
+      page: 0,
       dataSource: ds.cloneWithRows(props.images),
       orientation: orientation != null ? orientation : 'PORTRAIT',
-      rotationValue: new Animated.Value(0),
-      page: 0
+      rotationValue: new Animated.Value(0)
     }
   }
 
@@ -186,6 +186,7 @@ export default class PhotoBrowser extends React.Component {
   open (page) {
     this.setState({
       visible: true,
+      headerVisible: false,
       page: page
     })
   }
