@@ -6,6 +6,7 @@ import {ListView, TouchableOpacity, Image, StyleSheet, View, Text} from 'react-n
 import _ from 'lodash'
 
 import {getImageVersion} from '../../../utils/ImageHelper'
+import PhotoBrowser from '../../../components/PhotoBrowser'
 
 export default class ShowImagesRow extends React.Component {
   static propTypes = {
@@ -34,25 +35,36 @@ export default class ShowImagesRow extends React.Component {
       return null
     }
     return (
-      <ListView
-        style={styles.container}
-        horizontal
-        dataSource={this.state.dataSource}
-        renderRow={this._renderRow}
-      />
+      <View>
+        <ListView
+          style={styles.container}
+          horizontal
+          dataSource={this.state.dataSource}
+          renderRow={this._renderRow}
+        />
+        <PhotoBrowser
+          ref={(comp) => {this._photoBrowser = comp}}
+          images={this.props.cast.map((spr) => {
+            return {image: spr.person.image}
+          })}
+          onClose={this._onClosePhotoBrowser.bind(this)}
+          allowedOrientations={['PORTRAIT']}
+        />
+      </View>
     )
   }
 
-  _renderRow (showPersonRole) {
+  _renderRow (showPersonRole, sectionID, rowID) {
     const {person} = showPersonRole
     return (
       <TouchableOpacity
         style={styles.cellContainer}
         activeOpacity={0.85}
+        onPress={this._onPress.bind(this, rowID)}
       >
         <Image
           style={styles.image}
-          source={{uri: getImageVersion(showPersonRole.person.image, 'smaller')}}
+          source={{uri: getImageVersion(person.image, 'smaller')}}
         />
         {this._getDirectorText(showPersonRole)}
         <Text style={[styles.textOverlay, {bottom: 0}]}>
@@ -88,6 +100,14 @@ export default class ShowImagesRow extends React.Component {
       )
     }
     return null
+  }
+
+  _onPress (index) {
+    this._photoBrowser.open(parseInt(index))
+  }
+
+  _onClosePhotoBrowser () {
+
   }
 }
 

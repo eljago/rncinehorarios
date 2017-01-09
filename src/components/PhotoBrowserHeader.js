@@ -13,7 +13,7 @@ export default class PhotoBrowserHeader extends React.Component {
     numberOfImages: PropTypes.number.isRequired,
     page: PropTypes.number.isRequired,
     onClose: PropTypes.func,
-    headerVisible: PropTypes.bool
+    visible: PropTypes.bool
   }
 
   constructor(props) {
@@ -27,7 +27,7 @@ export default class PhotoBrowserHeader extends React.Component {
     Animated.spring(
       this.state.headerOpacity,
       {
-        toValue: this.props.headerVisible ? 1 : 0,
+        toValue: this.props.visible ? 1 : 0,
         tension: 50,
         friction: 10
       }

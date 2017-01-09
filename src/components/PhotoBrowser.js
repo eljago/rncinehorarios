@@ -21,10 +21,21 @@ import PhotoBrowserHeader from './PhotoBrowserHeader'
 
 export default class PhotoBrowser extends React.Component {
   static propTypes = {
-    images: PropTypes.array,
+    images: PropTypes.array.isRequired,
     onOpen: PropTypes.func,
-    onClose: PropTypes.func
+    onClose: PropTypes.func,
+    allowedOrientations: PropTypes.array,
+    initialOrientation: PropTypes.string
   };
+  static defaultProps = {
+    allowedOrientations: [
+      'PORTRAIT',
+      'PORTRAITUPSIDEDOWN',
+      'LANDSCAPE-RIGHT',
+      'LANDSCAPE-LEFT'
+    ],
+    initialOrientation: 'PORTRAIT'
+  }
   // Where listView's cells refs are kept. Used to change orientation after rotation
   _rows = {}
 
@@ -33,15 +44,13 @@ export default class PhotoBrowser extends React.Component {
     for (let index = 0; index < props.images.length; index++) {
       props.images[index].index = index
     }
-    const orientation = Orientation.getInitialOrientation()
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
-
+    const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
     this.state = {
       visible: false,
       headerVisible: false,
       page: 0,
-      dataSource: ds.cloneWithRows(props.images),
-      orientation: orientation != null ? orientation : 'PORTRAIT',
+      dataSource: dataSource.cloneWithRows(props.images),
+      orientation: props.initialOrientation,
       rotationValue: new Animated.Value(0)
     }
   }
@@ -98,7 +107,7 @@ export default class PhotoBrowser extends React.Component {
         <PhotoBrowserHeader
           numberOfImages={this.props.images.length}
           page={this.state.page}
-          headerVisible={this.state.headerVisible}
+          visible={this.state.headerVisible}
           onClose={this._onClose.bind(this)}
         />
       </Modal>
@@ -119,13 +128,8 @@ export default class PhotoBrowser extends React.Component {
     }
   }
 
-  _orientationChanged (orientation: string) {
-    if ([
-      'PORTRAIT',
-      'PORTRAITUPSIDEDOWN',
-      'LANDSCAPE-RIGHT',
-      'LANDSCAPE-LEFT'
-    ].includes(orientation)) {
+  _orientationChanged (orientation) {
+    if (this.props.allowedOrientations.includes(orientation)) {
       if (this.state.orientation !== orientation) {
         this.setState({orientation})
       }
@@ -147,8 +151,8 @@ export default class PhotoBrowser extends React.Component {
         key={rowID}
         ref={(row) => { this._rows[image.index] = row }}
         imageUrl={getImageVersion(image.image)}
-        imageWidth={image.width}
-        imageHeight={image.height}
+        imageWidth={image.width ? image.width : this._getDimensions().smaller}
+        imageHeight={image.height ? image.height : this._getDimensions().bigger}
         initialOrientation={this.state.orientation}
         onPress={this._onPressImage.bind(this)}
         getDimensions={this._getDimensions.bind(this)}
@@ -214,7 +218,9 @@ function getDimensions (orientation) {
   const smaller = width > height ? smaller : width
   return {
     width: portrait ? smaller : bigger,
-    height: portrait ? bigger : smaller
+    height: portrait ? bigger : smaller,
+    bigger: bigger,
+    smaller: smaller
   }
 }
 
