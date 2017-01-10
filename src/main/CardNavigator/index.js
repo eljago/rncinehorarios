@@ -30,7 +30,7 @@ export default class CardNavigator extends React.Component {
 
   constructor (props, context) {
     super(props, context)
-    BackAndroid.addEventListener('hardwareBackPress', this._onPopRoute)
+    BackAndroid.addEventListener('hardwareBackPress', this.props.onPopRoute)
   }
 
   render () {
@@ -38,7 +38,7 @@ export default class CardNavigator extends React.Component {
       <View style={styles.container}>
         <NavigationCardStack
           key={'super_stack'}
-          onNavigateBack={this._onPopRoute}
+          onNavigateBack={this.props.onPopRoute}
           navigationState={this.props.navigationState}
           renderScene={renderScene.bind(this)}
           renderHeader={renderHeader.bind(this)}
