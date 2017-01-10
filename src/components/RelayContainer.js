@@ -41,16 +41,20 @@ export default class RelayContainer extends React.Component {
         render={({done, error, props, retry, stale}) => {
           if (error) {
             return (
-              <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                <Text>{error.message}</Text>
-                <TouchableHighlight
-                  underlayColor={'red'}
-                  onPress={retry}>
-                  <Text>
-                    Retry?
-                  </Text>
-                </TouchableHighlight>
-              </View>
+              <TouchableHighlight
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
+                onPress={retry}>
+                <Text style={{
+                  fontSize: 24,
+                  textAlign: 'center'
+                }}>
+                  Presiona para reintentar
+                </Text>
+              </TouchableHighlight>
             )
           } else if (props) {
             return (

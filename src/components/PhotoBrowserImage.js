@@ -8,6 +8,8 @@ import {
   PixelRatio,
   TouchableOpacity
 } from 'react-native'
+import Image from 'react-native-image-progress';
+import ProgressBar from 'react-native-progress/Bar';
 
 export default class PhotoBrowserImage extends React.Component {
   static propTypes = {
@@ -73,7 +75,7 @@ export default class PhotoBrowserImage extends React.Component {
         onPress={this.props.onPress}
         activeOpacity={1}
       >
-        <Animated.Image
+        <Animated.View
           style={{
             position: 'absolute',
             left: (width / 2) - (this._imageWidth / 2),
@@ -90,9 +92,19 @@ export default class PhotoBrowserImage extends React.Component {
               })
             }]
           }}
-          source={{uri: this.props.imageUrl}}
-          resizeMode='contain'
-        />
+        >
+          <Image
+            indicator={ProgressBar}
+            indicatorProps={{
+              color: 'white',
+              width: 100,
+              height: 5
+            }}
+            style={{flex: 1}}
+            source={{uri: this.props.imageUrl}}
+            resizeMode='contain'
+          />
+        </Animated.View>
       </TouchableOpacity>
     )
   }

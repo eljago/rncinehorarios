@@ -56,10 +56,7 @@ export default class PhotoBrowser extends React.Component {
   }
 
   componentWillMount () {
-    const orientation = Orientation.getInitialOrientation()
-    this.setState({
-      orientation: orientation ? orientation : 'PORTRAIT'
-    })
+    
   }
 
   componentDidMount () {
@@ -225,18 +222,19 @@ function getDimensions (orientation) {
 }
 
 function getListViewOrientationStyles (orientation) {
-    const dimensions = getDimensions(orientation)
+    const {width, height} = getDimensions(orientation)
+    let style = {width: width, height: height}
     if (orientation === 'PORTRAIT') {
-      return {...dimensions, transform: [{rotate: '0deg'}]}
+      return {...style, transform: [{rotate: '0deg'}]}
     }
     if (orientation === 'PORTRAITUPSIDEDOWN') {
-      return {...dimensions, transform: [{rotate: '180deg'}]}
+      return {...style, transform: [{rotate: '180deg'}]}
     }
     if (orientation === 'LANDSCAPE-LEFT') {
-      return {...dimensions, transform: [{rotate: '90deg'}]}
+      return {...style, transform: [{rotate: '90deg'}]}
     }
     if (orientation === 'LANDSCAPE-RIGHT') {
-      return {...dimensions, transform: [{rotate: '-90deg'}]}
+      return {...style, transform: [{rotate: '-90deg'}]}
     }
     return null
   }
