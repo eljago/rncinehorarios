@@ -56,7 +56,7 @@ export default class PhotoBrowser extends React.Component {
   }
 
   componentWillMount () {
-    
+
   }
 
   componentDidMount () {
@@ -190,6 +190,7 @@ export default class PhotoBrowser extends React.Component {
       headerVisible: false,
       page: page
     })
+    this.props.onOpen()
   }
 }
 

@@ -1,7 +1,7 @@
 // @flow
 'use strict'
 
-import React from 'react'
+import React, {PropTypes} from 'react'
 import {Image, StyleSheet, View, ScrollView} from 'react-native'
 
 import ShowData from '../components/ShowData'
@@ -13,6 +13,9 @@ import MediaRowWithTitle from '../components/MediaRowWithTitle'
 import {getImageVersion} from '../../../utils/ImageHelper'
 
 export default class Show extends React.Component {
+  static propTypes = {
+    setDrawerLockMode: PropTypes.func.isRequired
+  };
 
   render () {
     const show = this.props.viewer.show
@@ -44,10 +47,7 @@ export default class Show extends React.Component {
     if (images.length > 0) {
       return (
         <MediaRowWithTitle title='Imágenes: '>
-          <ShowImagesRow
-            images={images}
-            onPushRoute={this.props.onPushRoute}
-          />
+          <ShowImagesRow images={images} setDrawerLockMode={this.props.setDrawerLockMode} />
         </MediaRowWithTitle>
       )
     }
@@ -59,7 +59,7 @@ export default class Show extends React.Component {
     if (cast.length > 0) {
       return (
         <MediaRowWithTitle title='Elenco: '>
-          <ShowCastRow cast={cast} />
+          <ShowCastRow cast={cast} setDrawerLockMode={this.props.setDrawerLockMode} />
         </MediaRowWithTitle>
       )
     }

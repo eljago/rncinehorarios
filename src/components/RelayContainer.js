@@ -32,6 +32,7 @@ export default class RelayContainer extends React.Component {
       setDrawerLockMode,
       getHeader
     } = this.props
+    console.log(setDrawerLockMode)
 
     return (
       <Relay.Renderer

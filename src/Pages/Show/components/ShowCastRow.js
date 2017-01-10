@@ -10,7 +10,8 @@ import PhotoBrowser from '../../../components/PhotoBrowser'
 
 export default class ShowImagesRow extends React.Component {
   static propTypes = {
-    cast: PropTypes.array
+    cast: PropTypes.array.isRequired,
+    setDrawerLockMode: PropTypes.func.isRequired
   };
 
   constructor (props) {
@@ -49,6 +50,8 @@ export default class ShowImagesRow extends React.Component {
           })}
           onClose={this._onClosePhotoBrowser.bind(this)}
           allowedOrientations={['PORTRAIT']}
+          onOpen={this._onOpenPhotoBrowser.bind(this)}
+          onClose={this._onClosePhotoBrowser.bind(this)}
         />
       </View>
     )
@@ -106,8 +109,12 @@ export default class ShowImagesRow extends React.Component {
     this._photoBrowser.open(parseInt(index))
   }
 
-  _onClosePhotoBrowser () {
+  _onOpenPhotoBrowser () {
+    this.props.setDrawerLockMode('locked-closed')
+  }
 
+  _onClosePhotoBrowser () {
+    this.props.setDrawerLockMode('unlocked')
   }
 }
 
