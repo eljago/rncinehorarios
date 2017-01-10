@@ -87,7 +87,7 @@ export default class PhotoBrowser extends React.Component {
         animationType={"fade"}
         transparent={true}
         visible={this.state.visible}
-        onRequestClose={() => {alert("Modal has been closed.")}}
+        onRequestClose={this._onClose.bind(this)}
       >
         <StatusBar hidden={true}/>
         <ScrollView
