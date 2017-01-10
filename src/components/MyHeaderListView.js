@@ -86,13 +86,13 @@ export default class MyHeaderListView extends React.Component {
   _getHeaderItem (title, page) {
     return (
       <TouchableOpacity
-        style={[styles.button, {
-          borderTopColor: this.state.page === page ? 'white' : 'rgba(1,1,1,0.4)'
-        }]}
+        style={styles.button}
         key={title}
         onPress={this._onPressHeaderButton.bind(this, page)}
       >
-        <Text style={styles.headerText}>{title}</Text>
+        <Text style={[styles.headerText, {
+          color: this.state.page === page ? Colors.navBarTitle : Colors.navBarTitleNotSelected
+        }]}>{title}</Text>
       </TouchableOpacity>
     )
   }
@@ -117,13 +117,9 @@ const styles = StyleSheet.create({
   button: {
     flexGrow: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    borderTopWidth: 0.5,
-    marginLeft: 3,
-    marginRight: 3
+    alignItems: 'center'
   },
   headerText: {
-    color: 'white',
     fontWeight: '500',
     fontSize: 14
   }

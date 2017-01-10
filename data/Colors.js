@@ -6,6 +6,7 @@ export default {
 
   navBar: '#972605',
   navBarTitle: 'white',
+  navBarTitleNotSelected: '#FF8B70',
 
   tabBar: '#1B1B1B',
   tabBarSelected: '#2B2B2B',
