@@ -48,7 +48,6 @@ export default class ShowImagesRow extends React.Component {
           images={this.props.cast.map((spr) => {
             return {image: spr.person.image}
           })}
-          onClose={this._onClosePhotoBrowser.bind(this)}
           allowedOrientations={['PORTRAIT']}
           onOpen={this._onOpenPhotoBrowser.bind(this)}
           onClose={this._onClosePhotoBrowser.bind(this)}
