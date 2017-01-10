@@ -66,7 +66,7 @@ export default class PhotoBrowserImage extends React.Component {
       <TouchableOpacity
         style={{
           flex: 1,
-          backgroundColor: 'black',
+          backgroundColor: 'transparent',
           width: width,
           height: height,
           alignItems: 'center',
@@ -80,7 +80,7 @@ export default class PhotoBrowserImage extends React.Component {
             position: 'absolute',
             left: (width / 2) - (this._imageWidth / 2),
             top: (height / 2) - (this._imageHeight / 2),
-            backgroundColor: 'black',
+            backgroundColor: 'transparent',
             width: this._imageWidth,
             height: this._imageHeight,
             transform: [{
@@ -96,6 +96,7 @@ export default class PhotoBrowserImage extends React.Component {
           <Image
             indicator={ProgressBar}
             indicatorProps={{
+              backgroundColor: 'transparent',
               color: 'white',
               width: 100,
               height: 5

@@ -11,7 +11,8 @@ import {
   TouchableOpacity,
   Animated,
   StatusBar,
-  StyleSheet
+  StyleSheet,
+  ScrollView
 } from 'react-native'
 
 import Orientation from 'react-native-orientation'
@@ -51,7 +52,8 @@ export default class PhotoBrowser extends React.Component {
       page: 0,
       dataSource: dataSource.cloneWithRows(props.images),
       orientation: props.initialOrientation,
-      rotationValue: new Animated.Value(0)
+      rotationValue: new Animated.Value(0),
+      backgroundColorAlpha: 1
     }
   }
 
@@ -79,36 +81,63 @@ export default class PhotoBrowser extends React.Component {
   }
 
   render () {
+    const {width, height} = this._getDimensions()
     return (
       <Modal
-        animationType={"slide"}
-        transparent={false}
+        animationType={"fade"}
+        transparent={true}
         visible={this.state.visible}
         onRequestClose={() => {alert("Modal has been closed.")}}
       >
         <StatusBar hidden={true}/>
-        <ListView
-          dataSource={this.state.dataSource}
+        <ScrollView
+          style={[styles.scrollView, getListViewOrientationStyles(this.state.orientation), {
+            backgroundColor: 'black',
+            opacity: this.state.backgroundColorAlpha
+          }]}
+          contentContainerStyle={[styles.scrollViewContentStyle, {
+            width: width,
+            height: height
+          }]}
           ref={(comp) => { this._scrollView = comp }}
-          horizontal
-          pagingEnabled
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
+          onScroll={this._onScrollVertical.bind(this)}
           scrollEventThrottle={8}
-          initialListSize={1}
-          renderRow={this._renderRow.bind(this)}
-          style={[styles.listView, getListViewOrientationStyles(this.state.orientation)]}
-          contentContainerStyle={styles.listViewContentStyle}
-          onScroll={this._onScroll.bind(this)}
-        />
-        <PhotoBrowserHeader
-          numberOfImages={this.props.images.length}
-          page={this.state.page}
-          visible={this.state.headerVisible}
-          onClose={this._onClose.bind(this)}
-        />
+        >
+          <ListView
+            style={styles.listView}
+            contentContainerStyle={styles.listViewContentStyle}
+            dataSource={this.state.dataSource}
+            ref={(comp) => { this._listView = comp }}
+            horizontal
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            scrollEventThrottle={8}
+            initialListSize={1}
+            renderRow={this._renderRow.bind(this)}
+            onScroll={this._onScroll.bind(this)}
+          />
+          <PhotoBrowserHeader
+            numberOfImages={this.props.images.length}
+            page={this.state.page}
+            visible={this.state.headerVisible}
+            onClose={this._onClose.bind(this)}
+          />
+        </ScrollView>
       </Modal>
     )
+  }
+
+  _onScrollVertical (e) {
+    const offset = Math.abs(e.nativeEvent.contentOffset.y)
+    if (offset >= 80) {
+      this._onClose()
+    }
+    else {
+      this.setState({backgroundColorAlpha: 1- (offset / 80)})
+    }
   }
 
   _onScroll (e) {
@@ -121,7 +150,7 @@ export default class PhotoBrowser extends React.Component {
   _scrollToIndex (index, animated = false) {
     if (this.state.visible) {
       const pageWidth = this._getDimensions().width
-      this._scrollView.scrollTo({x: pageWidth * index, animated: animated})
+      this._listView.scrollTo({x: pageWidth * index, animated: animated})
     }
   }
 
@@ -134,12 +163,9 @@ export default class PhotoBrowser extends React.Component {
   }
 
   _getCurrentIndex () {
-    if (this._scrollView) {
-      const pageWidth = this._getDimensions().width
-      const {offset} = this._scrollView.scrollProperties
-      return Math.floor((offset + 0.5 * pageWidth) / pageWidth)
-    }
-    return this.props.index
+    const pageWidth = this._getDimensions().width
+    const {offset} = this._listView.scrollProperties
+    return Math.floor((offset + 0.5 * pageWidth) / pageWidth)
   }
 
   _renderRow (image: string, sectionID: number, rowID: number) {
@@ -173,7 +199,7 @@ export default class PhotoBrowser extends React.Component {
   }
 
   _changeImagesOrientation(newOrientation) {
-    if (this._scrollView) {
+    if (this._listView) {
       this._scrollToIndex(this.state.page)
       for (let index = 0; index < this.props.images.length; index++) {
         const rowView = this._rows[index]
@@ -188,19 +214,25 @@ export default class PhotoBrowser extends React.Component {
     this.setState({
       visible: true,
       headerVisible: false,
-      page: page
+      page: page,
+      backgroundColorAlpha: 1
     })
     this.props.onOpen()
   }
 }
 
 const styles = StyleSheet.create({
+  scrollView: {
+    backgroundColor: 'transparent',
+    alignSelf: 'center'
+  },
+  scrollViewContentStyle: {
+    flex: 1,
+  },
   listView: {
-    backgroundColor: 'black',
     alignSelf: 'center'
   },
   listViewContentStyle: {
-    backgroundColor: 'black',
     alignItems: 'center'
   }
 })
