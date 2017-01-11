@@ -120,10 +120,12 @@ export default class PhotoBrowser extends React.Component {
             onScroll={this._onScroll.bind(this)}
           />
           <PhotoBrowserHeader
+            initialOrientation={this.state.orientation}
             numberOfImages={this.props.images.length}
             page={this.state.page}
             visible={this.state.headerVisible}
             onClose={this._onClose.bind(this)}
+            getDimensions={this._getDimensions.bind(this)}
           />
         </ScrollView>
       </Modal>

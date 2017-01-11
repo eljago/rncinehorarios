@@ -10,16 +10,20 @@ import {
 
 export default class PhotoBrowserHeader extends React.Component {
   static propTypes = {
+    initialOrientation: PropTypes.string,
     numberOfImages: PropTypes.number.isRequired,
     page: PropTypes.number.isRequired,
     onClose: PropTypes.func,
-    visible: PropTypes.bool
+    visible: PropTypes.bool,
+    getDimensions: PropTypes.func
   }
 
   constructor(props) {
     super(props),
     this.state = {
-      headerOpacity: new Animated.Value(0)
+      orientation: props.initialOrientation,
+      headerOpacity: new Animated.Value(0),
+      rotationValue: '0deg'
     }
   }
 
@@ -32,11 +36,30 @@ export default class PhotoBrowserHeader extends React.Component {
         friction: 10
       }
     ).start()
+    if (this.state.orientation !== prevState.orientation) {
+      if (this.state.orientation === 'PORTRAIT') {
+        this.setState({rotationValue: '0deg'})
+      }
+      if (this.state.orientation === 'PORTRAITUPSIDEDOWN') {
+        this.setState({rotationValue: '180deg'})
+      }
+      if (this.state.orientation === 'LANDSCAPE-LEFT') {
+        this.setState({rotationValue: '90deg'})
+      }
+      if (this.state.orientation === 'LANDSCAPE-RIGHT') {
+        this.setState({rotationValue: '-90deg'})
+      }
+    }
   }
 
   render () {
+    const {width, height} = this.props.getDimensions()
     return (
-      <Animated.View style={[styles.containerView, {opacity: this.state.headerOpacity}]}>
+      <Animated.View style={[styles.containerView, {
+        opacity: this.state.headerOpacity,
+        transform: [{rotate: this.state.rotationValue}],
+        top: height > width ? 0 : (width - height) / 2
+      }]}>
         <Text style={styles.textPages}>
           {`${this.props.page + 1} / ${this.props.numberOfImages}`}
         </Text>
@@ -67,7 +90,7 @@ export default class PhotoBrowserHeader extends React.Component {
 const styles = StyleSheet.create({
   containerView: {
     position: 'absolute',
-    top: 0, left: 0, right: 0,
+    left: 0, right: 0,
     backgroundColor: 'rgba(0,0,0,0.5)',
     flexDirection: 'row',
     alignItems: 'center',

@@ -64,7 +64,6 @@ export default class Videos extends React.Component {
     const contentHeight = event.contentSize.height
     const max = contentHeight - layoutHeight
     const distanceToBottom = max - Math.min(max, Math.max(0, event.contentOffset.y))
-    console.log(distanceToBottom)
     if (this._distanceToBottom !== distanceToBottom) {
       if (this._distanceToBottom >= 200 && distanceToBottom < 200) {
         this.props.relay.setVariables({totalVideos: this.props.relay.variables.totalVideos + 15})
