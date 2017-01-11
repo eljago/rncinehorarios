@@ -25,7 +25,10 @@ export default class ShowImagesRow extends React.Component {
     super(props)
     const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
     this.state = {
-      dataSource: dataSource.cloneWithRows(props.images)
+      dataSource: dataSource.cloneWithRows(props.images),
+      data: props.images.map((img) => {
+        return {image: img, text: ''}
+      })
     }
     _.bindAll(this, [
       '_renderRow',
@@ -50,9 +53,10 @@ export default class ShowImagesRow extends React.Component {
         />
         <PhotoBrowser
           ref={(comp) => {this._photoBrowser = comp}}
-          images={this.props.images}
+          data={this.state.data}
           onOpen={this._onOpenPhotoBrowser.bind(this)}
           onClose={this._onClosePhotoBrowser.bind(this)}
+          hideBottomHeader
         />
       </View>
     )

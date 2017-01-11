@@ -45,8 +45,11 @@ export default class ShowImagesRow extends React.Component {
         />
         <PhotoBrowser
           ref={(comp) => {this._photoBrowser = comp}}
-          images={this.props.cast.map((spr) => {
-            return {image: spr.person.image}
+          data={this.props.cast.map((spr) => {
+            return {
+              image: {image: spr.person.image},
+              text: `${(spr.director ? 'Director:\n' : '')}${spr.person.name}${(spr.character ? `\n(${spr.character})` : '')}`
+            }
           })}
           allowedOrientations={['PORTRAIT']}
           onOpen={this._onOpenPhotoBrowser.bind(this)}
@@ -94,7 +97,7 @@ export default class ShowImagesRow extends React.Component {
         <Text style={{
           backgroundColor: 'transparent',
           textAlign: 'center',
-          color: 'gray',
+          color: '#BDB9BE',
           fontSize: 12,
         }}>
           {`\n${showPersonRole.character}`}

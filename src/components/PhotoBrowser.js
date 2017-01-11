@@ -22,11 +22,13 @@ import PhotoBrowserHeader from './PhotoBrowserHeader'
 
 export default class PhotoBrowser extends React.Component {
   static propTypes = {
-    images: PropTypes.array.isRequired,
+    data: PropTypes.array.isRequired,
     onOpen: PropTypes.func,
     onClose: PropTypes.func,
     allowedOrientations: PropTypes.array,
-    initialOrientation: PropTypes.string
+    initialOrientation: PropTypes.string,
+    hideTopHeader: PropTypes.bool,
+    hideBottomHeader: PropTypes.bool
   };
   static defaultProps = {
     allowedOrientations: [
@@ -35,22 +37,24 @@ export default class PhotoBrowser extends React.Component {
       'LANDSCAPE-RIGHT',
       'LANDSCAPE-LEFT'
     ],
-    initialOrientation: 'PORTRAIT'
+    initialOrientation: 'PORTRAIT',
+    hideTopHeader: false,
+    hideBottomHeader: false
   }
   // Where listView's cells refs are kept. Used to change orientation after rotation
   _rows = {}
 
   constructor (props) {
     super(props)
-    for (let index = 0; index < props.images.length; index++) {
-      props.images[index].index = index
+    for (let index = 0; index < props.data.length; index++) {
+      props.data[index].index = index
     }
     const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
     this.state = {
       visible: false,
       headerVisible: false,
       page: 0,
-      dataSource: dataSource.cloneWithRows(props.images),
+      dataSource: dataSource.cloneWithRows(props.data),
       orientation: props.initialOrientation,
       rotationValue: new Animated.Value(0),
       backgroundColorAlpha: 1
@@ -119,16 +123,43 @@ export default class PhotoBrowser extends React.Component {
             renderRow={this._renderRow.bind(this)}
             onScroll={this._onScroll.bind(this)}
           />
-          <PhotoBrowserHeader
-            initialOrientation={this.state.orientation}
-            numberOfImages={this.props.images.length}
-            page={this.state.page}
-            visible={this.state.headerVisible}
-            onClose={this._onClose.bind(this)}
-            getDimensions={this._getDimensions.bind(this)}
-          />
+          {this._getTopHeader()}
+          {this._getBottomHeader()}
         </ScrollView>
       </Modal>
+    )
+  }
+
+  _getTopHeader() {
+    if (this.props.hideTopHeader) {
+      return null
+    }
+    return (
+      <PhotoBrowserHeader
+        initialOrientation={this.state.orientation}
+        text={`${this.state.page + 1} / ${this.props.data.length}`}
+        visible={this.state.headerVisible}
+        onClose={this._onClose.bind(this)}
+        getDimensions={this._getDimensions.bind(this)}
+        position='top'
+        showCloseButton
+      />
+    )
+  }
+
+  _getBottomHeader () {
+    if (this.props.hideBottomHeader) {
+      return null
+    }
+    return (
+      <PhotoBrowserHeader
+        initialOrientation={this.state.orientation}
+        text={this.props.data[this.state.page].text}
+        visible={this.state.headerVisible}
+        onClose={this._onClose.bind(this)}
+        getDimensions={this._getDimensions.bind(this)}
+        position='bottom'
+      />
     )
   }
 
@@ -170,11 +201,12 @@ export default class PhotoBrowser extends React.Component {
     return Math.floor((offset + 0.5 * pageWidth) / pageWidth)
   }
 
-  _renderRow (image: string, sectionID: number, rowID: number) {
+  _renderRow (dataObject, sectionID, rowID) {
+    const {image} = dataObject
     return (
       <PhotoBrowserImage
         key={rowID}
-        ref={(row) => { this._rows[image.index] = row }}
+        ref={(row) => { this._rows[dataObject.index] = row }}
         imageUrl={getImageVersion(image.image)}
         imageWidth={image.width ? image.width : this._getDimensions().smaller}
         imageHeight={image.height ? image.height : this._getDimensions().bigger}
@@ -203,7 +235,7 @@ export default class PhotoBrowser extends React.Component {
   _changeImagesOrientation(newOrientation) {
     if (this._listView) {
       this._scrollToIndex(this.state.page)
-      for (let index = 0; index < this.props.images.length; index++) {
+      for (let index = 0; index < this.props.data.length; index++) {
         const rowView = this._rows[index]
         if (rowView) {
           rowView.changeOrientation(newOrientation, this.state.page === index)

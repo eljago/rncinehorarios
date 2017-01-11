@@ -11,11 +11,16 @@ import {
 export default class PhotoBrowserHeader extends React.Component {
   static propTypes = {
     initialOrientation: PropTypes.string,
-    numberOfImages: PropTypes.number.isRequired,
-    page: PropTypes.number.isRequired,
+    text: PropTypes.string,
     onClose: PropTypes.func,
     visible: PropTypes.bool,
-    getDimensions: PropTypes.func
+    getDimensions: PropTypes.func,
+    showCloseButton: PropTypes.bool,
+    position: PropTypes.string
+  }
+  static defaultProps = {
+    showCloseButton: false,
+    position: 'top'
   }
 
   constructor(props) {
@@ -58,11 +63,19 @@ export default class PhotoBrowserHeader extends React.Component {
       <Animated.View style={[styles.containerView, {
         opacity: this.state.headerOpacity,
         transform: [{rotate: this.state.rotationValue}],
-        top: height > width ? 0 : (width - height) / 2
+        [this.props.position]: height > width ? 0 : (width - height) / 2
       }]}>
-        <Text style={styles.textPages}>
-          {`${this.props.page + 1} / ${this.props.numberOfImages}`}
+        <Text style={styles.text}>
+          {this.props.text}
         </Text>
+        {this._getCloseButton()}
+      </Animated.View>
+    )
+  }
+
+  _getCloseButton () {
+    if (this.props.showCloseButton) {
+      return(
         <TouchableOpacity
           onPress={this.props.onClose}
           style={styles.closeButton}
@@ -71,19 +84,8 @@ export default class PhotoBrowserHeader extends React.Component {
             Cerrar
           </Text>
         </TouchableOpacity>
-      </Animated.View>
-    )
-  }
-
-  setVisible (visible) {
-    Animated.spring(
-      this.state.headerOpacity,
-      {
-        toValue: visible ? 1 : 0,
-        tension: 50,
-        friction: 10
-      }
-    ).start()
+      )
+    }
   }
 }
 
@@ -94,9 +96,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.5)',
     flexDirection: 'row',
     alignItems: 'center',
-    height: 50
+    height: 60
   },
-  textPages: {
+  text: {
     flex: 1,
     textAlign: 'center',
     color: 'white',
@@ -104,9 +106,13 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     paddingRight: 10,
+    paddingLeft: 10,
     position: 'absolute',
     right: 0,
-    top: 15
+    bottom: 0,
+    top: 0,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   textClose: {
     fontSize: 16,
