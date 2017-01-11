@@ -2,7 +2,7 @@
 'use strict'
 
 import React, {PropTypes} from 'react'
-import {Image, StyleSheet, View, ScrollView} from 'react-native'
+import {Image, StyleSheet, View, ScrollView, RefreshControl} from 'react-native'
 
 import ShowData from '../components/ShowData'
 import ShowImagesRow from '../components/ShowImagesRow'
@@ -16,6 +16,9 @@ export default class Show extends React.Component {
   static propTypes = {
     setDrawerLockMode: PropTypes.func.isRequired
   };
+  state = {
+    refreshing: false
+  }
 
   render () {
     const show = this.props.viewer.show
@@ -26,7 +29,14 @@ export default class Show extends React.Component {
         resizeMode='cover'
       >
         <View style={styles.imageContent}>
-          <ScrollView>
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this._onRefresh.bind(this)}
+              />
+            }
+          >
             <ShowData
               showInformation={show.information}
               showDuration={show.duration}
@@ -40,6 +50,15 @@ export default class Show extends React.Component {
         </View>
       </Image>
     )
+  }
+
+  _onRefresh() {
+    this.setState({refreshing: true})
+    this.props.relay.forceFetch(null, (readyState) => {
+      if (readyState.done) {
+        this.setState({refreshing: false})
+      }
+    })
   }
 
   _getImages () {

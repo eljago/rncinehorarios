@@ -64,6 +64,7 @@ export default class Functions extends React.Component {
             tabLabel={date}
             renderRow={this._renderRow}
             dataRows={dataRows}
+            forceFetch={this.props.relay.forceFetch}
           />
         </Animated.View>
       </View>

@@ -27,6 +27,7 @@ export default class Theaters extends React.Component {
       <MyGiftedListView
         renderRow={this._renderRow}
         dataRows={dataRows}
+        forceFetch={this.props.relay.forceFetch}
       />
     )
   }

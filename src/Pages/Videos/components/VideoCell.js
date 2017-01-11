@@ -13,42 +13,45 @@ import {
 import {getImageVersion} from '../../../utils/ImageHelper'
 import {getShowRoute} from '../../../../data/routes'
 import {goToVideo} from '../../../utils/VideoHelper'
+import MyListViewCell from '../../../components/MyListViewCell'
 
-const MARGINCELL = 10
 const POSTERWIDTH = 80
 
 export default class VideoCell extends React.Component {
   static propTypes = {
-    onPushRoute: PropTypes.func.isRequired,
+    rowNumber: PropTypes.number,
+    onPressPoster: PropTypes.func,
+    onPressVideo: PropTypes.func,
     showId: PropTypes.number,
     showName: PropTypes.string,
     showCoverUrl: PropTypes.string,
     videoName: PropTypes.string,
     videoType: PropTypes.string,
     videoPortraitUrl: PropTypes.string,
-    videoCode: PropTypes.string,
-    backgroundColor: PropTypes.string
+    videoCode: PropTypes.string
   }
 
   render () {
     const {width} = Dimensions.get('window')
-    const availWidth = width - MARGINCELL * 2
+    const availWidth = width
     const posterHeight = availWidth / (8/11 + 2.5)
     const {
+      rowNumber,
+      onPressPoster,
+      onPressVideo,
       showId,
       showName,
       showCoverUrl,
       videoName,
       videoType,
       videoCode,
-      videoPortraitUrl,
-      backgroundColor
+      videoPortraitUrl
     } = this.props
     return (
-      <View style={[styles.container, {
-        width: width,
-        backgroundColor: backgroundColor
-      }]}>
+      <MyListViewCell
+        rowNumber={rowNumber}
+        hideAccessoryView
+      >
         <View style={styles.content}>
           <Text style={styles.title}>
             {showName}
@@ -56,7 +59,7 @@ export default class VideoCell extends React.Component {
           <View style={styles.contentRow}>
             <TouchableOpacity
               style={[styles.buttonPoster, {height: posterHeight}]}
-              onPress={this._onGoToMovie.bind(this, showId, showName)}
+              onPress={onPressPoster}
               activeOpacity={0.85}
             >
               <Image
@@ -67,7 +70,7 @@ export default class VideoCell extends React.Component {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.buttonPortrait}
-              onPress={() => {goToVideo(videoCode)}}
+              onPress={onPressVideo}
               activeOpacity={0.85}
             >
               <Image
@@ -88,13 +91,8 @@ export default class VideoCell extends React.Component {
             {videoName}
           </Text>
         </View>
-      </View>
+      </MyListViewCell>
     )
-  }
-
-  _onGoToMovie (showId, showName) {
-    const showRoute = getShowRoute(showId, showName)
-    this.props.onPushRoute(showRoute, true)
   }
 }
 
@@ -103,7 +101,6 @@ const styles = StyleSheet.create({
     flex: 1
   },
   content: {
-    margin: MARGINCELL,
     shadowRadius: 3,
     shadowOpacity: 1,
     shadowOffset: {

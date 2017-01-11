@@ -3,13 +3,17 @@
 
 import React, {PropTypes} from 'react'
 
-import Billboard from '../components/Billboard'
-import ComingSoon from '../components/ComingSoon'
 import MyHeaderListView from '../../../components/MyHeaderListView'
+import MyGiftedListView from '../../../components/MyGiftedListView'
+import MovieCell from '../components/MovieCell'
+import {getShowRoute} from '../../../../data/routes'
 
 export default class Movies extends React.Component {
   static propTypes = {
     onPushRoute: PropTypes.func.isRequired
+  }
+  state = {
+    viewType: 'default'
   }
 
   render () {
@@ -24,14 +28,61 @@ export default class Movies extends React.Component {
   }
 
   _renderPage (rowData, sectionID, rowID, highlightRow) {
-    if (rowID === '0') {
-      return (
-        <Billboard onPushRoute={this.props.onPushRoute} shows={rowData} />
-      )
-    } else if (rowID === '1') {
-      return (
-        <ComingSoon onPushRoute={this.props.onPushRoute} shows={rowData} />
-      )
-    }
+    const renderRow = rowID === '0' ? this._renderBillboardRow : this._renderComingSoonRow
+    return (
+      <MyGiftedListView
+        renderRow={renderRow.bind(this)}
+        dataRows={rowData}
+        onPress={this._onPress.bind(this)}
+        forceFetch={this.props.relay.forceFetch}
+      />
+    )
+  }
+
+  _onPress (rowData) {
+    const showRoute = getShowRoute(rowData.show_id, rowData.name)
+    this.props.onPushRoute(showRoute, true)
+  }
+
+  _renderBillboardRow (rowData, sectionID, rowID, highlightRow) {
+    return (
+      <MovieCell
+        rowNumber={rowData.rowNumber}
+        onPress={() => this._onPress(rowData)}
+        showName={rowData.name}
+        showGenres={rowData.genres}
+        showDuration={rowData.duration}
+        showRating={rowData.rating}
+        showCover={rowData.cover}
+        showImdbCode={rowData.imdb_code}
+        showImdbScore={rowData.imdb_score}
+        showMetacriticUrl={rowData.metacritic_url}
+        showMetacriticScore={rowData.metacritic_score}
+        showRottenTomatoesUrl={rowData.rotten_tomatoes_url}
+        showRottenTomatoesScore={rowData.rotten_tomatoes_score}
+        showingScores={this.state.viewType === 'scores'}
+        isBillboard
+      />
+    )
+  }
+
+  _renderComingSoonRow (rowData, sectionID, rowID, highlightRow) {
+    return (
+      <MovieCell
+        rowNumber={rowData.rowNumber}
+        onPress={() => this._onPress(rowData)}
+        showName={rowData.name}
+        showDebut={rowData.debut}
+        showCover={rowData.cover}
+        showImdbCode={rowData.imdb_code}
+        showImdbScore={rowData.imdb_score}
+        showMetacriticUrl={rowData.metacritic_url}
+        showMetacriticScore={rowData.metacritic_score}
+        showRottenTomatoesUrl={rowData.rotten_tomatoes_url}
+        showRottenTomatoesScore={rowData.rotten_tomatoes_score}
+        showingScores={this.state.viewType === 'scores'}
+        isBillboard={false}
+      />
+    )
   }
 }
