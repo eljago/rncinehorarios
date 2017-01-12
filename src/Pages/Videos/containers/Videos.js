@@ -6,6 +6,7 @@ import MyHeaderListView from '../../../components/MyHeaderListView'
 import MyGiftedListView from '../../../components/MyGiftedListView'
 import VideoCell from '../components/VideoCell'
 import {goToVideo} from '../../../utils/VideoHelper'
+import {getShowRoute} from '../../../../data/routes'
 
 export default class Videos extends React.Component {
   static propTypes = {

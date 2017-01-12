@@ -42,6 +42,7 @@ function getCinemasRoute () {
   return {
     key: 'cinemas',
     title: 'Cines',
+    screenView: 'Cinemas',
     component: Cinemas
   }
 }
@@ -50,6 +51,7 @@ function getMoviesRoute () {
   return {
     key: 'movies',
     title: 'Películas',
+    screenView: 'Movies',
     component: RelayContainer,
     props: {
       component: Movies,
@@ -64,6 +66,7 @@ function getVideosRoute () {
   return {
     key: 'videos',
     title: 'Videos',
+    screenView: 'Videos',
     component: RelayContainer,
     props: {
       component: Videos,
@@ -78,6 +81,7 @@ function getTheatersRoute (cinemaId, cinemaName) {
   return ({
     key: 'Theaters',
     title: cinemaName,
+    screenView: 'Theaters',
     component: RelayContainer,
     props: {
       component: Theaters,
@@ -97,6 +101,7 @@ function getFunctionsRoute (theaterId, theaterName) {
   return ({
     key: 'Functions',
     title: theaterName,
+    screenView: 'Functions',
     component: RelayContainer,
     props: {
       component: Functions,
@@ -117,6 +122,7 @@ function getShowRoute (showId, showName) {
   return ({
     key: 'Show',
     title: showName,
+    screenView: 'Show',
     component: RelayContainer,
     props: {
       component: Show,
@@ -140,18 +146,6 @@ function getShowRoute (showId, showName) {
   })
 }
 
-function getImageViewerRoute (images, index = 0) {
-  return ({
-    key: 'PhotoBrowser',
-    title: 'Imágenes',
-    component: PhotoBrowser,
-    props: {
-      images: images,
-      index: index
-    }
-  })
-}
-
 function getCacheTime () {
   const today = moment()
   const minutes = parseInt(today.format('mm'))
@@ -162,6 +156,5 @@ export {
   getMenuRoutes,
   getTheatersRoute,
   getFunctionsRoute,
-  getShowRoute,
-  getImageViewerRoute
+  getShowRoute
 }

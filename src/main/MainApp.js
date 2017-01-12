@@ -1,6 +1,6 @@
 'use strict'
 
-import React from 'react'
+import React, {PropTypes} from 'react'
 import {
   View,
   Text,
@@ -21,6 +21,10 @@ const {
 } = NavigationExperimental
 
 export default class MainApp extends React.Component {
+
+  static propTypes = {
+    reportScreenView: PropTypes.func
+  }
 
   constructor(props) {
     super(props)
@@ -45,6 +49,16 @@ export default class MainApp extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.props.reportScreenView(this._getScreenView())
+  }
+
+  componentDidUpdate (prevProps, prevState) {
+    if (this.state.navigationState !== prevState.navigationState) {
+      this.props.reportScreenView(this._getScreenView())
+    }
+  }
+
   render () {
     const {navigationState} = this.state;
     const {menuItems} = navigationState;
@@ -59,6 +73,7 @@ export default class MainApp extends React.Component {
         drawerLockMode={this.state.drawerLockMode}
       >
         <CardNavigator
+          ref={(comp) => { this._cardNav = comp }}
           key={'stack_' + menuItemKey}
           navigationState={scenes}
           onPushRoute={this._onPushRoute.bind(this)}
@@ -153,6 +168,15 @@ export default class MainApp extends React.Component {
 
   _setDrawerLockMode (drawerLockMode) {
     this.setState({drawerLockMode})
+  }
+
+  _getScreenView () {
+    const {navigationState} = this.state
+    const {menuItems} = navigationState
+    const {key} = menuItems.routes[menuItems.index]
+    const {routes} = navigationState[key]
+    const {screenView} = routes[routes.length - 1]
+    return screenView
   }
 }
 

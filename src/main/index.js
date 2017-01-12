@@ -4,8 +4,7 @@
 import React from 'react'
 import Relay from 'react-relay'
 import {
-  View,
-  AppState
+  View
 } from 'react-native'
 
 import config from '../../data/config'
@@ -32,30 +31,18 @@ export default class CineHorariosApp extends React.Component {
     super(props)
     GoogleAnalyticsSettings.setDispatchInterval(30)
     GoogleAnalyticsSettings.setDryRun(false)
-    reportAnalytics()
   }
 
   componentDidMount () {
     Orientation.lockToPortrait()
-    AppState.addEventListener('change', handleAppStateChange)
-  }
-
-  componentWillUnmount () {
-    AppState.removeEventListener('change', handleAppStateChange)
   }
 
   render () {
-    return <MainApp />
+    return <MainApp reportScreenView={reportScreenView}/>
   }
 }
 
-function handleAppStateChange (currentAppState) {
-  if (currentAppState === 'active') {
-    reportAnalytics()
-  }
-}
-
-function reportAnalytics () {
+function reportScreenView (screenView) {
   let tracker = new GoogleAnalyticsTracker('UA-89600675-1')
-  tracker.trackScreenView('Cine Horarios')
+  tracker.trackScreenView(screenView)
 }
