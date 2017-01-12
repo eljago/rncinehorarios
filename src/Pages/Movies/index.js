@@ -33,6 +33,7 @@ export default Relay.createContainer(Movies, {
           name
           debut
           cover
+          genres
           imdb_code
           imdb_score
           metacritic_url

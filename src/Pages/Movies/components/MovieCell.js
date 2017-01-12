@@ -2,6 +2,8 @@
 
 import React, { PropTypes } from 'react'
 import { StyleSheet, View, Image, Text } from 'react-native'
+import moment from 'moment'
+import _ from 'lodash'
 
 import Colors from '../../../../data/Colors'
 import MyListViewCell from '../../../components/MyListViewCell'
@@ -84,18 +86,18 @@ export default class MovieCell extends React.Component {
         showRating,
         showDebut
       } = this.props
-      const specificContent = isBillboard
-      ? [
-        getSubtitleView(showDuration, `${showDuration} minutos`),
-        getSubtitleView(showRating)
-      ]
-      : [
-        getSubtitleView(showDebut)
+      const debut = showDebut ? moment(showDebut, "YYYY-MM-DD").format('D [de] MMMM, YYYY') : null
+      const duration = showDuration ? showDuration.toString() : null
+      const specificContent = isBillboard ? [
+        getDataText(duration, {suffix: ' minutos', key: 'duration'}),
+        getDataText(showRating, {key: 'rating'})
+      ] : [
+        getDataText(debut, {prefix: 'Estreno: ', key: 'genres'})
       ]
       return (
         <View style={styles.textContainer}>
           <Text key='name' style={styles.name}>{showName}</Text>
-          {getSubtitleView(showGenres)}
+          {getDataText(showGenres, {key: 'genres'})}
           {specificContent}
         </View>
       )
@@ -103,12 +105,12 @@ export default class MovieCell extends React.Component {
   }
 }
 
-const getSubtitleView = (variable, customText = null) => {
-  if ((typeof variable === 'number' && variable > 0) ||
-      (typeof variable === 'string' && variable.length > 0)) {
-    const text = customText != null ? customText : variable
+function getDataText (text, options = {}) {
+  if (_.isString(text) && !_.isEmpty(text)) {
     return (
-      <Text key={text} style={styles.subtitle}>{text}</Text>
+      <Text key={options.key} style={styles.subtitle}>
+        {`${options.prefix ? options.prefix : ''}${text}${options.suffix ? options.suffix : ''}`}
+      </Text>
     )
   }
   return null

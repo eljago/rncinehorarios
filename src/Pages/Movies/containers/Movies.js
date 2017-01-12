@@ -72,6 +72,7 @@ export default class Movies extends React.Component {
         rowNumber={rowData.rowNumber}
         onPress={() => this._onPress(rowData)}
         showName={rowData.name}
+        showGenres={rowData.genres}
         showDebut={rowData.debut}
         showCover={rowData.cover}
         showImdbCode={rowData.imdb_code}

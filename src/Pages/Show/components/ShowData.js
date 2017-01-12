@@ -3,13 +3,21 @@
 
 import React, { PropTypes } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
+import moment from 'moment'
+import _ from 'lodash'
 
 export default class ShowData extends React.Component {
   static propTypes = {
     showInformation: PropTypes.string,
     showDuration: PropTypes.number,
     showDebut: PropTypes.string,
-    showGenres: PropTypes.string
+    showGenres: PropTypes.string,
+    showRating: PropTypes.string
+  }
+
+  constructor(props) {
+    super(props)
+    moment.locale('es');
   }
 
   render () {
@@ -17,14 +25,18 @@ export default class ShowData extends React.Component {
       showInformation,
       showDuration,
       showDebut,
-      showGenres
+      showGenres,
+      showRating
     } = this.props
+    const debut = showDebut ? moment(showDebut, "YYYY-MM-DD").format('D [de] MMMM, YYYY') : null
+    const duration = showDuration ? showDuration.toString() : null
     return (
       <View style={styles.container}>
         <View style={styles.showData}>
-          {getDataText(showDuration, {suffix: ' minutos'})}
-          {getDataText(showDebut, {prefix: 'Estreno: '})}
+          {getDataText(debut, {prefix: 'Estreno: '})}
           {getDataText(showGenres)}
+          {getDataText(duration, {prefix: 'Duracion: ', suffix: ' minutos'})}
+          {getDataText(showRating)}
           {getDataText(showInformation, {style: styles.information})}
         </View>
       </View>
@@ -33,7 +45,7 @@ export default class ShowData extends React.Component {
 }
 
 function getDataText (text, options = {}) {
-  if (typeof text === 'string') {
+  if (_.isString(text) && !_.isEmpty(text)) {
     return (
       <Text style={options.style ? options.style : styles.dataText}>
         {`${options.prefix ? options.prefix : ''}${text}${options.suffix ? options.suffix : ''}`}

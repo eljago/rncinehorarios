@@ -5,8 +5,13 @@ import {
   Animated,
   TouchableOpacity,
   Text,
-  StyleSheet
+  StyleSheet,
+  Platform,
+  NativeModules
 } from 'react-native'
+const { StatusBarManager } = NativeModules;
+
+const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 0 : StatusBarManager.HEIGHT;
 
 export default class PhotoBrowserHeader extends React.Component {
   static propTypes = {
@@ -63,7 +68,7 @@ export default class PhotoBrowserHeader extends React.Component {
       <Animated.View style={[styles.containerView, {
         opacity: this.state.headerOpacity,
         transform: [{rotate: this.state.rotationValue}],
-        [this.props.position]: height > width ? 0 : (width - height) / 2
+        [this.props.position]: height > width ? 0 : (width - height - STATUSBAR_HEIGHT) / 2
       }]}>
         <Text style={styles.text}>
           {this.props.text}
@@ -105,7 +110,7 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
   closeButton: {
-    paddingRight: 10,
+    paddingRight: 10 + STATUSBAR_HEIGHT,
     paddingLeft: 10,
     position: 'absolute',
     right: 0,

@@ -19,7 +19,8 @@ export default class RelayContainer extends React.Component {
     onPushRoute: PropTypes.func,
     onPopRoute: PropTypes.func,
     setDrawerLockMode: PropTypes.func,
-    getHeader: PropTypes.func
+    getHeader: PropTypes.func,
+    backgroundStyle: PropTypes.object
   };
 
   render () {
@@ -30,7 +31,8 @@ export default class RelayContainer extends React.Component {
       onPushRoute,
       onPopRoute,
       setDrawerLockMode,
-      getHeader
+      getHeader,
+      backgroundStyle
     } = this.props
 
     return (
@@ -58,7 +60,7 @@ export default class RelayContainer extends React.Component {
             )
           } else if (props) {
             return (
-              <View style={{flex: 1}}>
+              <View style={[{flex: 1}, backgroundStyle]}>
                 <Component
                   ref={(comp) => { this.comp = comp }}
                   onPushRoute={onPushRoute}
@@ -71,7 +73,7 @@ export default class RelayContainer extends React.Component {
               </View>
             )
           } else {
-            return <LoadingIndicator />
+            return <LoadingIndicator backgroundStyle={backgroundStyle}/>
           }
         }}
       />

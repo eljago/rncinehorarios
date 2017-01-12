@@ -2,6 +2,7 @@
 'use strict'
 
 import Relay from 'react-relay'
+import {Platform} from 'react-native'
 import moment from 'moment'
 
 import Cinemas from '../src/Pages/Cinemas'
@@ -14,6 +15,9 @@ import RelayContainer from '../src/components/RelayContainer'
 import PhotoBrowser from '../src/components/PhotoBrowser'
 
 import HeaderButton from '../src/components/HeaderButton'
+
+const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
+const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0;
 
 class ViewerQueryConfig extends Relay.Route {
   static routeName = 'ViewerQueryConfig'
@@ -123,7 +127,15 @@ function getShowRoute (showId, showName) {
       extraProps: {
         showId: showId,
         showName: showName
+      },
+      backgroundStyle: {
+        backgroundColor: 'black',
+        marginTop: -(APPBAR_HEIGHT + STATUSBAR_HEIGHT),
+        paddingTop: APPBAR_HEIGHT + STATUSBAR_HEIGHT
       }
+    },
+    headerStyle: {
+      backgroundColor: 'rgba(0,0,0,0.5)'
     }
   })
 }

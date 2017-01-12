@@ -2,7 +2,14 @@
 'use strict'
 
 import React, {PropTypes} from 'react'
-import {Image, StyleSheet, View, ScrollView, RefreshControl} from 'react-native'
+import {
+  Image,
+  StyleSheet,
+  View,
+  ScrollView,
+  RefreshControl,
+  Platform
+} from 'react-native'
 
 import ShowData from '../components/ShowData'
 import ShowImagesRow from '../components/ShowImagesRow'
@@ -11,6 +18,9 @@ import ShowVideosRow from '../components/ShowVideosRow'
 import MediaRowWithTitle from '../components/MediaRowWithTitle'
 
 import {getImageVersion} from '../../../utils/ImageHelper'
+
+const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
+const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0;
 
 export default class Show extends React.Component {
   static propTypes = {
@@ -23,32 +33,38 @@ export default class Show extends React.Component {
   render () {
     const show = this.props.viewer.show
     return (
-      <Image
-        style={styles.imageContainer}
-        source={{uri: getImageVersion(show.cover)}}
-        resizeMode='cover'
+      <View
+        style={styles.container}
       >
-        <View style={styles.imageContent}>
-          <ScrollView
-            refreshControl={
-              <RefreshControl
-                refreshing={this.state.refreshing}
-                onRefresh={this._onRefresh.bind(this)}
+        <Image
+          style={styles.imageContainer}
+          source={{uri: getImageVersion(show.cover)}}
+          resizeMode='cover'
+        >
+          <View style={styles.imageContent}>
+            <ScrollView
+              contentContainerStyle={styles.scrollViewContainer}
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.refreshing}
+                  onRefresh={this._onRefresh.bind(this)}
+                />
+              }
+            >
+              <ShowData
+                showInformation={show.information}
+                showDuration={show.duration}
+                showDebut={show.debut}
+                showGenres={show.genres}
+                showRating={show.rating}
               />
-            }
-          >
-            <ShowData
-              showInformation={show.information}
-              showDuration={show.duration}
-              showDebut={show.debut}
-              showGenres={show.genres}
-            />
-            {this._getImages()}
-            {this._getCast()}
-            {this._getVideos()}
-          </ScrollView>
-        </View>
-      </Image>
+              {this._getImages()}
+              {this._getCast()}
+              {this._getVideos()}
+            </ScrollView>
+          </View>
+        </Image>
+      </View>
     )
   }
 
@@ -99,11 +115,19 @@ export default class Show extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'black',
+    marginTop: -(APPBAR_HEIGHT + STATUSBAR_HEIGHT)
+  },
   imageContainer: {
     flex: 1
   },
   imageContent: {
     flex: 1,
     backgroundColor: 'rgba(1,1,1,0.85)'
+  },
+  scrollViewContainer: {
+    paddingTop: APPBAR_HEIGHT + STATUSBAR_HEIGHT
   }
 })

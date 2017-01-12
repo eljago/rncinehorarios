@@ -1,6 +1,6 @@
 'use strict'
 
-import React from 'react'
+import React, {PropTypes} from 'react'
 import {
   ActivityIndicator,
   StyleSheet,
@@ -8,10 +8,13 @@ import {
 } from 'react-native'
 
 export default class LoadingIndicator extends React.Component {
+  static propTypes = {
+    backgroundStyle: PropTypes.object
+  }
 
   render () {
     return (
-      <View style={styles.loadingContainer}>
+      <View style={[styles.loadingContainer, this.props.backgroundStyle]}>
         <View style={styles.activityContainer}>
           <ActivityIndicator
             style={styles.activityIndicator}
