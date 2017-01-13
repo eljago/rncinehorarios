@@ -15,16 +15,14 @@ import {getMenuRoutes} from '../../data/routes'
 import DrawerLayout from 'react-native-drawer-layout'
 import Colors from '../../data/Colors'
 
+import {reportScreenView} from '../utils/Analytics'
+
 const {
   CardStack: NavigationCardStack,
   StateUtils: NavigationStateUtils
 } = NavigationExperimental
 
 export default class MainApp extends React.Component {
-
-  static propTypes = {
-    reportScreenView: PropTypes.func
-  }
 
   constructor(props) {
     super(props)
@@ -50,12 +48,12 @@ export default class MainApp extends React.Component {
   }
 
   componentDidMount() {
-    this.props.reportScreenView(this._getScreenView())
+    reportScreenView(this._getScreenView())
   }
 
   componentDidUpdate (prevProps, prevState) {
     if (this.state.navigationState !== prevState.navigationState) {
-      this.props.reportScreenView(this._getScreenView())
+      reportScreenView(this._getScreenView())
     }
   }
 

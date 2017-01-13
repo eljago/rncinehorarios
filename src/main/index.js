@@ -38,11 +38,6 @@ export default class CineHorariosApp extends React.Component {
   }
 
   render () {
-    return <MainApp reportScreenView={reportScreenView}/>
+    return <MainApp/>
   }
-}
-
-function reportScreenView (screenView) {
-  let tracker = new GoogleAnalyticsTracker('UA-89600675-1')
-  tracker.trackScreenView(screenView)
 }

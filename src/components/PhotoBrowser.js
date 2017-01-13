@@ -19,8 +19,9 @@ import Orientation from 'react-native-orientation'
 import {getImageVersion} from '../utils/ImageHelper'
 import PhotoBrowserImage from './PhotoBrowserImage'
 import PhotoBrowserHeader from './PhotoBrowserHeader'
+import config from '../../data/config'
 
-import {GoogleAnalyticsTracker} from 'react-native-google-analytics-bridge'
+import {reportEvent} from '../utils/Analytics'
 
 export default class PhotoBrowser extends React.Component {
   static propTypes = {
@@ -232,8 +233,7 @@ export default class PhotoBrowser extends React.Component {
       this.setState({visible: false})
     }
     this.props.onClose()
-    let tracker = new GoogleAnalyticsTracker('UA-89600675-1')
-    tracker.trackEvent('PhotoBrowser', 'closed');
+    reportEvent('PhotoBrowser', 'closed')
   }
 
   _changeImagesOrientation(newOrientation) {
@@ -256,8 +256,7 @@ export default class PhotoBrowser extends React.Component {
       backgroundColorAlpha: 1
     })
     this.props.onOpen()
-    let tracker = new GoogleAnalyticsTracker('UA-89600675-1')
-    tracker.trackEvent('PhotoBrowser', 'opened');
+    reportEvent('PhotoBrowser', 'opened')
   }
 }
 
