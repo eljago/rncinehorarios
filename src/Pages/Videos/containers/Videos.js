@@ -1,6 +1,9 @@
 'use strict'
 
 import React, { PropTypes } from 'react'
+import {
+  View
+} from 'react-native'
 
 import MyHeaderListView from '../../../components/MyHeaderListView'
 import MyGiftedListView from '../../../components/MyGiftedListView'
@@ -8,20 +11,31 @@ import VideoCell from '../components/VideoCell'
 import {goToVideo} from '../../../utils/VideoHelper'
 import {getShowRoute} from '../../../../data/routes'
 
+import VideoWebView from '../../../components/VideoWebView'
+
 export default class Videos extends React.Component {
   static propTypes = {
     onPushRoute: PropTypes.func.isRequired
   }
   _distanceToBottom = 0
 
+  componentDidMount() {
+    console.log(this._videoWebView)
+  }
+
   render () {
     const {latestVideos, billboardVideos, comingSoonVideos} = this.props.viewer
     return (
-      <MyHeaderListView
-        dataRows={[latestVideos.edges, billboardVideos.edges, comingSoonVideos.edges]}
-        titles={['Últimos', 'Cartelera', 'Próximamente']}
-        renderPage={this._renderPage.bind(this)}
-      />
+      <View style={{flex: 1}}>
+        <MyHeaderListView
+          dataRows={[latestVideos.edges, billboardVideos.edges, comingSoonVideos.edges]}
+          titles={['Últimos', 'Cartelera', 'Próximamente']}
+          renderPage={this._renderPage.bind(this)}
+        />
+        <VideoWebView
+          ref={(comp) => {this._videoWebView = comp}}
+        />
+      </View>
     )
   }
 
@@ -42,7 +56,10 @@ export default class Videos extends React.Component {
       <VideoCell
         rowNumber={rowData.rowNumber}
         onPressPoster={this._onGoToMovie.bind(this, video.show.show_id, video.show.name)}
-        onPressPortrait={() => {goToVideo(videoCode)}}
+        onPressVideo={this._onGoToVideo.bind(this, {
+          videoType: video.video_type,
+          code: video.code
+        })}
         showId={video.show.show_id}
         showName={video.show.name}
         showCoverUrl={video.show.cover}
@@ -52,6 +69,11 @@ export default class Videos extends React.Component {
         videoPortraitUrl={video.image}
       />
     )
+  }
+
+  _onGoToVideo (videoProps) {
+    console.log('ejale')
+    this._videoWebView.open(videoProps)
   }
 
   _onGoToMovie (showId, showName) {
