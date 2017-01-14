@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   videoPlay: {
-    tintColor: '#C91800'
+    tintColor: '#C5BEC9'
   },
   buttonPortrait: {
     flex: 1,
