@@ -19,6 +19,7 @@ export default Relay.createContainer(Videos, {
           edges {
             cursor
             node {
+              video_id
               name
               image
               code
@@ -38,6 +39,7 @@ export default Relay.createContainer(Videos, {
           edges {
             cursor
             node {
+              video_id
               name
               image
               code
@@ -54,6 +56,7 @@ export default Relay.createContainer(Videos, {
           edges {
             cursor
             node {
+              video_id
               name
               image
               code

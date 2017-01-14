@@ -16,6 +16,7 @@
     "react-native-image-progress": "^0.6.0",
     "react-native-orientation": "git+https://github.com/8fit/react-native-orientation",
     "react-native-progress": "^3.2.0",
+    "react-native-youtube": "github:davidohayon669/react-native-youtube#v1",
     "react-relay": "^0.10.0"
   },
   "devDependencies": {

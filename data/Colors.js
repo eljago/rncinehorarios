@@ -4,7 +4,7 @@ export default {
 
   background: '#1E1E1E',
 
-  navBar: '#972605',
+  navBar: 'rgb(200,64,54)',
   navBarTitle: 'white',
   navBarTitleNotSelected: '#FF8B70',
 

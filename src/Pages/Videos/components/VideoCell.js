@@ -20,15 +20,9 @@ const POSTERWIDTH = 80
 export default class VideoCell extends React.Component {
   static propTypes = {
     rowNumber: PropTypes.number,
+    video: PropTypes.object.isRequired,
     onPressPoster: PropTypes.func,
-    onPressVideo: PropTypes.func,
-    showId: PropTypes.number,
-    showName: PropTypes.string,
-    showCoverUrl: PropTypes.string,
-    videoName: PropTypes.string,
-    videoType: PropTypes.string,
-    videoPortraitUrl: PropTypes.string,
-    videoCode: PropTypes.string
+    onPressVideo: PropTypes.func
   }
 
   render () {
@@ -39,13 +33,7 @@ export default class VideoCell extends React.Component {
       rowNumber,
       onPressPoster,
       onPressVideo,
-      showId,
-      showName,
-      showCoverUrl,
-      videoName,
-      videoType,
-      videoCode,
-      videoPortraitUrl
+      video
     } = this.props
     return (
       <MyListViewCell
@@ -54,27 +42,30 @@ export default class VideoCell extends React.Component {
       >
         <View style={styles.content}>
           <Text style={styles.title}>
-            {showName}
+            {video.show.name}
           </Text>
           <View style={styles.contentRow}>
+
             <TouchableOpacity
               style={[styles.buttonPoster, {height: posterHeight}]}
               onPress={onPressPoster}
               activeOpacity={0.85}
             >
               <Image
-                source={{uri: getImageVersion(showCoverUrl, 'small')}}
+                source={{uri: getImageVersion(video.show.cover, 'small')}}
                 style={styles.container}
                 resizeMode='cover'
               />
             </TouchableOpacity>
+            <View style={{flex: 1}}>
+
             <TouchableOpacity
               style={styles.buttonPortrait}
               onPress={onPressVideo}
               activeOpacity={0.85}
             >
               <Image
-                source={{uri: getImageVersion(videoPortraitUrl, 'small')}}
+                source={{uri: getImageVersion(video.image, 'small')}}
                 style={styles.image}
                 resizeMode='cover'
               />
@@ -86,9 +77,11 @@ export default class VideoCell extends React.Component {
                 />
               </View>
             </TouchableOpacity>
+
+            </View>
           </View>
           <Text style={styles.title}>
-            {videoName}
+            {video.name}
           </Text>
         </View>
       </MyListViewCell>

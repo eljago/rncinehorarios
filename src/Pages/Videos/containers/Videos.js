@@ -1,9 +1,14 @@
 'use strict'
 
 import React, { PropTypes } from 'react'
+import {
+  View
+} from 'react-native'
+import update from 'react/lib/update'
 
 import MyHeaderListView from '../../../components/MyHeaderListView'
 import MyGiftedListView from '../../../components/MyGiftedListView'
+import VideoPlayer from '../../../components/VideoPlayer'
 import VideoCell from '../components/VideoCell'
 import {getShowRoute} from '../../../../data/routes'
 import {getVideoRoute} from '../../../../data/routes'
@@ -12,16 +17,34 @@ export default class Videos extends React.Component {
   static propTypes = {
     onPushRoute: PropTypes.func.isRequired
   }
-  _distanceToBottom = 0
+  constructor(props) {
+    super(props)
+    this._distanceToBottom = 0
+  }
 
   render () {
-    const {latestVideos, billboardVideos, comingSoonVideos} = this.props.viewer
+    const {
+      latestVideos,
+      billboardVideos,
+      comingSoonVideos
+    } = this.props.viewer
     return (
-      <MyHeaderListView
-        dataRows={[latestVideos.edges, billboardVideos.edges, comingSoonVideos.edges]}
-        titles={['Últimos', 'Cartelera', 'Próximamente']}
-        renderPage={this._renderPage.bind(this)}
-      />
+      <View style={{flex: 1}}>
+        <VideoPlayer
+          ref={(comp) => {this._videoPlayer = comp}}
+          onOpen={() => {
+
+          }}
+          onClose={() => {
+            
+          }}
+        />
+        <MyHeaderListView
+          dataRows={[latestVideos.edges, billboardVideos.edges, comingSoonVideos.edges]}
+          titles={['Últimos', 'Cartelera', 'Próximamente']}
+          renderPage={this._renderPage.bind(this)}
+        />
+      </View>
     )
   }
 
@@ -43,20 +66,13 @@ export default class Videos extends React.Component {
         rowNumber={rowData.rowNumber}
         onPressPoster={this._onGoToMovie.bind(this, video.show.show_id, video.show.name)}
         onPressVideo={this._onGoToVideo.bind(this, video)}
-        showId={video.show.show_id}
-        showName={video.show.name}
-        showCoverUrl={video.show.cover}
-        videoName={video.name}
-        videoType={video.video_type}
-        videoCode={video.code}
-        videoPortraitUrl={video.image}
+        video={video}
       />
     )
   }
 
   _onGoToVideo (video) {
-    const videoRoute = getVideoRoute(video)
-    this.props.onPushRoute(videoRoute, true)
+    this._videoPlayer.open(video)
   }
 
   _onGoToMovie (showId, showName) {
