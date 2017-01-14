@@ -11,6 +11,7 @@ import Theaters from '../src/Pages/Theaters'
 import Functions from '../src/Pages/Functions'
 import Show from '../src/Pages/Show'
 import Videos from '../src/Pages/Videos'
+import Video from '../src/Pages/Video'
 import RelayContainer from '../src/components/RelayContainer'
 import PhotoBrowser from '../src/components/PhotoBrowser'
 
@@ -146,6 +147,18 @@ function getShowRoute (showId, showName) {
   })
 }
 
+function getVideoRoute(video) {
+  return ({
+    key: 'Video',
+    title: video.name,
+    screenView: 'Video',
+    component: Video,
+    props: {
+      video: video
+    }
+  })
+}
+
 function getCacheTime () {
   const today = moment()
   const minutes = parseInt(today.format('mm'))
@@ -156,5 +169,6 @@ export {
   getMenuRoutes,
   getTheatersRoute,
   getFunctionsRoute,
-  getShowRoute
+  getShowRoute,
+  getVideoRoute
 }

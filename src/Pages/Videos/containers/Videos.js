@@ -1,17 +1,12 @@
 'use strict'
 
 import React, { PropTypes } from 'react'
-import {
-  View
-} from 'react-native'
 
 import MyHeaderListView from '../../../components/MyHeaderListView'
 import MyGiftedListView from '../../../components/MyGiftedListView'
 import VideoCell from '../components/VideoCell'
-import {goToVideo} from '../../../utils/VideoHelper'
 import {getShowRoute} from '../../../../data/routes'
-
-import VideoWebView from '../../../components/VideoWebView'
+import {getVideoRoute} from '../../../../data/routes'
 
 export default class Videos extends React.Component {
   static propTypes = {
@@ -19,23 +14,14 @@ export default class Videos extends React.Component {
   }
   _distanceToBottom = 0
 
-  componentDidMount() {
-    console.log(this._videoWebView)
-  }
-
   render () {
     const {latestVideos, billboardVideos, comingSoonVideos} = this.props.viewer
     return (
-      <View style={{flex: 1}}>
-        <MyHeaderListView
-          dataRows={[latestVideos.edges, billboardVideos.edges, comingSoonVideos.edges]}
-          titles={['Últimos', 'Cartelera', 'Próximamente']}
-          renderPage={this._renderPage.bind(this)}
-        />
-        <VideoWebView
-          ref={(comp) => {this._videoWebView = comp}}
-        />
-      </View>
+      <MyHeaderListView
+        dataRows={[latestVideos.edges, billboardVideos.edges, comingSoonVideos.edges]}
+        titles={['Últimos', 'Cartelera', 'Próximamente']}
+        renderPage={this._renderPage.bind(this)}
+      />
     )
   }
 
@@ -56,10 +42,7 @@ export default class Videos extends React.Component {
       <VideoCell
         rowNumber={rowData.rowNumber}
         onPressPoster={this._onGoToMovie.bind(this, video.show.show_id, video.show.name)}
-        onPressVideo={this._onGoToVideo.bind(this, {
-          videoType: video.video_type,
-          code: video.code
-        })}
+        onPressVideo={this._onGoToVideo.bind(this, video)}
         showId={video.show.show_id}
         showName={video.show.name}
         showCoverUrl={video.show.cover}
@@ -71,9 +54,9 @@ export default class Videos extends React.Component {
     )
   }
 
-  _onGoToVideo (videoProps) {
-    console.log('ejale')
-    this._videoWebView.open(videoProps)
+  _onGoToVideo (video) {
+    const videoRoute = getVideoRoute(video)
+    this.props.onPushRoute(videoRoute, true)
   }
 
   _onGoToMovie (showId, showName) {
