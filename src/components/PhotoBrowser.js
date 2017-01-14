@@ -19,7 +19,6 @@ import Orientation from 'react-native-orientation'
 import {getImageVersion} from '../utils/ImageHelper'
 import PhotoBrowserImage from './PhotoBrowserImage'
 import PhotoBrowserHeader from './PhotoBrowserHeader'
-import config from '../../data/config'
 
 import {reportEvent} from '../utils/Analytics'
 

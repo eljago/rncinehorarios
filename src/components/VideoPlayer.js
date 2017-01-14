@@ -10,24 +10,25 @@ import {
   Dimensions,
   TouchableOpacity,
   Text,
-  StatusBar
+  ActivityIndicator
 } from 'react-native'
 
 import Orientation from 'react-native-orientation'
 
 import YouTube from 'react-native-youtube'
+import MyModal from './MyModal'
 import {getVideoHtml} from './VideoHtml.js'
+import {reportEvent} from '../utils/Analytics'
+
 
 export default class VideoPlayer extends React.Component {
   static propTypes = {
-    video: PropTypes.object,
     onOpen: PropTypes.func,
     onClose: PropTypes.func,
   }
 
   state = {
     video: null,
-    visible: false,
     isReady: false,
     status: null,
     quality: null,
@@ -39,74 +40,105 @@ export default class VideoPlayer extends React.Component {
   };
 
   render () {
-    if (!this.state.video) {
-      return null
-    }
-    const {
-      name,
-      code,
-      video_type: videoType,
-    } = this.state.video
-
     return (
-      <Modal
-        animationType={"fade"}
-        transparent={false}
-        visible={this.state.visible}
-        onRequestClose={this._onClose.bind(this)}
+      <MyModal
+        ref={(comp) => {this._modal = comp}}
+        onOpen={this._onOpen.bind(this)}
+        onClose={this._onClose.bind(this)}
       >
-        <StatusBar hidden={true}/>
         <View
           style={styles.container}
         >
           <View style={styles.header}>
             <TouchableOpacity
               style={styles.closeButton}
-              onPress={this._onClose.bind(this)}
+              onPress={this._closeModal.bind(this)}
             >
               <Text style={styles.closeText}>
                 Cerrar
               </Text>
             </TouchableOpacity>
           </View>
-          <YouTube
-            style={styles.player}
-            ref={(component) => { this._youTubePlayer = component }}
-            videoId={code}           // The YouTube video ID
-            play={this.state.isPlaying}
-            loop={this.state.isLooping}
-            playsInline={false}
-            controls={1}
-            style={styles.player}
-            onError={e => this.setState({ error: e.error })}
-            onReady={e => this.setState({ isReady: true })}
-            onChangeState={e => this.setState({ status: e.state })}
-            onChangeQuality={e => this.setState({ quality: e.quality })}
-            onProgress={Platform.OS === 'ios'
-              ? e => this.setState({ duration: e.duration, currentTime: e.currentTime })
-              : undefined}
-          />
+          <View style={styles.playerContainer}>
+            {this._getPlayer()}
+            {this._getLoadingIndicator()}
+          </View>    
         </View>
-      </Modal>
+      </MyModal>
     )
+  }
+
+  _getPlayer () {
+    if (this.state.video) {
+      const {
+        name,
+        code,
+        video_type: videoType,
+      } = this.state.video
+
+      return (
+        <YouTube
+          style={styles.player}
+          ref={(component) => { this._youTubePlayer = component }}
+          videoId={code}           // The YouTube video ID
+          play={this.state.isPlaying}
+          loop={this.state.isLooping}
+          playsInline={false}
+          controls={1}
+          style={styles.player}
+          onError={e => this.setState({ error: e.error })}
+          onReady={e => this.setState({ isReady: true })}
+          onChangeState={e => {
+            this.setState({status: e.state })
+          }}
+          onChangeQuality={e => this.setState({ quality: e.quality })}
+          onProgress={Platform.OS === 'ios'
+            ? e => this.setState({ duration: e.duration, currentTime: e.currentTime })
+            : undefined}
+        />
+      )
+    }
+    else {
+      return null
+    }
   }
 
   open (video) {
     Orientation.unlockAllOrientations()
     this.setState({
-      video: video,
-      visible: true,
-      backgroundColorAlpha: 1
+      video: video
     })
+    this._modal.open()
+  }
+
+  _onOpen () {
+    reportEvent('Video', 'opened')
     this.props.onOpen()
   }
 
   _onClose() {
     Orientation.lockToPortrait()
-    if (this.state.visible === true) {
-      this.setState({visible: false})
-    }
     this.props.onClose()
+    reportEvent('Video', 'closed')
+  }
+
+  _closeModal () {
+    this._modal.close()
+  }
+
+  _getLoadingIndicator () {
+    if (this.state.status == null) {
+      return (
+        <View style={styles.activityContainer}>
+          <ActivityIndicator
+            style={styles.activityIndicator}
+            size='large'
+            color='white'
+          />
+        </View>
+      )
+    }
+    return null
   }
 }
 
@@ -116,11 +148,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     justifyContent: 'center'
   },
-  player: {
+  playerContainer: {
     height: PixelRatio.roundToNearestPixel(Dimensions.get('window').width / (16 / 9)),
     alignSelf: 'stretch',
-    backgroundColor: 'black',
+    backgroundColor: 'gray',
     marginVertical: 10,
+  },
+  player: {
+    flex: 1
   },
   header: {
     position: 'absolute',
@@ -131,14 +166,24 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     position: 'absolute',
-    top: 0, right: 0, bottom: 0,
+    top: 0, left: 0, bottom: 0,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingRight: 15,
+    paddingLeft: 15,
   },
   closeText: {
     textAlign: 'center',
     fontSize: 16,
     color: 'white'
+  },
+  activityContainer: {
+    position: 'absolute',
+    top: 0, left: 0, right: 0, bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  activityIndicator: {
+    width: 36,
+    height: 36
   }
 })
