@@ -32,9 +32,9 @@ class ViewerQueryConfig extends Relay.Route {
 
 function getMenuRoutes () {
   return [
+    getCinemasRoute(),
     getVideosRoute(),
-    getMoviesRoute(),
-    getCinemasRoute()
+    getMoviesRoute()
   ]
 }
 
