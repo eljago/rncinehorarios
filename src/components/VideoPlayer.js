@@ -145,13 +145,11 @@ export default class VideoPlayer extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black',
     justifyContent: 'center'
   },
   playerContainer: {
     height: PixelRatio.roundToNearestPixel(Dimensions.get('window').width / (16 / 9)),
     alignSelf: 'stretch',
-    backgroundColor: 'gray',
     marginVertical: 10,
   },
   player: {

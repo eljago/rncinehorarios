@@ -26,7 +26,7 @@ export default class MyModal extends React.Component {
     return (
       <Modal
         animationType={"fade"}
-        transparent={false}
+        transparent={true}
         visible={this.state.visible}
         onRequestClose={this.close.bind(this)}
       >
@@ -38,8 +38,7 @@ export default class MyModal extends React.Component {
             opacity: this.state.backgroundColorAlpha
           }}
           contentContainerStyle={{
-            flex: 1,
-            backgroundColor: 'black'
+            flex: 1
           }}
           ref={(comp) => { this._scrollView = comp }}
           showsHorizontalScrollIndicator={false}
@@ -57,7 +56,7 @@ export default class MyModal extends React.Component {
   _onScroll (e) {
     const offset = Math.abs(e.nativeEvent.contentOffset.y)
     if (offset >= 80) {
-      this._onClose()
+      this.close()
     }
     else {
       this.setState({backgroundColorAlpha: 1 - (offset / 80)})
