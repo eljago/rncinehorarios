@@ -18,6 +18,7 @@
 		1220321A1E174CBF001997D2 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 122032191E174CBF001997D2 /* libz.tbd */; };
 		1220321C1E174CC9001997D2 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1220321B1E174CC9001997D2 /* libsqlite3.0.tbd */; };
 		1251EE701E16FAE70008241C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1251EE6F1E16FAE70008241C /* GoogleService-Info.plist */; };
+		12EA95911E29AA6E00F0B225 /* IconOnly.png in Resources */ = {isa = PBXBuildFile; fileRef = 12EA95901E29AA6E00F0B225 /* IconOnly.png */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
 		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
@@ -205,6 +206,7 @@
 		122032191E174CBF001997D2 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		1220321B1E174CC9001997D2 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		1251EE6F1E16FAE70008241C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		12EA95901E29AA6E00F0B225 /* IconOnly.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = IconOnly.png; path = Images/IconOnly.png; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* CineHorarios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CineHorarios.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -346,6 +348,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		12EA958F1E29A9FD00F0B225 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				12EA95901E29AA6E00F0B225 /* IconOnly.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
 		139105B71AF99BAD00B5F7CC /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -367,6 +377,7 @@
 		13B07FAE1A68108700A75B9A /* CineHorarios */ = {
 			isa = PBXGroup;
 			children = (
+				12EA958F1E29A9FD00F0B225 /* Images */,
 				1251EE6F1E16FAE70008241C /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -752,6 +763,7 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				12EA95911E29AA6E00F0B225 /* IconOnly.png in Resources */,
 				1251EE701E16FAE70008241C /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
