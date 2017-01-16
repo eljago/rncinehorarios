@@ -41,7 +41,7 @@ function getMenuRoutes () {
 function getCinemasRoute () {
   return {
     key: 'cinemas',
-    title: 'Cines',
+    title: 'Cineeeeeeeeeeeees',
     screenView: 'Cinemas',
     component: Cinemas
   }

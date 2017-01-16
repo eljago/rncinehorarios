@@ -1,3 +1,4 @@
 <resources>
+    <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey">FB-3RGOoCK6kMpXwkzeaPpypLV9GVyYqaEyHl</string>
     <string name="app_name">CineHorarios</string>
 </resources>

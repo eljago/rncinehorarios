@@ -20,7 +20,8 @@ const VIDEOROWHEIGHT = 100
 
 export default class ShowVideosRow extends React.Component {
   static propTypes = {
-    videos: PropTypes.array
+    videos: PropTypes.array,
+    setDrawerLockMode: PropTypes.func.isRequired
   };
 
   constructor (props) {
@@ -45,12 +46,8 @@ export default class ShowVideosRow extends React.Component {
       <View style={styles.container}>
         <VideoPlayer
           ref={(comp) => {this._videoPlayer = comp}}
-          onOpen={() => {
-
-          }}
-          onClose={() => {
-            
-          }}
+          onOpen={this._onOpenVideo.bind(this)}
+          onClose={this._onCloseVideo.bind(this)}
         />
         <ListView
           style={styles.container}
@@ -93,6 +90,14 @@ export default class ShowVideosRow extends React.Component {
 
   _goToVideo (video) {
     this._videoPlayer.open(video)
+  }
+
+  _onOpenVideo () {
+    this.props.setDrawerLockMode('locked-closed')
+  }
+
+  _onCloseVideo () {
+    this.props.setDrawerLockMode('unlocked')
   }
 }
 

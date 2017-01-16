@@ -15,8 +15,9 @@ import {
 } from 'react-native-google-analytics-bridge'
 
 import Orientation from 'react-native-orientation'
-import MainApp from './MainApp'
+import codePush from "react-native-code-push"
 
+import MainApp from './MainApp'
 
 Relay.injectNetworkLayer(
   new Relay.DefaultNetworkLayer(`${config.URL}${config.graphqlPath}`, {
@@ -25,7 +26,7 @@ Relay.injectNetworkLayer(
     retryDelays: [5000, 10000]
   })
 )
-export default class CineHorariosApp extends React.Component {
+class CineHorariosApp extends React.Component {
 
   constructor (props) {
     super(props)
@@ -41,3 +42,5 @@ export default class CineHorariosApp extends React.Component {
     return <MainApp/>
   }
 }
+
+export default codePush(CineHorariosApp);

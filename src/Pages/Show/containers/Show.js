@@ -106,7 +106,7 @@ export default class Show extends React.Component {
     if (videos.length > 0) {
       return (
         <MediaRowWithTitle title='Videos: '>
-          <ShowVideosRow videos={videos} />
+          <ShowVideosRow videos={videos} setDrawerLockMode={this.props.setDrawerLockMode} />
         </MediaRowWithTitle>
       )
     }
