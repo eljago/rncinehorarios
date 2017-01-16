@@ -43,3 +43,6 @@ android/app/libs
 
 
 index.android.bundle*
+
+ios/assets
+ios/main.jsbundle*
