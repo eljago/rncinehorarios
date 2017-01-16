@@ -47,7 +47,7 @@ export default class ShowImagesRow extends React.Component {
           ref={(comp) => {this._photoBrowser = comp}}
           data={this.props.cast.map((spr) => {
             return {
-              image: {image: spr.person.image},
+              image: {image: getImageVersion(spr.person.image, 'small')},
               text: `${(spr.director ? 'Director:\n' : '')}${spr.person.name}${(spr.character ? `\n(${spr.character})` : '')}`
             }
           })}
