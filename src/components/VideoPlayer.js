@@ -85,7 +85,6 @@ export default class VideoPlayer extends React.Component {
           loop={this.state.isLooping}
           playsInline={false}
           controls={1}
-          style={styles.player}
           onError={e => this.setState({ error: e.error })}
           onReady={e => this.setState({ isReady: true })}
           onChangeState={e => {
