@@ -7,5 +7,6 @@ export default {
     APIV: 'application/cinehorarios.ios.v1',
     Accept: 'application/json'
   },
-  analyticsCode: 'UA-89600675-1'
+  analyticsCode: 'UA-89600675-1',
+  googleApiKey: 'AIzaSyBJT-qQi8RdWOxKdBmzXg2Od6iRWriVDos'
 }

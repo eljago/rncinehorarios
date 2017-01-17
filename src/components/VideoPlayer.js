@@ -14,12 +14,12 @@ import {
 } from 'react-native'
 
 import Orientation from 'react-native-orientation'
-
 import YouTube from 'react-native-youtube'
 import MyModal from './MyModal'
 import {getVideoHtml} from './VideoHtml.js'
 import {reportEvent} from '../utils/Analytics'
 
+import config from '../../data/config'
 
 export default class VideoPlayer extends React.Component {
   static propTypes = {
@@ -79,6 +79,7 @@ export default class VideoPlayer extends React.Component {
       return (
         <YouTube
           style={styles.player}
+          apiKey={config.googleApiKey}
           ref={(component) => { this._youTubePlayer = component }}
           videoId={code}           // The YouTube video ID
           play={this.state.isPlaying}
