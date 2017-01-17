@@ -26,8 +26,15 @@ export default class ShowImagesRow extends React.Component {
     const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
     this.state = {
       dataSource: dataSource.cloneWithRows(props.images),
-      data: props.images.map((img) => {
-        return {image: img, text: ''}
+      data: props.images.map((image) => {
+        return {
+          image: {
+            url: getImageVersion(image.image),
+            width: image.width,
+            height: image.height
+          },
+          text: ''
+        }
       })
     }
     _.bindAll(this, [
@@ -38,7 +45,17 @@ export default class ShowImagesRow extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(nextProps.images)
+      dataSource: this.state.dataSource.cloneWithRows(nextProps.images),
+      data: nextProps.images.map((image) => {
+        return {
+          image: {
+            url: getImageVersion(image.image),
+            width: image.width,
+            height: image.height
+          },
+          text: ''
+        }
+      })
     })
   }
 

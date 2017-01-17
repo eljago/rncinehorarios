@@ -209,7 +209,7 @@ export default class PhotoBrowser extends React.Component {
       <PhotoBrowserImage
         key={rowID}
         ref={(row) => { this._rows[dataObject.index] = row }}
-        imageUrl={getImageVersion(image.image)}
+        imageUrl={image.url}
         imageWidth={image.width ? image.width : this._getDimensions().smaller}
         imageHeight={image.height ? image.height : this._getDimensions().bigger}
         initialOrientation={this.state.orientation}
