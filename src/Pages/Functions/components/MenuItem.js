@@ -18,7 +18,6 @@ export default class MenuItem extends React.Component {
       <TouchableOpacity
         onPress={this.props.onPress}
         activeOpacity={0.6}
-        style={styles.container}
       >
         <Text style={textStyle}>
           {this.props.title}
@@ -29,11 +28,6 @@ export default class MenuItem extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginLeft: 50
-  },
   text: {
     fontSize: 20,
     marginTop: 10,
