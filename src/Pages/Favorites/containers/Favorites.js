@@ -1,16 +1,29 @@
 'use strict'
 
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
+import {
+  View
+} from 'react-native'
 
 import MyGiftedListView from '../../../components/MyGiftedListView'
 import SimpleCell from '../../../components/SimpleCell'
 import {getFunctionsRoute} from '../../../../data/routes'
+import {getFavoriteTheaters} from '../../../utils/Favorites'
 
-export default class Theaters extends React.Component {
+
+export default class Favorites extends React.Component {
   static propTypes = {
     onPushRoute: PropTypes.func,
     onPopRoute: PropTypes.func
   };
+
+  componentWillMount() {
+    getFavoriteTheaters((result, favorites) => {
+      if (result === true) {
+        this.props.relay.setVariables({theater_ids: favorites.join(',')})
+      }
+    })
+  }
 
   render () {
     const viewer = this.props.viewer
@@ -37,5 +50,13 @@ export default class Theaters extends React.Component {
   _onPress (rowData) {
     const functionsRoute = getFunctionsRoute(rowData.theater_id, rowData.name)
     this.props.onPushRoute(functionsRoute)
+  }
+
+  onFocus () {
+    getFavoriteTheaters((result, favorites) => {
+      if (result === true) {
+        this.props.relay.setVariables({theater_ids: favorites.join(',')})
+      }
+    })
   }
 }

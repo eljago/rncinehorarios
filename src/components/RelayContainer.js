@@ -62,7 +62,7 @@ export default class RelayContainer extends React.Component {
             return (
               <View style={[{flex: 1}, backgroundStyle]}>
                 <Component
-                  ref={(comp) => { this.comp = comp }}
+                  ref={(comp) => {this._comp = comp}}
                   onPushRoute={onPushRoute}
                   onPopRoute={onPopRoute}
                   setDrawerLockMode={setDrawerLockMode}
@@ -78,5 +78,11 @@ export default class RelayContainer extends React.Component {
         }}
       />
     )
+  }
+
+  onFocus() {
+    if (this._comp && this._comp.refs.component && this._comp.refs.component.onFocus) {
+      this._comp.refs.component.onFocus()
+    }
   }
 }

@@ -48,12 +48,21 @@ export default class MainApp extends React.Component {
   }
 
   componentDidMount() {
-    reportScreenView(this._getScreenView())
+    const route = this._getTopRoute()
+    if (route) {
+      reportScreenView(route.screenView)
+    }
   }
 
   componentDidUpdate (prevProps, prevState) {
     if (this.state.navigationState !== prevState.navigationState) {
-      reportScreenView(this._getScreenView())
+      const route = this._getTopRoute()
+      if (route) {
+        reportScreenView(route.screenView)
+        if (this._cardNav && route.key) {
+          this._cardNav.onFocusChanged(route.key)
+        }
+      }
     }
   }
 
@@ -168,13 +177,12 @@ export default class MainApp extends React.Component {
     this.setState({drawerLockMode})
   }
 
-  _getScreenView () {
+  _getTopRoute() {
     const {navigationState} = this.state
     const {menuItems} = navigationState
     const {key} = menuItems.routes[menuItems.index]
     const {routes} = navigationState[key]
-    const {screenView} = routes[routes.length - 1]
-    return screenView
+    return routes[routes.length - 1]
   }
 }
 

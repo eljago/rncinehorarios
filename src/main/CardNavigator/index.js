@@ -38,6 +38,7 @@ export default class CardNavigator extends React.Component {
       <View style={styles.container}>
         <NavigationCardStack
           key={'super_stack'}
+          ref={(comp) => {this._cardStack = comp}}
           onNavigateBack={this.props.onPopRoute}
           navigationState={this.props.navigationState}
           renderScene={renderScene.bind(this)}
@@ -46,6 +47,12 @@ export default class CardNavigator extends React.Component {
         />
       </View>
     )
+  }
+
+  onFocusChanged (key) {
+    if (this[key] && this[key].onFocus) {
+      this[key].onFocus()
+    }
   }
 }
 
@@ -69,6 +76,7 @@ function renderScene (sceneProps: Object): React.Element {
     <View style={styles.container}>
       {getStatusBar(route)}
       <Component
+        ref={(comp) => {this[route.key] = comp}}
         {...sceneProps}
         onPushRoute={this.props.onPushRoute}
         onPopRoute={this.props.onPopRoute}

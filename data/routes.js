@@ -8,6 +8,7 @@ import moment from 'moment'
 import Cinemas from '../src/Pages/Cinemas'
 import Movies from '../src/Pages/Movies'
 import Theaters from '../src/Pages/Theaters'
+import Favorites from '../src/Pages/Favorites'
 import Functions from '../src/Pages/Functions'
 import Show from '../src/Pages/Show'
 import Videos from '../src/Pages/Videos'
@@ -34,7 +35,8 @@ function getMenuRoutes () {
   return [
     getCinemasRoute(),
     getMoviesRoute(),
-    getVideosRoute()
+    getVideosRoute(),
+    getFavoritesRoute()
   ]
 }
 
@@ -93,6 +95,22 @@ function getTheatersRoute (cinemaId, cinemaName) {
         cinemaId: cinemaId,
         cinemaName: cinemaName
       }
+    }
+  })
+}
+
+function getFavoritesRoute () {
+  return ({
+    key: 'Favorites',
+    title: 'Favoritos',
+    screenView: 'Favorites',
+    component: RelayContainer,
+    props: {
+      component: Favorites,
+      queryConfig: new ViewerQueryConfig({
+        theater_ids: '',
+        cacheTime: getCacheTime()
+      })
     }
   })
 }

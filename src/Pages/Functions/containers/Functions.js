@@ -12,13 +12,16 @@ import {
 import moment from 'moment'
 const esLocale = require('moment/locale/es')
 import _ from 'lodash'
-import Storage from 'react-native-key-value-store'
 
 import MyGiftedListView from '../../../components/MyGiftedListView'
 import FunctionsCell from '../components/FunctionsCell'
 import MenuItem from '../components/MenuItem'
 import Colors from '../../../../data/Colors'
 import {getShowRoute} from '../../../../data/routes'
+import {
+  getFavoriteTheaters,
+  addFavoriteTheater
+} from '../../../utils/Favorites'
 
 const PICKER_OFFSET = 100
 
@@ -26,12 +29,14 @@ export default class Functions extends React.Component {
   static propTypes = {
     onPushRoute: PropTypes.func.isRequired
   };
+  static defaultProps = {
+    isFavorite: false
+  }
 
   constructor (props) {
     super(props)
     moment.updateLocale('es', esLocale)
     this.pickerHidden = true
-    this._initFavorites()
     this.state = {
       currentDate: moment().format('YYYY-MM-DD'),
       pickerRight: new Animated.Value(0)
@@ -40,6 +45,14 @@ export default class Functions extends React.Component {
       '_renderRow',
       '_onPress'
     ])
+    getFavoriteTheaters((result, favorites) => {
+      if (result === true) {
+        this.setState({
+          isFavorite: favorites.indexOf(props.theaterId) > -1
+        })
+        console.log(favorites)
+      }
+    })
   }
 
   componentDidMount () {
@@ -163,49 +176,23 @@ export default class Functions extends React.Component {
         key='favoriteButton'
         onPress={this._onPressFavorite.bind(this)}
       >
-        <Text style={{color: 'white'}}>{this.state.isFavorite ? 'is favorite' : 'not favorite'}</Text>
+        <Text style={{color: 'white'}}>
+          {this.state.isFavorite ? 'is favorite' : 'not favorite'}
+        </Text>
       </TouchableOpacity>
     )
   }
 
-  async _initFavorites () {
-    try {
-      let favorites = await Storage.get('favoriteTheaters', [])
-      if (favorites == null) {
-        await Storage.set('favoriteTheaters', [])
-        this.setState({isFavorite: false})
-      }
-      else {
-        this.setState({isFavorite: favorites.indexOf(this.props.theaterId) > -1})
-      }
-    }
-    catch(e) {
-      console.log('caught error', e);
-    }
-  }
-
   async _onPressFavorite () {
-    try{
-        const {theaterId} = this.props
-        let favorites = await Storage.get('favoriteTheaters', [])
-        if (favorites == null) {
-          await Storage.set('favoriteTheaters', [])
-        }
-        const index = favorites.indexOf(theaterId);
-        if (index > -1) { // REMOVE FROM FAVORITES
-          favorites.splice(index, 1);
-        }
-        else { // ADD TO FAVORITES
-          favorites.push(theaterId)
-        }
-        console.log(favorites)
-        await Storage.set('favoriteTheaters', favorites)
-        this.setState({isFavorite: favorites.indexOf(theaterId) > -1})
-    }
-    catch(e){
-        console.log('caught error', e);
-        // Handle exceptions
-    }
+    addFavoriteTheater(this.props.theaterId, (result) => {
+      if (result === true) {
+        getFavoriteTheaters((result2, favorites) => {
+          if (result2 === true) {
+            this.setState({isFavorite: favorites.indexOf(this.props.theaterId) > -1})
+          }
+        })
+      }
+    })
   }
 }
 

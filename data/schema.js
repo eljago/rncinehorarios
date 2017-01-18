@@ -254,6 +254,16 @@ module.exports = {
                     "ofType": null
                   },
                   "defaultValue": null
+                },
+                {
+                  "name": "theater_ids",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
                 }
               ],
               "type": {
