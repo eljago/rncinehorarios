@@ -35,7 +35,7 @@ export default class ShowData extends React.Component {
         <View style={styles.showData}>
           {getDataText(debut, {prefix: 'Estreno: '})}
           {getDataText(showGenres)}
-          {getDataText(duration, {prefix: 'Duracion: ', suffix: ' minutos'})}
+          {getDataText(duration, {prefix: 'Duración: ', suffix: ' minutos'})}
           {getDataText(showRating)}
           {getDataText(showInformation, {style: styles.information})}
         </View>
