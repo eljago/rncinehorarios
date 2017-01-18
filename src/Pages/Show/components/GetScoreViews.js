@@ -21,10 +21,17 @@ const getImdbView = (imdbCode, imdbScore) => {
         text={imdbScore}
         color={imdbScore !== '?' ? color : 'white'}
         onPress={() => {
-          const url = `http://www.imdb.com/title/${imdbCode}/`
+          let url = `imdb:///title/${imdbCode}/`
           Linking.canOpenURL(url).then(supported => {
             if (!supported) {
-              console.log('Can\'t handle url: ' + url);
+              url = `http://www.imdb.com/title/${imdbCode}/`
+              Linking.canOpenURL(url).then(supported => {
+                if (!supported) {
+                  console.log('Can\'t handle url: ' + url);
+                } else {
+                  return Linking.openURL(url);
+                }
+              }).catch(err => console.error('An error occurred', err));
             } else {
               return Linking.openURL(url);
             }
