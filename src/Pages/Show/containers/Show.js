@@ -16,6 +16,7 @@ import ShowImagesRow from '../components/ShowImagesRow'
 import ShowCastRow from '../components/ShowCastRow'
 import ShowVideosRow from '../components/ShowVideosRow'
 import MediaRowWithTitle from '../components/MediaRowWithTitle'
+import ScoresViews from '../components/ScoresViews'
 
 import {getImageVersion} from '../../../utils/ImageHelper'
 
@@ -57,6 +58,14 @@ export default class Show extends React.Component {
                 showDebut={show.debut}
                 showGenres={show.genres}
                 showRating={show.rating}
+              />
+              <ScoresViews
+                imdbCode={show.imdb_code}
+                imdbScore={show.imdb_score}
+                metacriticUrl={show.metacritic_url}
+                metacriticScore={show.metacritic_score}
+                rottenTomatoesUrl={show.rotten_tomatoes_url}
+                rottenTomatoesScore={show.rotten_tomatoes_score}
               />
               {this._getImages()}
               {this._getCast()}

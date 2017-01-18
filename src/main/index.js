@@ -43,4 +43,6 @@ class CineHorariosApp extends React.Component {
   }
 }
 
-export default codePush(CineHorariosApp);
+export default codePush({
+  installMode: codePush.InstallMode.ON_NEXT_RESUME
+})(CineHorariosApp);
