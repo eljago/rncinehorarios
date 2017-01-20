@@ -1,19 +1,13 @@
 'use strict'
 
 import React, {PropTypes} from 'react'
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  NavigationExperimental
-} from 'react-native'
+import {NavigationExperimental} from 'react-native'
 import update from 'react/lib/update'
 
 import CardNavigator from './CardNavigator'
 import {getMenuRoutes} from '../../data/routes'
 import DrawerLayout from 'react-native-drawer-layout'
-import Colors from '../../data/Colors'
+import Menu from './Menu'
 
 import {reportScreenView} from '../utils/Analytics'
 
@@ -59,6 +53,8 @@ export default class MainApp extends React.Component {
       const route = this._getTopRoute()
       if (route) {
         reportScreenView(route.screenView)
+
+        // call OnFOcusChanged on Card Navigator, which will call onFocus() on the top Component
         if (this._cardNav && route.key) {
           this._cardNav.onFocusChanged(route.key)
         }
@@ -125,25 +121,10 @@ export default class MainApp extends React.Component {
     const {menuItems} = navigationState
     const menuItemKey = menuItems.routes[menuItems.index].key
     return (
-      <View style={styles.menu}>
-        {getMenuRoutes().map((route) => {
-          return (
-            <TouchableOpacity
-              key={route.key}
-              style={[styles.menuButton, {
-                backgroundColor: route.key === menuItemKey ? 'rgba(0,0,0,0.5)' : 'transparent',
-                borderTopWidth: route.key === menuItemKey ? 0.5 : 0,
-                borderTopColor: '#000',
-                borderBottomWidth: route.key === menuItemKey ? 0.5 : 0,
-                borderBottomColor: '#2F2F2F',
-              }]}
-              onPress={this._onPressMenuitem.bind(this, route.key)}
-            >
-              <Text style={styles.menuText}>{route.title}</Text>
-            </TouchableOpacity>
-          )
-        })}
-      </View>
+      <Menu
+        selectedMenuKey={menuItemKey}
+        onPressMenuItem={this._onPressMenuitem.bind(this)}
+      />
     )
   }
 
@@ -185,22 +166,3 @@ export default class MainApp extends React.Component {
     return routes[routes.length - 1]
   }
 }
-
-const styles = StyleSheet.create({
-  menu: {
-    flex: 1,
-    backgroundColor: Colors.menuBackground,
-    justifyContent: 'center',
-    alignItems: 'stretch'
-  },
-  menuButton: {
-
-  },
-  menuText: {
-    color: 'white',
-    fontSize: 22,
-    textAlign: 'center',
-    paddingTop: 10,
-    paddingBottom: 10
-  }
-})

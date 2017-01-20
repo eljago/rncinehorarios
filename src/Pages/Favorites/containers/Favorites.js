@@ -16,18 +16,21 @@ export default class Favorites extends React.Component {
     onPushRoute: PropTypes.func,
     onPopRoute: PropTypes.func
   };
+  state = {
+    favorites: []
+  }
 
-  componentWillMount() {
-    getFavoriteTheaters((result, favorites) => {
-      if (result === true) {
-        this.props.relay.setVariables({theater_ids: favorites.join(',')})
-      }
-    })
+  constructor(props) {
+    super(props)
+    this._updateFavorites()
   }
 
   render () {
     const viewer = this.props.viewer
-    const dataRows = viewer ? viewer.theaters : []
+    const theaters = viewer ? viewer.theaters : []
+    const dataRows = theaters.filter((theater) => {
+      return this.state.favorites.includes(theater.theater_id)
+    })
     return (
       <MyGiftedListView
         renderRow={this._renderRow.bind(this)}
@@ -42,7 +45,7 @@ export default class Favorites extends React.Component {
       <SimpleCell
         rowNumber={rowData.rowNumber}
         title={rowData.name}
-        onPress={() => this._onPress(rowData)}
+        onPress={this._onPress.bind(this, rowData)}
       />
     )
   }
@@ -53,9 +56,13 @@ export default class Favorites extends React.Component {
   }
 
   onFocus () {
+    this._updateFavorites()
+  }
+
+  _updateFavorites () {
     getFavoriteTheaters((result, favorites) => {
       if (result === true) {
-        this.props.relay.setVariables({theater_ids: favorites.join(',')})
+        this.setState({favorites})
       }
     })
   }

@@ -8,13 +8,15 @@ import {getFunctionsRoute} from '../../../../data/routes'
 
 export default class Theaters extends React.Component {
   static propTypes = {
-    onPushRoute: PropTypes.func,
-    onPopRoute: PropTypes.func
+    onPushRoute: PropTypes.func.isRequired
   };
 
   render () {
-    const viewer = this.props.viewer
-    const dataRows = viewer ? viewer.theaters : []
+    const {viewer} = this.props
+    const theaters = viewer ? viewer.theaters : []
+    const dataRows = theaters.filter((theater) => {
+      return theater.cinema_id === this.props.cinemaId
+    })
     return (
       <MyGiftedListView
         renderRow={this._renderRow.bind(this)}
@@ -29,13 +31,13 @@ export default class Theaters extends React.Component {
       <SimpleCell
         rowNumber={rowData.rowNumber}
         title={rowData.name}
-        onPress={() => this._onPress(rowData)}
+        onPress={this._onPress.bind(this, rowData)}
       />
     )
   }
 
   _onPress (rowData) {
-    const functionsRoute = getFunctionsRoute(rowData.theater_id, rowData.name)
-    this.props.onPushRoute(functionsRoute)
+    const {theater_id, name} = rowData
+    this.props.onPushRoute(getFunctionsRoute(theater_id, name))
   }
 }

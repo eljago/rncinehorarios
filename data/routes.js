@@ -88,7 +88,6 @@ function getTheatersRoute (cinemaId, cinemaName) {
     props: {
       component: Theaters,
       queryConfig: new ViewerQueryConfig({
-        cinema_id: cinemaId,
         cacheTime: getCacheTime()
       }),
       extraProps: {
@@ -108,7 +107,6 @@ function getFavoritesRoute () {
     props: {
       component: Favorites,
       queryConfig: new ViewerQueryConfig({
-        theater_ids: '',
         cacheTime: getCacheTime()
       })
     }
