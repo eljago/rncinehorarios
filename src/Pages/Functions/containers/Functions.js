@@ -147,7 +147,7 @@ export default class Functions extends React.Component {
 
   _onPressMenuItem (date) {
     this.setState({currentDate: date.format('YYYY-MM-DD')})
-    this.onRightAction()
+    this.onRightAction2()
     this.props.getHeader().rightComp.setup({
       title: _.upperFirst(date.format('ddd DD'))
     })
