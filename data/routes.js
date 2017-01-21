@@ -128,6 +128,9 @@ function getFunctionsRoute (theaterId, theaterName) {
         theaterName: theaterName
       }
     },
+    headerTitleStyle: {
+      marginRight: 65
+    },
     rightComponent: true,
     rightComponent2: true
   })

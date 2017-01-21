@@ -43,7 +43,10 @@ export default class MyHeader extends React.Component {
   _renderTitleComponent (props: Object): React.Element {
     const route = props.scene.route
     return (
-      <NavigationHeader.Title textStyle={styles.title}>
+      <NavigationHeader.Title
+        style={route.headerTitleStyle}
+        textStyle={styles.title}
+      >
         {route.title ? route.title : route.key}
       </NavigationHeader.Title>
     )
@@ -119,7 +122,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: 'white',
-    textAlign: 'left'
+    // textAlign: 'left'
   },
   buttonContainer: {
     flex: 1,

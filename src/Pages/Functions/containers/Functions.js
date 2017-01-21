@@ -43,14 +43,7 @@ export default class Functions extends React.Component {
       '_renderRow',
       '_onPress'
     ])
-    getFavoriteTheaters((result, favorites) => {
-      if (result === true) {
-        this.setState({
-          isFavorite: favorites.indexOf(props.theaterId) > -1
-        })
-        this._updateRightComponent()
-      }
-    })
+    this._loadFavorites()
   }
 
   componentDidMount () {
@@ -167,6 +160,17 @@ export default class Functions extends React.Component {
             })
           }
         })
+      }
+    })
+  }
+
+  _loadFavorites () {
+    getFavoriteTheaters((result, favorites) => {
+      if (result === true) {
+        this.setState({
+          isFavorite: favorites.indexOf(this.props.theaterId) > -1
+        })
+        this._updateRightComponent()
       }
     })
   }
