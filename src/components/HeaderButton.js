@@ -11,19 +11,24 @@ export default class HeaderButton extends React.Component {
     this.state = {
       onPress: null,
       image: null,
-      title: null
+      title: null,
+      style: null,
+      props: null
     }
   }
 
   render () {
-    const {onPress, image, title} = this.state
+    const {onPress, image, title, style: myStyle, props} = this.state
     let children = null
     if (image) {
-      children = <Image style={styles.button} source={image} />
+      children = <Image {...props} style={[styles.image, myStyle]} source={image} />
     } else if (title) {
-      children = <Text style={styles.text}>{title}</Text>
+      children = <Text {...props} style={[styles.text, myStyle]}>{title}</Text>
     } else {
-      children = <View />
+      children = null
+    }
+    if (children == null) {
+      return null
     }
     return (
       <TouchableOpacity

@@ -15,8 +15,6 @@ import Videos from '../src/Pages/Videos'
 import RelayContainer from '../src/components/RelayContainer'
 import PhotoBrowser from '../src/components/PhotoBrowser'
 
-import HeaderButton from '../src/components/HeaderButton'
-
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0;
 
@@ -130,7 +128,8 @@ function getFunctionsRoute (theaterId, theaterName) {
         theaterName: theaterName
       }
     },
-    rightComponent: HeaderButton
+    rightComponent: true,
+    rightComponent2: true
   })
 }
 

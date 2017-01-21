@@ -8,7 +8,8 @@ import {
   Platform,
   StyleSheet,
   TouchableOpacity,
-  NavigationExperimental
+  NavigationExperimental,
+  View
 } from 'react-native'
 
 const {
@@ -16,6 +17,7 @@ const {
   PropTypes: NavigationPropTypes
 } = NavigationExperimental
 
+import HeaderButton from '../../components/HeaderButton'
 import Colors from '../../../data/Colors'
 
 export default class MyHeader extends React.Component {
@@ -55,8 +57,14 @@ export default class MyHeader extends React.Component {
       return null
     }
     return (
-      <TouchableOpacity style={styles.buttonContainer} onPress={props.onNavigateBack}>
-        <Image style={styles.button} source={require('../../../assets/back-icon.png')} />
+      <TouchableOpacity
+        style={styles.buttonContainer}
+        onPress={props.onNavigateBack}
+      >
+        <Image
+          style={styles.button}
+          source={require('../../../assets/back-icon.png')}
+        />
       </TouchableOpacity>
     )
   }
@@ -64,20 +72,43 @@ export default class MyHeader extends React.Component {
   _renderRightComponent (props: Object) {
     if (props.scene.index === 0) {
       return (
-        <TouchableOpacity style={styles.buttonContainer} onPress={this.props.onPressMenu}>
-          <Image style={[styles.button, styles.buttonMenu]} source={require('../../../assets/MenuIcon.png')} />
+        <TouchableOpacity
+          style={styles.buttonContainer}
+          onPress={this.props.onPressMenu}
+        >
+          <Image
+            style={[styles.button, styles.buttonMenu]}
+            source={require('../../../assets/MenuIcon.png')}
+          />
         </TouchableOpacity>
       )
     }
-    const RightComp = props.scene.route.rightComponent
-    if (RightComp) {
-      return <RightComp ref={(rc) => { this.rightComp = rc }} />
+    const {rightComponent, rightComponent2} = props.scene.route
+    let childs = []
+    if (rightComponent) {
+      childs.push(<HeaderButton key='rc1' ref={(rc) => { this.rightComp = rc }} />)
+    }
+    if (rightComponent2) {
+      childs.push(<HeaderButton key='rc2' ref={(rc) => { this.rightComp2 = rc }} />)
+    }
+    if (childs.length > 0) {
+      return (
+        <View
+          style={{flex: 1, flexDirection: 'row'}}
+        >
+          {childs}
+        </View>
+      )
     }
     return null
   }
 
   getRightComponent () {
     return this.rightComp
+  }
+
+  getRightComponent2 () {
+    return this.rightComp2
   }
 }
 
@@ -87,7 +118,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0
   },
   title: {
-    color: 'white'
+    color: 'white',
+    textAlign: 'left'
   },
   buttonContainer: {
     flex: 1,
