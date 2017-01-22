@@ -37,7 +37,12 @@ export default class Theaters extends React.Component {
   }
 
   _onPress (rowData) {
-    const {theater_id, name} = rowData
-    this.props.onPushRoute(getFunctionsRoute(theater_id, name))
+    const {theater_id, name, cinema_id} = rowData
+    const theater = {
+      theater_id: theater_id,
+      cinema_id: cinema_id,
+      name: name
+    }
+    this.props.onPushRoute(getFunctionsRoute(theater))
   }
 }

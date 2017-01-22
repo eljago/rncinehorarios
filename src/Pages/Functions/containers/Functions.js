@@ -17,19 +17,18 @@ import FunctionsCell from '../components/FunctionsCell'
 import Menu from '../components/Menu'
 import {getShowRoute} from '../../../../data/routes'
 import {
-  getFavoriteTheaters,
-  addFavoriteTheater
+  toggleFavoriteTheater,
+  isFavoriteTheater
 } from '../../../utils/Favorites'
 
 const PICKER_OFFSET = 100
 
 export default class Functions extends React.Component {
   static propTypes = {
-    onPushRoute: PropTypes.func.isRequired
+    onPushRoute: PropTypes.func.isRequired,
+    theater: PropTypes.object.isRequired
   };
-  static defaultProps = {
-    isFavorite: false
-  }
+  _isFavorite = false
 
   constructor (props) {
     super(props)
@@ -47,6 +46,7 @@ export default class Functions extends React.Component {
   }
 
   componentDidMount () {
+    this._updateRightComponent()
     this._updateRightComponent2()
   }
 
@@ -90,7 +90,7 @@ export default class Functions extends React.Component {
     this.props.getHeader().rightComp.setup({
       image: require('../../../../assets/Heart.png'),
       style: {
-        tintColor: this.state.isFavorite ? 'white' : '#E58C7A'
+        tintColor: this._isFavorite ? 'white' : '#E58C7A'
       },
       props: {
         activeOpacity: 0.8
@@ -147,29 +147,17 @@ export default class Functions extends React.Component {
   }
 
   _onPressFavorite () {
-    addFavoriteTheater(this.props.theaterId, (result) => {
+    toggleFavoriteTheater(this.props.theater, (result) => {
       if (result === true) {
-        getFavoriteTheaters((result2, favorites) => {
-          if (result2 === true) {
-            const isFavorite = favorites.indexOf(this.props.theaterId) > -1
-            this.setState({isFavorite: isFavorite})
-            this.props.getHeader().rightComp.setup({
-              style: {
-                tintColor: isFavorite ? 'white' : '#E58C7A'
-              }
-            })
-          }
-        })
+        this._loadFavorites()
       }
     })
   }
 
   _loadFavorites () {
-    getFavoriteTheaters((result, favorites) => {
+    isFavoriteTheater(this.props.theater, (result, isFavorite) => {
       if (result === true) {
-        this.setState({
-          isFavorite: favorites.indexOf(this.props.theaterId) > -1
-        })
+        this._isFavorite = isFavorite
         this._updateRightComponent()
       }
     })

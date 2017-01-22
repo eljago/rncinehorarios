@@ -2,13 +2,13 @@
 
 import Storage from 'react-native-key-value-store'
 
-const FAVORITE_THEATERS_KEY = 'favoriteTheaters'
+const FAVORITE_THEATERS_KEY = 'FavoriteTheaters'
 
 async function getFavoriteTheaters (callback) {
   try {
-    let favorites = await Storage.get(FAVORITE_THEATERS_KEY, [])
+    let favorites = await Storage.get(FAVORITE_THEATERS_KEY, {})
     if (favorites == null) {
-      favorites = []
+      favorites = {}
       await Storage.set(FAVORITE_THEATERS_KEY, favorites)
     }
     callback(true, favorites)
@@ -19,34 +19,49 @@ async function getFavoriteTheaters (callback) {
   }
 }
 
-async function addFavoriteTheater (theaterId, callback) {
+async function toggleFavoriteTheater (theater, callback) {
   try{
-      let favorites = await Storage.get(FAVORITE_THEATERS_KEY, [])
+      let favorites = await Storage.get(FAVORITE_THEATERS_KEY, {})
       if (favorites == null) {
-        await Storage.set(FAVORITE_THEATERS_KEY, [])
+        await Storage.set(FAVORITE_THEATERS_KEY, {})
       }
-      const index = favorites.indexOf(theaterId);
-      if (index > -1) { // REMOVE FROM FAVORITES
-        favorites.splice(index, 1);
+      const key = `${theater.theater_id}`
+      const isFavorite = Object.keys(favorites).includes(key)
+      if (isFavorite === true) {
+        delete favorites[theater.theater_id]
       }
-      else { // ADD TO FAVORITES
-        favorites.push(theaterId)
+      else {
+        favorites[key] = theater
       }
-      // FILTER NON-NUMBERS
-      favorites = favorites.filter((theaterId) => {
-        return typeof theaterId === 'number'
-      })
       await Storage.set(FAVORITE_THEATERS_KEY, favorites)
       callback(true)
   }
   catch(e){
-      console.log('caught error', e);
+      console.log('caught error', e)
       // Handle exceptions
       callback(false)
   }
 }
 
+async function isFavoriteTheater (theater, callback) {
+  try{
+      let favorites = await Storage.get(FAVORITE_THEATERS_KEY, {})
+      if (favorites == null) {
+        await Storage.set(FAVORITE_THEATERS_KEY, {})
+      }
+      const key = `${theater.theater_id}`
+      const isFavorite = Object.keys(favorites).includes(key)
+      callback(true, isFavorite)
+  }
+  catch(e){
+      console.log('caught error', e)
+      // Handle exceptions
+      callback(false, false)
+  }
+}
+
 export {
   getFavoriteTheaters,
-  addFavoriteTheater
+  toggleFavoriteTheater,
+  isFavoriteTheater
 }

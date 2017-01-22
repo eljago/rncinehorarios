@@ -8,7 +8,6 @@ import moment from 'moment'
 import Cinemas from '../src/Pages/Cinemas'
 import Movies from '../src/Pages/Movies'
 import Theaters from '../src/Pages/Theaters'
-import Favorites from '../src/Pages/Favorites'
 import Functions from '../src/Pages/Functions'
 import Show from '../src/Pages/Show'
 import Videos from '../src/Pages/Videos'
@@ -33,8 +32,7 @@ function getMenuRoutes () {
   return [
     getCinemasRoute(),
     getMoviesRoute(),
-    getVideosRoute(),
-    getFavoritesRoute()
+    getVideosRoute()
   ]
 }
 
@@ -96,36 +94,20 @@ function getTheatersRoute (cinemaId, cinemaName) {
   })
 }
 
-function getFavoritesRoute () {
-  return ({
-    key: 'Favorites',
-    title: 'Favoritos',
-    screenView: 'Favorites',
-    component: RelayContainer,
-    props: {
-      component: Favorites,
-      queryConfig: new ViewerQueryConfig({
-        cacheTime: getCacheTime()
-      })
-    }
-  })
-}
-
-function getFunctionsRoute (theaterId, theaterName) {
+function getFunctionsRoute (theater) {
   return ({
     key: 'Functions',
-    title: theaterName,
+    title: theater.name,
     screenView: 'Functions',
     component: RelayContainer,
     props: {
       component: Functions,
       queryConfig: new ViewerQueryConfig({
-        theater_id: theaterId,
+        theater_id: theater.theater_id,
         cacheTime: getCacheTime()
       }),
       extraProps: {
-        theaterId: theaterId,
-        theaterName: theaterName
+        theater: theater
       }
     },
     headerTitleStyle: {
