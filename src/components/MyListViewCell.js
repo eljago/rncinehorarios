@@ -10,14 +10,15 @@ export default class MyListViewCell extends React.Component {
   static propTypes = {
     rowNumber: PropTypes.number,
     onPress: PropTypes.func,
-    hideAccessoryView: PropTypes.bool
+    hideAccessoryView: PropTypes.bool,
+    style: PropTypes.object
   };
   static defaultProps = {
     hideAccessoryView: false
   }
 
   render () {
-    const {rowNumber, onPress, children} = this.props
+    const {rowNumber, onPress, children, style} = this.props
     const cellBackgroundColor = rowNumber % 2 === 0 ? 'white' : '#ECF0F1'
 
     return (
@@ -26,7 +27,11 @@ export default class MyListViewCell extends React.Component {
         onPress={onPress}
         underlayColor={'black'}
       >
-        <View style={[styles.rowContainer, {backgroundColor: cellBackgroundColor}]}>
+        <View style={[
+          styles.rowContainer,
+          {backgroundColor: cellBackgroundColor},
+          style
+        ]}>
           <View style={styles.container}>
             {children}
           </View>

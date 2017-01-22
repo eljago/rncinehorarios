@@ -11,6 +11,7 @@ import MyGiftedListView from '../../../components/MyGiftedListView'
 import CinemaCell from '../components/CinemaCell'
 import SimpleCell from '../../../components/SimpleCell'
 import CINEMAS from '../../../../data/Cinemas'
+import Colors from '../../../../data/Colors'
 import {getTheatersRoute, getFunctionsRoute} from '../../../../data/routes'
 import {getFavoriteTheaters} from '../../../utils/Favorites'
 
@@ -147,7 +148,7 @@ export default class extends React.Component {
         rowNumber={rowData.rowNumber}
         title={rowData.name}
         onPress={this._onPressTheater.bind(this, rowData)}
-        style={{backgroundColor: 'red'}}
+        style={{backgroundColor: '#F7F7F7'}}
       />
     )
   }

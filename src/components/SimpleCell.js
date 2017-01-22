@@ -14,12 +14,13 @@ export default class SimpleCell extends React.Component {
   };
 
   render () {
-    const {rowNumber, title, onPress} = this.props
+    const {rowNumber, title, onPress, style} = this.props
 
     return (
       <MyListViewCell
         rowNumber={rowNumber}
         onPress={onPress}
+        style={style}
       >
         <View style={styles.textContainer}>
           <Text style={styles.title}>
