@@ -32,49 +32,53 @@ export default class Show extends React.Component {
   }
 
   render () {
-    const show = this.props.viewer.show
-    return (
-      <View
-        style={styles.container}
-      >
-        <Image
-          style={styles.imageContainer}
-          source={{uri: getImageVersion(show.cover)}}
-          resizeMode='cover'
+    const {viewer} = this.props
+    const show = viewer ? viewer.show : null
+    if (show) {
+      return (
+        <View
+          style={styles.container}
         >
-          <View style={styles.imageContent}>
-            <ScrollView
-              contentContainerStyle={styles.scrollViewContainer}
-              refreshControl={
-                <RefreshControl
-                  refreshing={this.state.refreshing}
-                  onRefresh={this._onRefresh.bind(this)}
+          <Image
+            style={styles.imageContainer}
+            source={{uri: getImageVersion(show.cover)}}
+            resizeMode='cover'
+          >
+            <View style={styles.imageContent}>
+              <ScrollView
+                contentContainerStyle={styles.scrollViewContainer}
+                refreshControl={
+                  <RefreshControl
+                    refreshing={this.state.refreshing}
+                    onRefresh={this._onRefresh.bind(this)}
+                  />
+                }
+              >
+                <ShowData
+                  showInformation={show.information}
+                  showDuration={show.duration}
+                  showDebut={show.debut}
+                  showGenres={show.genres}
+                  showRating={show.rating}
                 />
-              }
-            >
-              <ShowData
-                showInformation={show.information}
-                showDuration={show.duration}
-                showDebut={show.debut}
-                showGenres={show.genres}
-                showRating={show.rating}
-              />
-              <ScoresViews
-                imdbCode={show.imdb_code}
-                imdbScore={show.imdb_score}
-                metacriticUrl={show.metacritic_url}
-                metacriticScore={show.metacritic_score}
-                rottenTomatoesUrl={show.rotten_tomatoes_url}
-                rottenTomatoesScore={show.rotten_tomatoes_score}
-              />
-              {this._getImages()}
-              {this._getCast()}
-              {this._getVideos()}
-            </ScrollView>
-          </View>
-        </Image>
-      </View>
-    )
+                <ScoresViews
+                  imdbCode={show.imdb_code}
+                  imdbScore={show.imdb_score}
+                  metacriticUrl={show.metacritic_url}
+                  metacriticScore={show.metacritic_score}
+                  rottenTomatoesUrl={show.rotten_tomatoes_url}
+                  rottenTomatoesScore={show.rotten_tomatoes_score}
+                />
+                {this._getImages()}
+                {this._getCast()}
+                {this._getVideos()}
+              </ScrollView>
+            </View>
+          </Image>
+        </View>
+      )
+    }
+    return null
   }
 
   _onRefresh() {

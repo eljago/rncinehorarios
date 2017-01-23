@@ -11,8 +11,6 @@ import Theaters from '../src/Pages/Theaters'
 import Functions from '../src/Pages/Functions'
 import Show from '../src/Pages/Show'
 import Videos from '../src/Pages/Videos'
-import RelayContainer from '../src/components/RelayContainer'
-import PhotoBrowser from '../src/components/PhotoBrowser'
 
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0;
@@ -50,9 +48,8 @@ function getMoviesRoute () {
     key: 'movies',
     title: 'Películas',
     screenView: 'Movies',
-    component: RelayContainer,
-    props: {
-      component: Movies,
+    component: Movies,
+    relay: {
       queryConfig: new ViewerQueryConfig({
         cacheTime: getCacheTime()
       })
@@ -65,9 +62,8 @@ function getVideosRoute () {
     key: 'videos',
     title: 'Videos',
     screenView: 'Videos',
-    component: RelayContainer,
-    props: {
-      component: Videos,
+    component: Videos,
+    relay: {
       queryConfig: new ViewerQueryConfig({
         cacheTime: getCacheTime()
       })
@@ -75,41 +71,34 @@ function getVideosRoute () {
   }
 }
 
-function getTheatersRoute (cinemaId, cinemaName) {
+function getTheatersRoute (props) {
   return ({
     key: 'Theaters',
-    title: cinemaName,
+    title: props.title,
     screenView: 'Theaters',
-    component: RelayContainer,
-    props: {
-      component: Theaters,
+    component: Theaters,
+    relay: {
       queryConfig: new ViewerQueryConfig({
         cacheTime: getCacheTime()
-      }),
-      extraProps: {
-        cinemaId: cinemaId,
-        cinemaName: cinemaName
-      }
-    }
+      })
+    },
+    props: props
   })
 }
 
-function getFunctionsRoute (theater) {
+function getFunctionsRoute (props, relayProps) {
   return ({
     key: 'Functions',
-    title: theater.name,
+    title: props.title,
     screenView: 'Functions',
-    component: RelayContainer,
-    props: {
-      component: Functions,
+    component: Functions,
+    relay: {
       queryConfig: new ViewerQueryConfig({
-        theater_id: theater.theater_id,
-        cacheTime: getCacheTime()
+        cacheTime: getCacheTime(),
+        ...relayProps
       }),
-      extraProps: {
-        theater: theater
-      }
     },
+    props: props,
     headerTitleStyle: {
       marginRight: 65
     },
@@ -118,31 +107,19 @@ function getFunctionsRoute (theater) {
   })
 }
 
-function getShowRoute (showId, showName) {
+function getShowRoute (props, relayProps) {
   return ({
     key: 'Show',
-    title: showName,
+    title: props.title,
     screenView: 'Show',
-    component: RelayContainer,
-    props: {
-      component: Show,
+    component: Show,
+    relay: {
       queryConfig: new ViewerQueryConfig({
-        show_id: showId,
-        cacheTime: getCacheTime()
-      }),
-      extraProps: {
-        showId: showId,
-        showName: showName
-      },
-      backgroundStyle: {
-        backgroundColor: 'black',
-        marginTop: -(APPBAR_HEIGHT + STATUSBAR_HEIGHT),
-        paddingTop: APPBAR_HEIGHT + STATUSBAR_HEIGHT
-      }
+        cacheTime: getCacheTime(),
+        ...relayProps
+      })
     },
-    headerStyle: {
-      backgroundColor: 'rgba(0,0,0,0.5)'
-    }
+    props: props
   })
 }
 

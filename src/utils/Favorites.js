@@ -60,6 +60,22 @@ async function isFavoriteTheater (theater, callback) {
   }
 }
 
+function isValidTheater (theater) {
+  return
+    theater.theater_id && typeof theater.theater_id === 'number' &&
+    theater.cinema_id && typeof theater.cinema_id === 'number' && 
+    theater.name && typeof theater.name === 'string'
+}
+
+function cleanFavorites (favorites) {
+  const keys = Object.keys(favorites)
+  for (let indx = keys.length - 1; indx >= 0; indx--) {
+    if (typeof key !== 'number' && !isValidTheater(favorites[keys[indx]])) {
+      delete favorites[key]
+    }
+  }
+}
+
 export {
   getFavoriteTheaters,
   toggleFavoriteTheater,

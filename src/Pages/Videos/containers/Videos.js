@@ -76,8 +76,13 @@ export default class Videos extends React.Component {
   }
 
   _onGoToMovie (showId, showName) {
-    const showRoute = getShowRoute(showId, showName)
-    this.props.onPushRoute(showRoute, true)
+    const props = {
+      title: showName
+    }
+    const relayProps = {
+      show_id: showId
+    }
+    this.props.onPushRoute(getShowRoute(props, relayProps))
   }
 
   _onScroll (e) {

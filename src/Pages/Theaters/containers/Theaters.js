@@ -8,7 +8,8 @@ import {getFunctionsRoute} from '../../../../data/routes'
 
 export default class Theaters extends React.Component {
   static propTypes = {
-    onPushRoute: PropTypes.func.isRequired
+    onPushRoute: PropTypes.func.isRequired,
+    cinemaId: PropTypes.number.isRequired
   };
 
   render () {
@@ -37,12 +38,18 @@ export default class Theaters extends React.Component {
   }
 
   _onPress (rowData) {
-    const {theater_id, name, cinema_id} = rowData
-    const theater = {
-      theater_id: theater_id,
-      cinema_id: cinema_id,
-      name: name
+    const {name, cinema_id, theater_id} = rowData
+    const props = {
+      title: name,
+      theater: {
+        theater_id: theater_id,
+        cinema_id: cinema_id,
+        name: name
+      }
     }
-    this.props.onPushRoute(getFunctionsRoute(theater))
+    const relayProps = {
+      theater_id: theater_id
+    }
+    this.props.onPushRoute(getFunctionsRoute(props, relayProps))
   }
 }

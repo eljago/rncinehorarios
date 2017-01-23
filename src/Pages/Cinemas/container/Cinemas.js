@@ -136,8 +136,11 @@ export default class extends React.Component {
   }
 
   _onPressCinema (rowData) {
-    const route = getTheatersRoute(rowData.cinema_id, rowData.name)
-    this.props.onPushRoute(route)
+    const props = {
+      title: rowData.name,
+      cinemaId: rowData.cinema_id
+    }
+    this.props.onPushRoute(getTheatersRoute(props))
   }
 
   _renderRow (rowData: string, sectionID: number, rowID: number,
@@ -154,12 +157,18 @@ export default class extends React.Component {
   }
 
   _onPressTheater (rowData) {
-    const {theater_id, name, cinema_id} = rowData
-    const theater = {
-      theater_id: theater_id,
-      cinema_id: cinema_id,
-      name: name
+    const {name, cinema_id, theater_id} = rowData
+    const props = {
+      title: name,
+      theater: {
+        theater_id: theater_id,
+        cinema_id: cinema_id,
+        name: name
+      }
     }
-    this.props.onPushRoute(getFunctionsRoute(theater))
+    const relayProps = {
+      theater_id: theater_id
+    }
+    this.props.onPushRoute(getFunctionsRoute(props, relayProps))
   }
 }

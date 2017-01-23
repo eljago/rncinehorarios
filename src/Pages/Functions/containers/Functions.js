@@ -16,10 +16,7 @@ import MyGiftedListView from '../../../components/MyGiftedListView'
 import FunctionsCell from '../components/FunctionsCell'
 import Menu from '../components/Menu'
 import {getShowRoute} from '../../../../data/routes'
-import {
-  toggleFavoriteTheater,
-  isFavoriteTheater
-} from '../../../utils/Favorites'
+import {toggleFavoriteTheater, isFavoriteTheater} from '../../../utils/Favorites'
 
 const PICKER_OFFSET = 100
 
@@ -38,16 +35,7 @@ export default class Functions extends React.Component {
       currentDate: moment().format('YYYY-MM-DD'),
       pickerRight: new Animated.Value(0)
     }
-    _.bindAll(this, [
-      '_renderRow',
-      '_onPress'
-    ])
     this._loadFavorites()
-  }
-
-  componentDidMount () {
-    this._updateRightComponent()
-    this._updateRightComponent2()
   }
 
   render () {
@@ -56,6 +44,7 @@ export default class Functions extends React.Component {
     for (var i = 0; i < 7; i++) {
       dates.push(moment().add(i, 'days'))
     }
+    const shows = this.props.viewer ? this.props.viewer.shows : []
     return (
       <View style={{flex: 1, flexDirection: 'row'}}>
         <Menu
@@ -77,8 +66,8 @@ export default class Functions extends React.Component {
           <MyGiftedListView
             key={date}
             tabLabel={date}
-            renderRow={this._renderRow}
-            dataRows={getDataRows(date, this.props.viewer.shows)}
+            renderRow={this._renderRow.bind(this)}
+            dataRows={getDataRows(date, shows)}
             forceFetch={this.props.relay.forceFetch}
           />
         </Animated.View>
@@ -86,24 +75,36 @@ export default class Functions extends React.Component {
     )
   }
 
+  onFocus () {
+    console.log('on focus functions')
+    this._updateRightComponent()
+    this._updateRightComponent2()
+  }
+
   _updateRightComponent () {
-    this.props.getHeader().rightComp.setup({
-      image: require('../../../../assets/Heart.png'),
-      style: {
-        tintColor: this._isFavorite ? 'white' : '#E58C7A'
-      },
-      props: {
-        activeOpacity: 0.8
-      },
-      onPress: this._onPressFavorite.bind(this)
-    })
+    const header = this.props.getHeader()
+    if (header) {
+      header.rightComp.setup({
+        image: require('../../../../assets/Heart.png'),
+        style: {
+          tintColor: this._isFavorite ? 'white' : '#E58C7A'
+        },
+        props: {
+          activeOpacity: 0.8
+        },
+        onPress: this._onPressFavorite.bind(this)
+      })
+    }
   }
 
   _updateRightComponent2 () {
-    this.props.getHeader().rightComp2.setup({
-      title: _.upperFirst(moment().format('ddd DD')),
-      onPress: this.onRightAction2.bind(this)
-    })
+    const header = this.props.getHeader()
+    if (header) {
+      header.rightComp2.setup({
+        title: _.upperFirst(moment().format('ddd DD')),
+        onPress: this.onRightAction2.bind(this)
+      })
+    }
   }
 
   onRightAction () {
@@ -128,14 +129,19 @@ export default class Functions extends React.Component {
         title={rowData.name}
         cover={rowData.cover}
         functions={rowData.functions}
-        onPress={() => this._onPress(rowData)}
+        onPress={this._onPress.bind(this, rowData)}
       />
     )
   }
 
   _onPress (rowData) {
-    const showRoute = getShowRoute(rowData.show_id, rowData.name)
-    this.props.onPushRoute(showRoute, true)
+    const props = {
+      title: rowData.name
+    }
+    const relayProps = {
+      show_id: rowData.show_id
+    }
+    this.props.onPushRoute(getShowRoute(props, relayProps))
   }
 
   _onPressMenuItem (date) {
@@ -158,7 +164,6 @@ export default class Functions extends React.Component {
     isFavoriteTheater(this.props.theater, (result, isFavorite) => {
       if (result === true) {
         this._isFavorite = isFavorite
-        this._updateRightComponent()
       }
     })
   }

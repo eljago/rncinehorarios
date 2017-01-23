@@ -40,8 +40,13 @@ export default class Movies extends React.Component {
   }
 
   _onPress (rowData) {
-    const showRoute = getShowRoute(rowData.show_id, rowData.name)
-    this.props.onPushRoute(showRoute, true)
+    const props = {
+      title: rowData.name
+    }
+    const relayProps = {
+      show_id: rowData.show_id
+    }
+    this.props.onPushRoute(getShowRoute(props, relayProps))
   }
 
   _renderBillboardRow (rowData, sectionID, rowID, highlightRow) {
