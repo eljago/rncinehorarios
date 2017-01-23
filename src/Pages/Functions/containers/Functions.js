@@ -25,32 +25,45 @@ export default class Functions extends React.Component {
     onPushRoute: PropTypes.func.isRequired,
     theater: PropTypes.object.isRequired
   };
-  _isFavorite = false
 
   constructor (props) {
     super(props)
     moment.updateLocale('es', esLocale)
+    this._isFavorite = false
+    this._currentDate = moment()
     this.pickerHidden = true
+
     this.state = {
-      currentDate: moment().format('YYYY-MM-DD'),
+      currentDate: this._currentDate.format('YYYY-MM-DD'),
       pickerRight: new Animated.Value(0)
     }
     this._loadFavorites()
   }
 
+  componentDidMount () {
+    this._setCurrentDate(moment())
+  }
+
+  componentDidUpdate (prevProps, prevState) {
+    if (prevProps.viewer == null && this.props.viewer != null) {
+      this._updateRightComponent2()
+    }
+  }
+
   render () {
-    const date = this.state.currentDate
+    const {viewer, relay} = this.props
+    const {currentDate, pickerRight} = this.state
     let dates = []
     for (var i = 0; i < 7; i++) {
       dates.push(moment().add(i, 'days'))
     }
-    const shows = this.props.viewer ? this.props.viewer.shows : []
+    const shows = viewer ? viewer.shows : []
     return (
       <View style={{flex: 1, flexDirection: 'row'}}>
         <Menu
           menuOffset={PICKER_OFFSET}
           onPressMenuItem={this._onPressMenuItem.bind(this)}
-          currentDate={this.state.currentDate}
+          currentDate={currentDate}
           dates={dates}
         />
         <Animated.View
@@ -58,17 +71,17 @@ export default class Functions extends React.Component {
             position: 'absolute',
             top: 0,
             bottom: 0,
-            right: this.state.pickerRight,
+            right: pickerRight,
             width: Dimensions.get('window').width,
             backgroundColor: 'white'
           }}
         >
           <MyGiftedListView
-            key={date}
-            tabLabel={date}
+            key={currentDate}
+            tabLabel={currentDate}
             renderRow={this._renderRow.bind(this)}
-            dataRows={getDataRows(date, shows)}
-            forceFetch={this.props.relay.forceFetch}
+            dataRows={getDataRows(currentDate, shows)}
+            forceFetch={relay.forceFetch}
           />
         </Animated.View>
       </View>
@@ -76,9 +89,7 @@ export default class Functions extends React.Component {
   }
 
   onFocus () {
-    console.log('on focus functions')
     this._updateRightComponent()
-    this._updateRightComponent2()
   }
 
   _updateRightComponent () {
@@ -90,7 +101,7 @@ export default class Functions extends React.Component {
           tintColor: this._isFavorite ? 'white' : '#E58C7A'
         },
         props: {
-          activeOpacity: 0.8
+          activeOpacity: 1
         },
         onPress: this._onPressFavorite.bind(this)
       })
@@ -101,7 +112,7 @@ export default class Functions extends React.Component {
     const header = this.props.getHeader()
     if (header) {
       header.rightComp2.setup({
-        title: _.upperFirst(moment().format('ddd DD')),
+        title: _.upperFirst(this._currentDate.format('ddd DD')),
         onPress: this.onRightAction2.bind(this)
       })
     }
@@ -145,11 +156,14 @@ export default class Functions extends React.Component {
   }
 
   _onPressMenuItem (date) {
-    this.setState({currentDate: date.format('YYYY-MM-DD')})
+    this._setCurrentDate(date)
+    this._updateRightComponent2()
     this.onRightAction2()
-    this.props.getHeader().rightComp.setup({
-      title: _.upperFirst(date.format('ddd DD'))
-    })
+  }
+
+  _setCurrentDate (date) {
+    this._currentDate = date
+    this.setState({currentDate: this._currentDate.format('YYYY-MM-DD')})
   }
 
   _onPressFavorite () {
@@ -164,6 +178,7 @@ export default class Functions extends React.Component {
     isFavoriteTheater(this.props.theater, (result, isFavorite) => {
       if (result === true) {
         this._isFavorite = isFavorite
+        this._updateRightComponent()
       }
     })
   }
