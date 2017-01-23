@@ -75,22 +75,27 @@ export default class CardNavigator extends React.Component {
       onPopRoute: onPopRoute,
       setDrawerLockMode: setDrawerLockMode
     }
+    const backgroundStyle = {
+      backgroundColor: 'white',
+      ...route.backgroundStyle
+    }
 
     if (relay) {
       return (
-        <View style={styles.container}>
+        <View style={[styles.container, backgroundStyle]}>
           {getStatusBar ? getStatusBar() : <StatusBar barStyle='light-content' />}
           <RelayContainer
             ref={(comp) => {this._pages[key] = comp}}
             queryConfig={relay.queryConfig}
             component={Component}
             extraProps={extraProps}
+            backgroundStyle={backgroundStyle}
           />
         </View>
       )
     }
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, backgroundStyle]}>
         {getStatusBar ? getStatusBar() : <StatusBar barStyle='light-content' />}
         <Component
           ref={(comp) => {this._pages[key] = comp}}

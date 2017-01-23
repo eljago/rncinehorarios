@@ -11,13 +11,14 @@ import {
 
 export default class RetryView extends React.Component {
   static propTypes = {
-    onPress: PropTypes.func.isRequired
+    onPress: PropTypes.func.isRequired,
+    backgroundStyle: PropTypes.object
   }
 
   render () {
     return (
       <TouchableOpacity
-        style={styles.container}
+        style={[styles.container, this.props.backgroundStyle]}
         onPress={this.props.onPress}>
         <Text style={styles.text}>
           Presiona para reintentar
@@ -32,8 +33,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0, left: 0, right: 0, bottom: 0,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#E6E6E6'
+    alignItems: 'center'
   },
   text: {
     fontSize: 24,

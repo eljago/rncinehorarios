@@ -72,8 +72,7 @@ export default class Functions extends React.Component {
             top: 0,
             bottom: 0,
             right: pickerRight,
-            width: Dimensions.get('window').width,
-            backgroundColor: 'white'
+            width: Dimensions.get('window').width
           }}
         >
           <MyGiftedListView

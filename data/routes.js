@@ -119,7 +119,15 @@ function getShowRoute (props, relayProps) {
         ...relayProps
       })
     },
-    props: props
+    props: props,
+    backgroundStyle: {
+      backgroundColor: 'black',
+      marginTop: -(APPBAR_HEIGHT + STATUSBAR_HEIGHT),
+      paddingTop: APPBAR_HEIGHT + STATUSBAR_HEIGHT
+    },
+    headerStyle: {
+      backgroundColor: 'rgba(0,0,0,0.5)'
+    }
   })
 }
 

@@ -12,11 +12,18 @@ export default class RelayContainer extends React.Component {
   static propTypes = {
     queryConfig: Relay.PropTypes.QueryConfig.isRequired,
     component: PropTypes.func.isRequired,
-    extraProps: PropTypes.object
+    extraProps: PropTypes.object,
+    backgroundStyle: PropTypes.object
   };
 
   render () {
-    const {component: Component, queryConfig, extraProps} = this.props
+    const {
+      component: Component,
+      queryConfig,
+      extraProps,
+      backgroundStyle
+    } = this.props
+
     return (
       <Relay.Renderer
         Container={Component}
@@ -27,7 +34,7 @@ export default class RelayContainer extends React.Component {
             props = {viewer: null}
           }
           return (
-            <View style={{flex: 1}}>
+            <View style={[{flex: 1}, this.props.backgroundStyle]}>
               <Component
                 ref={(comp) => {this._comp = comp}}
                 {...props}
@@ -43,10 +50,10 @@ export default class RelayContainer extends React.Component {
 
   _getOverlayView (error, props, retry) {
     if (error) {
-      return <RetryView onPress={retry} />
+      return <RetryView onPress={retry} backgroundStyle={this.props.backgroundStyle}/>
     }
     else if (props.viewer == null) {
-      return <LoadingIndicator />
+      return <LoadingIndicator backgroundStyle={this.props.backgroundStyle} />
     }
     else {
       return null
