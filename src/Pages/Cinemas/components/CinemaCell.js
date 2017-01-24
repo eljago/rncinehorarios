@@ -53,8 +53,8 @@ let styles = StyleSheet.create({
     marginLeft: 15
   },
   image: {
-    width: 60,
-    height: 60
+    width: 40,
+    height: 40
   },
   title: {
     fontSize: 22,
