@@ -13,6 +13,7 @@ const esLocale = require('moment/locale/es')
 import _ from 'lodash'
 
 import MyGiftedListView from '../../../components/MyGiftedListView'
+import MyHeaderListView from '../../../components/MyHeaderListView'
 import FunctionsCell from '../components/FunctionsCell'
 import Menu from '../components/Menu'
 import {getShowRoute} from '../../../../data/routes'
@@ -45,19 +46,19 @@ export default class Functions extends React.Component {
   }
 
   componentDidUpdate (prevProps, prevState) {
-    if (prevProps.viewer == null && this.props.viewer != null) {
+    const {viewer} = this.props
+    if (prevProps.viewer == null && viewer != null
+      && viewer.shows && viewer.shows.length > 0) {
       this._updateRightComponent2()
     }
   }
 
   render () {
-    const {viewer, relay} = this.props
     const {currentDate, pickerRight} = this.state
     let dates = []
     for (var i = 0; i < 7; i++) {
       dates.push(moment().add(i, 'days'))
     }
-    const shows = viewer ? viewer.shows : []
     return (
       <View style={{flex: 1, flexDirection: 'row'}}>
         <Menu
@@ -72,19 +73,54 @@ export default class Functions extends React.Component {
             top: 0,
             bottom: 0,
             right: pickerRight,
-            width: Dimensions.get('window').width
+            width: Dimensions.get('window').width,
+            backgroundColor: 'white'
           }}
         >
-          <MyGiftedListView
-            style={{backgroundColor: 'white'}}
-            key={currentDate}
-            tabLabel={currentDate}
-            renderRow={this._renderRow.bind(this)}
-            dataRows={getDataRows(currentDate, shows)}
-            forceFetch={relay.forceFetch}
-          />
+          {this._renderContent()}
         </Animated.View>
       </View>
+    )
+  }
+
+  _renderContent () {
+    const {viewer} = this.props
+    const {currentDate} = this.state
+    if (viewer) {
+      const shows = viewer.shows
+      const theatersData = getDataRows(currentDate, shows)
+      const theatersDataArray = Object.values(theatersData)
+      if (theatersDataArray.length > 1) {
+        return (
+          <MyHeaderListView
+            dataRows={theatersDataArray}
+            titles={theatersDataArray.map((theater) => theater.name)}
+            renderPage={this._renderPage.bind(this)}
+          />
+        )
+      }
+      else if (theatersDataArray.length == 1){
+        return (
+          this._renderPage(theatersDataArray[0])
+        )
+      }
+    }
+    return null
+  }
+
+  _renderPage (rowData, sectionID, rowID, highlightRow) {
+    const theater = rowData
+    const {currentDate} = this.state
+    const {relay} = this.props
+    return (
+      <MyGiftedListView
+        style={{backgroundColor: 'white'}}
+        key={currentDate}
+        tabLabel={currentDate}
+        renderRow={this._renderRow.bind(this)}
+        dataRows={Object.values(theater.shows)}
+        forceFetch={relay.forceFetch}
+      />
     )
   }
 
@@ -184,23 +220,44 @@ export default class Functions extends React.Component {
   }
 }
 
-function getDataRows (date, showsFunctions) {
-  let dataRows = []
-  for (const show of showsFunctions) {
-    const {name, cover, show_id} = show
+function getDataRows (date, shows) {
+  let theaters = {}
 
-    const functions = show.functions.filter((obj) => {
-      return (obj.date === date)
-    })
+  for (const show of shows) {
+    const {
+      name,
+      cover,
+      show_id,
+      functions
+    } = show
+    console.log(name)
 
-    if (functions.length > 0) {
-      dataRows.push({
-        name: name,
-        cover: cover,
-        functions: functions,
-        show_id: show_id
-      })
+    for (const func of functions) {
+      const {theater} = func
+      if (!Object.keys(theaters).includes(`${theater.theater_id}`)) {
+        theaters[theater.theater_id] = {
+          theater_id: theater.theater_id,
+          name: theater.name,
+          cinema_id: theater.cinema_id,
+          shows: {}
+        }
+      }
+      if (func.date === date) {
+        let {shows: theaterShows} = theaters[theater.theater_id]
+        if (!Object.keys(theaterShows).includes(`${show_id}`)) {
+          theaterShows[show_id] = {
+            name: name,
+            cover: cover,
+            show_id: show_id,
+            functions: []
+          }
+        }
+        console.log(func.showtimes)
+        theaterShows[show_id].functions.push(func)
+      }
     }
   }
-  return dataRows
+
+  console.log(theaters)
+  return theaters
 }

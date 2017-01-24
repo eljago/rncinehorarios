@@ -24,6 +24,12 @@ export default Relay.createContainer(Functions, {
             date
             showtimes
             function_types
+            theater_id
+            theater{
+              theater_id
+              name
+              cinema_id
+            }
           }
         }
       }
