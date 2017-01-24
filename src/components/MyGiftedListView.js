@@ -10,7 +10,8 @@ export default class MyGiftedListView extends React.Component {
     renderRow: PropTypes.func,
     dataRows: PropTypes.array,
     forceFetch: PropTypes.func,
-    onScroll: PropTypes.func
+    onScroll: PropTypes.func,
+    style: PropTypes.object
   };
 
   constructor (props) {
@@ -42,7 +43,7 @@ export default class MyGiftedListView extends React.Component {
     } : null
     return (
       <ListView
-        style={styles.container}
+        style={[styles.container, this.props.style]}
         dataSource={this.state.dataSource}
         scrollsToTop={this.props.scrollsToTop}
         renderRow={this.props.renderRow}
