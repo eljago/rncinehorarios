@@ -76,6 +76,7 @@ export default class Functions extends React.Component {
           }}
         >
           <MyGiftedListView
+            style={{backgroundColor: 'white'}}
             key={currentDate}
             tabLabel={currentDate}
             renderRow={this._renderRow.bind(this)}
