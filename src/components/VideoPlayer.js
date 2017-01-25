@@ -62,7 +62,7 @@ export default class VideoPlayer extends React.Component {
           <View style={styles.playerContainer}>
             {this._getPlayer()}
             {this._getLoadingIndicator()}
-          </View>    
+          </View>
         </View>
       </MyModal>
     )
@@ -113,13 +113,17 @@ export default class VideoPlayer extends React.Component {
 
   _onOpen () {
     reportEvent('Video', 'opened')
-    this.props.onOpen()
+    if (this.props.onOpen) {
+      this.props.onOpen()
+    }
   }
 
   _onClose() {
     Orientation.lockToPortrait()
-    this.props.onClose()
     reportEvent('Video', 'closed')
+    if (this.props.onClose) {
+      this.props.onClose()
+    }
   }
 
   _closeModal () {

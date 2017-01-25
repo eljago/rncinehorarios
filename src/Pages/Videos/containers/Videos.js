@@ -17,6 +17,7 @@ export default class Videos extends React.Component {
   static propTypes = {
     onPushRoute: PropTypes.func.isRequired
   }
+  
   constructor(props) {
     super(props)
     this._distanceToBottom = 0
