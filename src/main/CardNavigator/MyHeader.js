@@ -45,7 +45,7 @@ export default class MyHeader extends React.Component {
     return (
       <NavigationHeader.Title
         style={route.headerTitleStyle}
-        textStyle={styles.title}
+        textStyle={[styles.title, route.headerTitleTextStyle]}
       >
         {route.title ? route.title : route.key}
       </NavigationHeader.Title>
