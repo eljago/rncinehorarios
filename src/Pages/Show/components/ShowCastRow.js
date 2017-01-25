@@ -2,7 +2,16 @@
 'use strict'
 
 import React, {PropTypes} from 'react'
-import {ListView, TouchableOpacity, Image, StyleSheet, View, Text} from 'react-native'
+import {
+  ListView,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+  View,
+  Text,
+  Dimensions,
+  PixelRatio
+} from 'react-native'
 import _ from 'lodash'
 
 import {getImageVersion} from '../../../utils/ImageHelper'
@@ -16,6 +25,9 @@ export default class ShowImagesRow extends React.Component {
 
   constructor (props) {
     super(props)
+    const {width, height} = Dimensions.get('window')
+    const pixelRatio = PixelRatio.get()
+    this._imageVersion = width * pixelRatio * height <= 307200 ? 'small' : ''
     const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
     this.state = {
       dataSource: dataSource.cloneWithRows(props.cast)
@@ -48,7 +60,7 @@ export default class ShowImagesRow extends React.Component {
           data={this.props.cast.map((spr) => {
             return {
               image: {
-                url: getImageVersion(spr.person.image, 'small')
+                url: getImageVersion(spr.person.image, this._imageVersion)
               },
               text: `${(spr.director ? 'Director:\n' : '')}${spr.person.name}${(spr.character ? `\n(${spr.character})` : '')}`
             }
