@@ -2,6 +2,7 @@
 'use strict'
 
 import React, {PropTypes} from 'react'
+import {View} from 'react-native'
 
 import MyHeaderListView from '../../../components/MyHeaderListView'
 import MyGiftedListView from '../../../components/MyGiftedListView'
