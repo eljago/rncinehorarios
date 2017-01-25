@@ -100,10 +100,11 @@ function getFunctionsRoute (props, relayProps) {
     },
     props: props,
     headerTitleStyle: {
-      marginRight: 65
+      marginLeft: 40,
+      marginRight: 30
     },
-    rightComponent: true,
-    rightComponent2: true
+    leftComponent2: true,
+    rightComponent: true
   })
 }
 

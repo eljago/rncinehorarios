@@ -53,47 +53,34 @@ export default class MyHeader extends React.Component {
   }
 
   _renderLeftComponent (props: Object) {
-    if (props.scene.index === 0) {
-      return null
-    }
-    if (!props.onNavigateBack) {
-      return null
-    }
-    return (
-      <TouchableOpacity
-        style={styles.buttonContainer}
-        onPress={props.onNavigateBack}
-      >
-        <Image
-          style={styles.button}
-          source={require('../../../assets/back-icon.png')}
-        />
-      </TouchableOpacity>
-    )
-  }
-
-  _renderRightComponent (props: Object) {
-    if (props.scene.index === 0) {
-      return (
-        <TouchableOpacity
-          style={styles.buttonContainer}
-          onPress={this.props.onPressMenu}
-        >
-          <Image
-            style={[styles.button, styles.buttonMenu]}
-            source={require('../../../assets/MenuIcon.png')}
-          />
-        </TouchableOpacity>
-      )
-    }
-    const {rightComponent, rightComponent2} = props.scene.route
+    const {leftComponent, leftComponent2} = props.scene.route
     let childs = []
-    if (rightComponent) {
-      childs.push(<HeaderButton key='rc1' ref={(rc) => { this.rightComp = rc }} />)
+    if (props.scene.index === 0) {
+      if (leftComponent) {
+        childs.push(<HeaderButton key='lc1' ref={(comp) => { this.leftComp = comp }} />)
+      }
     }
-    if (rightComponent2) {
-      childs.push(<HeaderButton key='rc2' ref={(rc) => { this.rightComp2 = rc }} />)
+    else {
+      if (props.onNavigateBack) {
+        childs.push(
+          <TouchableOpacity
+            key='lc1'
+            style={styles.buttonContainer}
+            onPress={props.onNavigateBack}
+          >
+            <Image
+              style={styles.button}
+              source={require('../../../assets/back-icon.png')}
+            />
+          </TouchableOpacity>
+        )
+      }
     }
+
+    if (leftComponent2) {
+      childs.push(<HeaderButton key='lc2' ref={(comp) => { this.leftComp2 = comp }} />)
+    }
+
     if (childs.length > 0) {
       return (
         <View
@@ -106,12 +93,44 @@ export default class MyHeader extends React.Component {
     return null
   }
 
-  getRightComponent () {
-    return this.rightComp
-  }
+  _renderRightComponent (props: Object) {
+    const {rightComponent, rightComponent2} = props.scene.route
+    let childs = []
 
-  getRightComponent2 () {
-    return this.rightComp2
+    if (rightComponent) {
+      childs.push(<HeaderButton key='rc1' ref={(comp) => { this.rightComp = comp }} />)
+    }
+
+    if (props.scene.index === 0) {
+      childs.push(
+        <TouchableOpacity
+          key='rc1'
+          style={styles.buttonContainer}
+          onPress={this.props.onPressMenu}
+        >
+          <Image
+            style={[styles.button, styles.buttonMenu]}
+            source={require('../../../assets/MenuIcon.png')}
+          />
+        </TouchableOpacity>
+      )
+    }
+    else {
+      if (rightComponent2) {
+        childs.push(<HeaderButton key='rc2' ref={(comp) => { this.rightComp2 = comp }} />)
+      }
+    }
+
+    if (childs.length > 0) {
+      return (
+        <View
+          style={{flex: 1, flexDirection: 'row'}}
+        >
+          {childs}
+        </View>
+      )
+    }
+    return null
   }
 }
 

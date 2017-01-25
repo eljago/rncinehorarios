@@ -49,7 +49,7 @@ export default class Functions extends React.Component {
     const {viewer} = this.props
     if (prevProps.viewer == null && viewer != null
       && viewer.shows && viewer.shows.length > 0) {
-      this._updateRightComponent2()
+      this._updateRightComponent()
     }
   }
 
@@ -125,13 +125,13 @@ export default class Functions extends React.Component {
   }
 
   onFocus () {
-    this._updateRightComponent()
+    this._updateLeftComponent2()
   }
 
-  _updateRightComponent () {
+  _updateLeftComponent2 () {
     const header = this.props.getHeader()
     if (header) {
-      header.rightComp.setup({
+      header.leftComp2.setup({
         image: require('../../../../assets/Heart.png'),
         style: {
           tintColor: this._isFavorite ? 'white' : '#E58C7A'
@@ -144,21 +144,21 @@ export default class Functions extends React.Component {
     }
   }
 
-  _updateRightComponent2 () {
+  _updateRightComponent () {
     const header = this.props.getHeader()
     if (header) {
-      header.rightComp2.setup({
+      header.rightComp.setup({
         title: _.upperFirst(this._currentDate.format('ddd DD')),
-        onPress: this.onRightAction2.bind(this)
+        onPress: this.onRightAction.bind(this)
       })
     }
   }
 
-  onRightAction () {
+  onLeftAction () {
     this._onPressFavorite()
   }
 
-  onRightAction2 () {
+  onRightAction () {
     Animated.spring(
       this.state.pickerRight,
       {
@@ -193,8 +193,8 @@ export default class Functions extends React.Component {
 
   _onPressMenuItem (date) {
     this._setCurrentDate(date)
-    this._updateRightComponent2()
-    this.onRightAction2()
+    this._updateRightComponent()
+    this.onRightAction()
   }
 
   _setCurrentDate (date) {
@@ -214,7 +214,7 @@ export default class Functions extends React.Component {
     isFavoriteTheater(this.props.theater, (result, isFavorite) => {
       if (result === true) {
         this._isFavorite = isFavorite
-        this._updateRightComponent()
+        this._updateLeftComponent2()
       }
     })
   }
@@ -230,7 +230,6 @@ function getDataRows (date, shows) {
       show_id,
       functions
     } = show
-    console.log(name)
 
     for (const func of functions) {
       const {theater} = func
@@ -252,7 +251,6 @@ function getDataRows (date, shows) {
             functions: []
           }
         }
-        console.log(func.showtimes)
         theaterShows[show_id].functions.push(func)
       }
     }
