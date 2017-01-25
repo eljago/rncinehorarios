@@ -17,7 +17,11 @@ export default class Movies extends React.Component {
   }
 
   render () {
-    const {billboard, comingSoon} = this.props.viewer
+    const {viewer} = this.props
+    if (viewer == null) {
+      return <View style={{flex: 1, backgroundColor: 'white'}} />
+    }
+    const {billboard, comingSoon} = viewer
     return (
       <MyHeaderListView
         dataRows={[billboard, comingSoon]}

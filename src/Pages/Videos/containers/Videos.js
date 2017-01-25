@@ -23,22 +23,18 @@ export default class Videos extends React.Component {
   }
 
   render () {
+    const {viewer} = this.props
+    if (viewer == null) {
+      return <View style={{flex: 1, backgroundColor: 'white'}} />
+    }
     const {
       latestVideos,
       billboardVideos,
       comingSoonVideos
-    } = this.props.viewer
+    } = viewer
     return (
       <View style={{flex: 1}}>
-        <VideoPlayer
-          ref={(comp) => {this._videoPlayer = comp}}
-          onOpen={() => {
-
-          }}
-          onClose={() => {
-            
-          }}
-        />
+        <VideoPlayer ref={(comp) => {this._videoPlayer = comp}} />
         <MyHeaderListView
           dataRows={[latestVideos.edges, billboardVideos.edges, comingSoonVideos.edges]}
           titles={['Últimos', 'Cartelera', 'Próximamente']}

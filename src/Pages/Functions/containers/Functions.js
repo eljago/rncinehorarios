@@ -54,6 +54,10 @@ export default class Functions extends React.Component {
   }
 
   render () {
+    const {viewer} = this.props
+    if (viewer == null) {
+      return <View style={{flex: 1, backgroundColor: 'white'}} />
+    }
     const {currentDate, pickerRight} = this.state
     let dates = []
     for (var i = 0; i < 7; i++) {
@@ -86,26 +90,23 @@ export default class Functions extends React.Component {
   _renderContent () {
     const {viewer} = this.props
     const {currentDate} = this.state
-    if (viewer) {
-      const shows = viewer.shows
-      const theatersData = getDataRows(currentDate, shows)
-      const theatersDataArray = Object.values(theatersData)
-      if (theatersDataArray.length > 1) {
-        return (
-          <MyHeaderListView
-            dataRows={theatersDataArray}
-            titles={theatersDataArray.map((theater) => theater.name)}
-            renderPage={this._renderPage.bind(this)}
-          />
-        )
-      }
-      else if (theatersDataArray.length == 1){
-        return (
-          this._renderPage(theatersDataArray[0])
-        )
-      }
+    const shows = viewer.shows
+    const theatersData = getDataRows(currentDate, shows)
+    const theatersDataArray = Object.values(theatersData)
+    if (theatersDataArray.length > 1) {
+      return (
+        <MyHeaderListView
+          dataRows={theatersDataArray}
+          titles={theatersDataArray.map((theater) => theater.name)}
+          renderPage={this._renderPage.bind(this)}
+        />
+      )
     }
-    return null
+    else if (theatersDataArray.length == 1){
+      return (
+        this._renderPage(theatersDataArray[0])
+      )
+    }
   }
 
   _renderPage (rowData, sectionID, rowID, highlightRow) {

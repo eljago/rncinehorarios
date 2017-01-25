@@ -33,6 +33,9 @@ export default class Show extends React.Component {
 
   render () {
     const {viewer} = this.props
+    if (viewer == null) {
+      return <View style={{flex: 1, backgroundColor: 'black'}} />
+    }
     const show = viewer ? viewer.show : null
     if (show) {
       return (

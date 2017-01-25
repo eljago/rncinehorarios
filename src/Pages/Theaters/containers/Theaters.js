@@ -14,6 +14,9 @@ export default class Theaters extends React.Component {
 
   render () {
     const {viewer} = this.props
+    if (viewer == null) {
+      return <View style={{flex: 1, backgroundColor: 'white'}} />
+    }
     const theaters = viewer ? viewer.theaters : []
     const dataRows = theaters.filter((theater) => {
       return theater.cinema_id === this.props.cinemaId
