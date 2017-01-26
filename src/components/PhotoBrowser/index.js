@@ -16,11 +16,11 @@ import {
 } from 'react-native'
 
 import Orientation from 'react-native-orientation'
-import {getImageVersion} from '../utils/ImageHelper'
+import {getImageVersion} from '../../utils/ImageHelper'
 import PhotoBrowserImage from './PhotoBrowserImage'
 import PhotoBrowserHeader from './PhotoBrowserHeader'
 
-import {reportEvent} from '../utils/Analytics'
+import {reportEvent} from '../../utils/Analytics'
 
 export default class PhotoBrowser extends React.Component {
   static propTypes = {
