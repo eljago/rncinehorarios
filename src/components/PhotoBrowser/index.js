@@ -22,16 +22,38 @@ import PhotoBrowserHeader from './PhotoBrowserHeader'
 
 import {reportEvent} from '../../utils/Analytics'
 
+type Orientations = 'PORTRAIT' | 'PORTRAITUPSIDEDOWN' | 'LANDSCAPE-LEFT' | 'LANDSCAPE-RIGHT'
+
+type Props = {
+  data: Array<Object>,
+  onOpen: () => void,
+  onClose: () => void,
+  allowedOrientations: Array<Orientations>,
+  initialOrientation: Orientations,
+  hideTopHeader: boolean,
+  hideBottomHeader: boolean
+}
+
+type State = {
+  visible: boolean,
+  headerVisible: boolean,
+  page: number,
+  dataSource: ListView.DataSource,
+  orientation: Orientations,
+  rotationValue: Animated.Value,
+  backgroundColorAlpha: number
+}
+
 export default class PhotoBrowser extends React.Component {
-  static propTypes = {
-    data: PropTypes.array.isRequired,
-    onOpen: PropTypes.func,
-    onClose: PropTypes.func,
-    allowedOrientations: PropTypes.array,
-    initialOrientation: PropTypes.string,
-    hideTopHeader: PropTypes.bool,
-    hideBottomHeader: PropTypes.bool
-  };
+  static defaultProps: {
+    allowedOrientations: Array<Orientations>,
+    initialOrientation: Orientations,
+    hideTopHeader: boolean,
+    hideBottomHeader: boolean
+  }
+  _rows: Object
+  _scrollView: React.Component<ScrollView, Object, Object>
+  _listView: React.Component<ListView, Object, Object>
   static defaultProps = {
     allowedOrientations: [
       'PORTRAIT',
@@ -45,8 +67,9 @@ export default class PhotoBrowser extends React.Component {
   }
   // Where listView's cells refs are kept. Used to change orientation after rotation
   _rows = {}
+  state: State
 
-  constructor (props) {
+  constructor (props: Props) {
     super(props)
     for (let index = 0; index < props.data.length; index++) {
       props.data[index].index = index
@@ -75,7 +98,7 @@ export default class PhotoBrowser extends React.Component {
     Orientation.removeSpecificOrientationListener(this._orientationChanged.bind(this))
   }
 
-  componentDidUpdate (prevProps, prevState) {
+  componentDidUpdate (prevProps: Props, prevState: State) {
     if (this.state.visible) {
       if (this.state.orientation !== prevState.orientation) {
         this._changeImagesOrientation(this.state.orientation)
@@ -182,14 +205,14 @@ export default class PhotoBrowser extends React.Component {
     }
   }
 
-  _scrollToIndex (index, animated = false) {
+  _scrollToIndex (index: number, animated: boolean = false) {
     if (this.state.visible) {
       const pageWidth = this._getDimensions().width
       this._listView.scrollTo({x: pageWidth * index, animated: animated})
     }
   }
 
-  _orientationChanged (orientation) {
+  _orientationChanged (orientation: Orientations) {
     if (this.props.allowedOrientations.includes(orientation)) {
       if (this.state.orientation !== orientation) {
         this.setState({orientation})
@@ -203,7 +226,7 @@ export default class PhotoBrowser extends React.Component {
     return Math.floor((offset + 0.5 * pageWidth) / pageWidth)
   }
 
-  _renderRow (dataObject, sectionID, rowID) {
+  _renderRow (dataObject: Object, sectionID: string, rowID: string) {
     const {image} = dataObject
     return (
       <PhotoBrowserImage
@@ -235,7 +258,7 @@ export default class PhotoBrowser extends React.Component {
     reportEvent('PhotoBrowser', 'closed')
   }
 
-  _changeImagesOrientation(newOrientation) {
+  _changeImagesOrientation(newOrientation: Orientations) {
     if (this._listView) {
       this._scrollToIndex(this.state.page)
       for (let index = 0; index < this.props.data.length; index++) {
@@ -275,11 +298,11 @@ const styles = StyleSheet.create({
   }
 })
 
-function isPortrait (orientation) {
+function isPortrait (orientation: Orientations) {
   return orientation === 'PORTRAIT' || orientation === 'PORTRAITUPSIDEDOWN'
 }
 
-function getDimensions (orientation) {
+function getDimensions (orientation: Orientations) {
   const {width, height} = Dimensions.get('window')
   const portrait = isPortrait(orientation)
   const bigger = width > height ? width : height
@@ -292,7 +315,7 @@ function getDimensions (orientation) {
   }
 }
 
-function getListViewOrientationStyles (orientation) {
+function getListViewOrientationStyles (orientation: Orientations): Object | null {
     const {width, height} = getDimensions(orientation)
     let style = {width: width, height: height}
     if (orientation === 'PORTRAIT') {

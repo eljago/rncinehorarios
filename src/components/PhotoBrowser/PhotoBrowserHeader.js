@@ -1,3 +1,4 @@
+//@flow
 'use strict'
 
 import React, {PropTypes} from 'react'
@@ -13,22 +14,40 @@ const { StatusBarManager } = NativeModules;
 
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 0 : StatusBarManager.HEIGHT;
 
+type Props = {
+  initialOrientation: string,
+  text: string,
+  onClose: () => void,
+  visible: boolean,
+  getDimensions: () => {
+    width: number,
+    height: number,
+    bigger: number,
+    smaller: number
+  },
+  showCloseButton: boolean,
+  position: string
+};
+
+
 export default class PhotoBrowserHeader extends React.Component {
-  static propTypes = {
-    initialOrientation: PropTypes.string,
-    text: PropTypes.string,
-    onClose: PropTypes.func,
-    visible: PropTypes.bool,
-    getDimensions: PropTypes.func,
-    showCloseButton: PropTypes.bool,
-    position: PropTypes.string
+  props: Props
+  static defaultProps: {
+    showCloseButton: boolean,
+    position: string
   }
+  state: {
+    orientation: 'PORTRAIT' | 'PORTRAITUPSIDEDOWN' | 'LANDSCAPE-LEFT' | 'LANDSCAPE-RIGHT',
+    headerOpacity: Animated.Value,
+    rotationValue: string
+  }
+
   static defaultProps = {
     showCloseButton: false,
     position: 'top'
   }
 
-  constructor(props) {
+  constructor(props: Object) {
     super(props),
     this.state = {
       orientation: props.initialOrientation,
@@ -37,7 +56,7 @@ export default class PhotoBrowserHeader extends React.Component {
     }
   }
 
-  componentDidUpdate (prevProps, prevState) {
+  componentDidUpdate (prevProps: Props, prevState: Object) {
     Animated.spring(
       this.state.headerOpacity,
       {
@@ -63,7 +82,7 @@ export default class PhotoBrowserHeader extends React.Component {
   }
 
   render () {
-    const {width, height} = this.props.getDimensions()
+    const {width, height} = this.props.getDimensions()
     return (
       <Animated.View style={[styles.containerView, {
         opacity: this.state.headerOpacity,
