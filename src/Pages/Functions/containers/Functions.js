@@ -184,7 +184,8 @@ export default class Functions extends React.Component {
 
   _onPress (rowData) {
     const props = {
-      title: rowData.name
+      title: rowData.name,
+      hasFunctions: rowData.has_functions
     }
     const relayProps = {
       show_id: rowData.show_id
@@ -229,7 +230,8 @@ function getDataRows (date, shows) {
       name,
       cover,
       show_id,
-      functions
+      functions,
+      has_functions
     } = show
 
     for (const func of functions) {
@@ -249,6 +251,7 @@ function getDataRows (date, shows) {
             name: name,
             cover: cover,
             show_id: show_id,
+            has_functions: has_functions,
             functions: []
           }
         }
@@ -257,6 +260,5 @@ function getDataRows (date, shows) {
     }
   }
 
-  console.log(theaters)
   return theaters
 }

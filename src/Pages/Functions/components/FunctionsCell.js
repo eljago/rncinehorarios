@@ -5,6 +5,7 @@ import { Text, View, StyleSheet, Image } from 'react-native'
 
 import Colors from '../../../../data/Colors'
 import MyListViewCell from '../../../components/MyListViewCell'
+import ShowtimesView from '../../../components/ShowtimesView'
 import {getImageVersion} from '../../../utils/ImageHelper'
 
 export default class FunctionCell extends React.Component {
@@ -48,16 +49,11 @@ const getFunctionsViews = (functions) => {
   return (
     functions.map((func, index) => {
       return (
-        <View
-          key={index}
-          style={styles.functionView}>
-          <Text style={styles.functionTypes}>
-            {func.function_types.split(', ').join('  ')}
-          </Text>
-          <Text style={styles.showtimes}>
-            {func.showtimes.split(', ').join('  ')}
-          </Text>
-        </View>
+        <ShowtimesView
+          key={func.function_id}
+          functionTypes={func.function_types}
+          showtimes={func.showtimes}
+        />
       )
     })
   )
@@ -77,21 +73,6 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: '400',
     color: Colors.titleText
-  },
-  functionView: {
-    marginTop: 5
-  },
-  functionTypes: {
-    fontSize: 18,
-    fontWeight: '300',
-    color: Colors.functionTypes,
-    marginTop: 5
-  },
-  showtimes: {
-    fontFamily: 'Verdana',
-    fontSize: 16,
-    color: Colors.showtimes,
-    marginTop: 2
   },
   image: {
     flex: 1

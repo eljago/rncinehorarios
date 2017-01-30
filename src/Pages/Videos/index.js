@@ -28,6 +28,7 @@ export default Relay.createContainer(Videos, {
                 show_id
                 name
                 cover
+                has_functions
               }
             }
           }
@@ -48,6 +49,7 @@ export default Relay.createContainer(Videos, {
                 show_id
                 name
                 cover
+                has_functions
               }
             }
           }
@@ -65,6 +67,7 @@ export default Relay.createContainer(Videos, {
                 show_id
                 name
                 cover
+                has_functions
               }
             }
           }

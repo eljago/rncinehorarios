@@ -11,7 +11,7 @@ const getColor = (n) => {
 }
 
 const getImdbView = (imdbCode, imdbScore) => {
-  const color = getColor(imdbScore * 10)
+  const color = getColor(imdbScore)
   imdbScore = imdbScore > 0 ? `${imdbScore / 10}${(imdbScore / 10).toString().length === 1 ? '.0' : ''}` : '?'
   if (typeof imdbCode === 'string' && imdbCode.length > 0) {
     return (

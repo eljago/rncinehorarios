@@ -16,7 +16,7 @@
     "react-native-google-analytics-bridge": "^4.0.2",
     "react-native-image-progress": "^0.6.0",
     "react-native-key-value-store": "^1.0.1",
-    "react-native-orientation": "git+https://github.com/8fit/react-native-orientation",
+    "react-native-orientation": "git+https://github.com/8fit/react-native-orientation#bc904c92c3c828128051cfdb6a86181b6743facb",
     "react-native-progress": "^3.2.0",
     "react-native-youtube": "github:davidohayon669/react-native-youtube#v1",
     "react-relay": "^0.10.0"

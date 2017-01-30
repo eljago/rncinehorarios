@@ -33,6 +33,7 @@ export default Relay.createContainer(Show, {
           active
           rating
           cover
+          has_functions
           images {
             image_id
             width

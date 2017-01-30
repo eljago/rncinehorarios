@@ -8,7 +8,7 @@ import {
 import _ from 'lodash'
 
 import MyGiftedListView from '../../../components/MyGiftedListView'
-import CinemaCell from '../components/CinemaCell'
+import CinemaCell from '../../../components/CinemaCell'
 import SimpleCell from '../../../components/SimpleCell'
 import CINEMAS from '../../../../data/Cinemas'
 import Colors from '../../../../data/Colors'
@@ -29,7 +29,7 @@ export default class extends React.Component {
       sectionHeaderHasChanged : (s1, s2) => s1 !== s2
     })
     const {dataBlob, sectionIDs, rowIDs} = this._getDefaultDataSourceData()
-    
+
     this.state = {
       dataSource: dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs)
     }
@@ -114,22 +114,21 @@ export default class extends React.Component {
     )
   }
 
-  _getSectionData = (dataBlob, sectionID) => {
+  _getSectionData (dataBlob, sectionID) {
     return dataBlob[sectionID];
   }
 
-  _getRowData = (dataBlob, sectionID, rowID) => {
+  _getRowData (dataBlob, sectionID, rowID) {
     return dataBlob[sectionID + ':' + rowID];
   }
 
   _renderSectionHeader (rowData, sectionID) {
-    const images = rowData.images
-    const image = images.length > 0 ? images[Math.floor(Math.random() * images.length)] : null
     return (
       <CinemaCell
-        rowNumber={rowData.rowNumber}
-        title={rowData.name}
-        image={image}
+        cinemaId={rowData.cinema_id}
+        imageStyle={{width: 40, height: 40}}
+        style={{margin: 0}}
+        textStyle={{fontSize: 22, fontWeight: '300'}}
         onPress={this._onPressCinema.bind(this, rowData)}
       />
     )
@@ -148,7 +147,7 @@ export default class extends React.Component {
   ) {
     return (
       <SimpleCell
-        rowNumber={rowData.rowNumber}
+        rowNumber={1}
         title={rowData.name}
         onPress={this._onPressTheater.bind(this, rowData)}
         style={{backgroundColor: '#F7F7F7'}}

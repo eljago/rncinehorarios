@@ -20,7 +20,9 @@ export default Relay.createContainer(Functions, {
           show_id
           name
           cover
+          has_functions
           functions{
+            function_id
             date
             showtimes
             function_types

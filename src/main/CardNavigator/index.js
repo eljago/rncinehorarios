@@ -109,7 +109,7 @@ export default class CardNavigator extends React.Component {
   _renderHeader (sceneProps: Object) {
     const route = sceneProps.scene.route
     if (route.navBarHidden) { return null }
-    
+
     return (
       <MyHeader
         ref={(comp) => {this._header = comp}}

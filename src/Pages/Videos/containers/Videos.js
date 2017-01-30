@@ -17,7 +17,7 @@ export default class Videos extends React.Component {
   static propTypes = {
     onPushRoute: PropTypes.func.isRequired
   }
-  
+
   constructor(props) {
     super(props)
     this._distanceToBottom = 0
@@ -61,7 +61,7 @@ export default class Videos extends React.Component {
     return (
       <VideoCell
         rowNumber={rowData.rowNumber}
-        onPressPoster={this._onGoToMovie.bind(this, video.show.show_id, video.show.name)}
+        onPressPoster={this._onGoToMovie.bind(this, video.show)}
         onPressVideo={this._onGoToVideo.bind(this, video)}
         video={video}
       />
@@ -72,12 +72,14 @@ export default class Videos extends React.Component {
     this._videoPlayer.open(video)
   }
 
-  _onGoToMovie (showId, showName) {
+  _onGoToMovie (show) {
+    const {name, show_id, has_functions} = show
     const props = {
-      title: showName
+      title: name,
+      hasFunctions: has_functions
     }
     const relayProps = {
-      show_id: showId
+      show_id: show_id
     }
     this.props.onPushRoute(getShowRoute(props, relayProps))
   }

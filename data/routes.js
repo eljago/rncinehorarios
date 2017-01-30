@@ -10,6 +10,7 @@ import Movies from '../src/Pages/Movies'
 import Theaters from '../src/Pages/Theaters'
 import Functions from '../src/Pages/Functions'
 import Show from '../src/Pages/Show'
+import ShowTheaters from '../src/Pages/ShowTheaters'
 import Videos from '../src/Pages/Videos'
 
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
@@ -71,7 +72,7 @@ function getVideosRoute () {
   }
 }
 
-function getTheatersRoute (props) {
+function getTheatersRoute (props: Object) {
   return ({
     key: 'Theaters',
     title: props.title,
@@ -86,7 +87,7 @@ function getTheatersRoute (props) {
   })
 }
 
-function getFunctionsRoute (props, relayProps) {
+function getFunctionsRoute (props: Object, relayProps: Object) {
   return ({
     key: 'Functions',
     title: props.title,
@@ -108,7 +109,7 @@ function getFunctionsRoute (props, relayProps) {
   })
 }
 
-function getShowRoute (props, relayProps) {
+function getShowRoute (props: Object, relayProps: Object) {
   return ({
     key: 'Show',
     title: props.title,
@@ -133,12 +134,29 @@ function getShowRoute (props, relayProps) {
       marginRight: -30
     },
     headerTitleTextStyle: {
-      textAlign: 'left'      
-    }
+      textAlign: 'left'
+    },
+    rightComponent: true
   })
 }
 
-function getCacheTime () {
+function getShowTheatersRoute (props: Object, relayProps: Object): Object {
+  return ({
+    key: 'ShowTheaters',
+    title: props.title,
+    screenView: 'ShowTheaters',
+    component: ShowTheaters,
+    relay: {
+      queryConfig: new ViewerQueryConfig({
+        cacheTime: getCacheTime(),
+        ...relayProps
+      })
+    },
+    props: props
+  })
+}
+
+function getCacheTime (): string {
   const today = moment()
   const minutes = parseInt(today.format('mm'))
   return `${today.format('YYYY-MM-DD-hh-')}${Math.floor(minutes / 30)}`
@@ -148,5 +166,6 @@ export {
   getMenuRoutes,
   getTheatersRoute,
   getFunctionsRoute,
-  getShowRoute
+  getShowRoute,
+  getShowTheatersRoute
 }

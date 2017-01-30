@@ -27,6 +27,7 @@ export default Relay.createContainer(Movies, {
           metacritic_score
           rotten_tomatoes_url
           rotten_tomatoes_score
+          has_functions
         }
         comingSoon: shows(filter: "coming_soon", cacheTime: $cacheTime){
           show_id
@@ -40,6 +41,7 @@ export default Relay.createContainer(Movies, {
           metacritic_score
           rotten_tomatoes_url
           rotten_tomatoes_score
+          has_functions
         }
       }
     `

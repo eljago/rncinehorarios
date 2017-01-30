@@ -19,16 +19,40 @@ import MediaRowWithTitle from '../components/MediaRowWithTitle'
 import ScoresViews from '../components/ScoresViews'
 
 import {getImageVersion} from '../../../utils/ImageHelper'
+import {getShowTheatersRoute} from '../../../../data/routes'
+import {getFavoriteTheaters} from '../../../utils/Favorites'
 
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0;
 
+type Props = {
+  setDrawerLockMode: (value: bool) =>  void,
+  hasFunctions: bool
+}
+type State = {
+  refreshing: bool
+}
+type Theater = {
+  theater_id: number,
+  cinema_id: number,
+  name: string
+}
+
 export default class Show extends React.Component {
-  static propTypes = {
-    setDrawerLockMode: PropTypes.func.isRequired
-  };
+  static propTypes: Props
+  static defaultProps = {
+    hasFunctions: false
+  }
   state = {
     refreshing: false
+  }
+
+  componentDidUpdate (prevProps: Props, prevState: State) {
+    if (this.props.hasFunctions) {
+      if (prevProps.viewer == null && this.props.viewer != null) {
+        this._updateRightComponent()
+      }
+    }
   }
 
   render () {
@@ -84,7 +108,7 @@ export default class Show extends React.Component {
     return null
   }
 
-  _onRefresh() {
+  _onRefresh(): void {
     this.setState({refreshing: true})
     this.props.relay.forceFetch(null, (readyState) => {
       if (readyState.done) {
@@ -93,7 +117,7 @@ export default class Show extends React.Component {
     })
   }
 
-  _getImages () {
+  _getImages (): ?Array<Object> {
     const {images} = this.props.viewer.show
     if (images.length > 0) {
       return (
@@ -105,7 +129,7 @@ export default class Show extends React.Component {
     return null;
   }
 
-  _getCast () {
+  _getCast (): ?Array<Object> {
     const {cast} = this.props.viewer.show
     if (cast.length > 0) {
       return (
@@ -117,7 +141,7 @@ export default class Show extends React.Component {
     return null;
   }
 
-  _getVideos () {
+  _getVideos (): ?Array<Object> {
     const {videos} = this.props.viewer.show
     if (videos.length > 0) {
       return (
@@ -127,6 +151,35 @@ export default class Show extends React.Component {
       )
     }
     return null;
+  }
+
+  _updateRightComponent (): void {
+    const header = this.props.getHeader()
+    if (header) {
+      header.rightComp.setup({
+        image: require('../../../../assets/Heart.png'),
+        onPress: this._onRightAction.bind(this)
+      })
+    }
+  }
+
+  _onRightAction (): void {
+    getFavoriteTheaters((result: boolean, favorites: {[id: number]: Theater}) => {
+      if (result === true) {
+        const {viewer} = this.props
+        if (viewer && viewer.show) {
+          const theaterIds = Object.keys(favorites).map(t_id =>
+            favorites[parseInt(t_id)].theater_id
+          ).join(',')
+          this.props.onPushRoute(getShowTheatersRoute({
+            title: viewer.show.name
+          }, {
+            theater_ids: theaterIds,
+            show_id: viewer.show.show_id
+          }))
+        }
+      }
+    })
   }
 }
 

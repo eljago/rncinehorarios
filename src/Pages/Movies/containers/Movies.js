@@ -46,7 +46,8 @@ export default class Movies extends React.Component {
 
   _onPress (rowData) {
     const props = {
-      title: rowData.name
+      title: rowData.name,
+      hasFunctions: rowData.has_functions
     }
     const relayProps = {
       show_id: rowData.show_id
