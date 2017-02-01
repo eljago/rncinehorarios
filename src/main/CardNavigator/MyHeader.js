@@ -55,25 +55,27 @@ export default class MyHeader extends React.Component {
   _renderLeftComponent (props: Object) {
     const {leftComponent, leftComponent2} = props.scene.route
     let childs = []
-    if (props.scene.index === 0) {
-      if (leftComponent) {
-        childs.push(<HeaderButton key='lc1' ref={(comp) => { this.leftComp = comp }} />)
-      }
+    if (leftComponent) {
+      childs.push(<HeaderButton key='lc1' ref={(comp) => { this.leftComp = comp }} />)
     }
     else {
-      if (props.onNavigateBack) {
-        childs.push(
-          <TouchableOpacity
-            key='lc1'
-            style={styles.buttonContainer}
-            onPress={props.onNavigateBack}
-          >
-            <Image
-              style={styles.button}
-              source={require('../../../assets/back-icon.png')}
-            />
-          </TouchableOpacity>
-        )
+      if (props.scene.index === 0) {
+      }
+      else {
+        if (props.onNavigateBack) {
+          childs.push(
+            <TouchableOpacity
+              key='lc1'
+              style={styles.buttonContainer}
+              onPress={props.onNavigateBack}
+            >
+              <Image
+                style={styles.button}
+                source={require('../../../assets/back-icon.png')}
+              />
+            </TouchableOpacity>
+          )
+        }
       }
     }
 

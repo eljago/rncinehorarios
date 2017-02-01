@@ -10,7 +10,9 @@ import {
 } from 'react-native'
 
 import CINEMAS from '../../../../data/Cinemas'
-import ShowtimesView from '../../../components/ShowtimesView'
+import TheaterShowtimes from '../components/TheaterShowtimes'
+import ShowTheatersRelay from './ShowTheatersRelay'
+import {ViewerQueryConfig, getCacheTime} from '../../../utils/ViewerQueryConfig'
 import CinemaCell from '../../../components/CinemaCell'
 import {getFavoriteTheaters} from '../../../utils/Favorites'
 
@@ -32,11 +34,13 @@ type Theater = {
   functions: Func[]
 }
 type Props = {
-  favoriteTheaters: Theater[],
-  currentDate: string
+  currentDate: string,
+  showName: string,
+  showId: string
 }
 type State = {
-  dataSource: ?ListView.DataSource
+  dataSource: ?ListView.DataSource,
+  currentDate: string
 }
 
 export default class ShowTheaters extends React.Component {
@@ -54,12 +58,26 @@ export default class ShowTheaters extends React.Component {
     })
     const {dataBlob, sectionIDs, rowIDs} = this._getDefaultDataSourceData()
     this.state = {
-      dataSource: dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs)
+      dataSource: dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs),
+      currentDate: props.currentDate
     }
   }
 
   componentDidMount () {
-    this._refreshFavorites()
+    if (this.props.viewer != null) {
+      this._refreshFavorites()
+    }
+  }
+
+  componentDidUpdate (prevProps: Props, prevState: State) {
+    if (this.props.viewer != null) {
+      if (prevProps.viewer == null) {
+        this._refreshFavorites()
+      }
+      else if (this.state.currentDate !== prevState.currentDate) {
+        this._refreshFavorites()
+      }
+    }
   }
 
   render () {
@@ -84,6 +102,7 @@ export default class ShowTheaters extends React.Component {
   _renderSectionHeader (rowData: Cinema, sectionID: number) {
     return (
       <CinemaCell
+        textStyle={{marginLeft: 4}}
         cinemaId={rowData.cinema_id}
         onPress={this._onPressCinema.bind(this, rowData)}
       />
@@ -93,33 +112,27 @@ export default class ShowTheaters extends React.Component {
   _renderRow (rowData: Theater, sectionID: number, rowID: number,
     highlightRow: (sectionID: number, rowID: number) => void
   ) {
-    return (
-      <View
-        style={{
-          flex: 1,
-          padding: 10,
-          paddingLeft: 50,
-          backgroundColor: '#f2f2f2'
-        }}
-      >
-        <Text key='showtimes' style={{fontSize: 18}}>{rowData.name}</Text>
-        {rowData.functions.map((func) => {
-          if (func.date === this.props.currentDate) {
-            return (
-              <ShowtimesView
-                key={func.function_id}
-                functionTypes={func.function_types}
-                showtimes={func.showtimes}
-              />
-            )
-          }
-        })}
-      </View>
-    )
+    return <TheaterShowtimes theater={rowData} currentDate={this.state.currentDate} />
   }
 
   _onPressCinema (cinema: Cinema) {
-
+    this.props.onPushRoute({
+      key: 'show_theaters',
+      title: this.props.showName,
+      component: ShowTheatersRelay,
+      relay: {
+        queryConfig: new ViewerQueryConfig({
+          cacheTime: getCacheTime(),
+          show_id: this.props.showId,
+          cinema_id: cinema.cinema_id
+        })
+      },
+      props: {
+        currentDate: this.props.currentDate,
+        cinema: cinema
+      },
+      navBarHidden: true
+    })
   }
 
   _getDefaultDataSourceData (): {
@@ -146,16 +159,21 @@ export default class ShowTheaters extends React.Component {
   _refreshFavorites () {
     const {dataBlob, sectionIDs, rowIDs} = this._getDefaultDataSourceData()
     getFavoriteTheaters((result: bool, favorites: {[key: number]: Theater}) => {
-      const {favoriteTheaters} = this.props
-      if (result === true && favoriteTheaters) {
+      const {theaters} = this.props.viewer
+      if (result === true && theaters) {
         const favTheatersIds = Object.keys(favorites)
-        for (const favTheater of favoriteTheaters) {
-          if (favTheatersIds.includes(`${favTheater.theater_id}`)) {
-            const {cinema_id, theater_id} = favTheater
-            const sectionIDIndex = sectionIDs.indexOf(cinema_id)
-            if (sectionIDIndex > -1) {
-              dataBlob[`${cinema_id}:${theater_id}`] = favTheater
-              rowIDs[sectionIDIndex].push(theater_id)
+        for (const theater of theaters) {
+          if (favTheatersIds.includes(`${theater.theater_id}`) && theater.functions
+            && theater.functions.length > 0) {
+            const functionsDates = theater.functions.map(func => func.date)
+            // if this theater has a function for today, then add the data
+            if (functionsDates.includes(this.state.currentDate)) {
+              const {cinema_id, theater_id} = theater
+              const sectionIDIndex = sectionIDs.indexOf(cinema_id)
+              if (sectionIDIndex > -1) {
+                dataBlob[`${cinema_id}:${theater_id}`] = theater
+                rowIDs[sectionIDIndex].push(theater_id)
+              }
             }
           }
         }
@@ -183,5 +201,9 @@ export default class ShowTheaters extends React.Component {
         })
       }
     })
+  }
+
+  updateDate (currentDate: string) {
+    this.setState({currentDate})
   }
 }

@@ -19,21 +19,27 @@ const {
 import MyHeader from './MyHeader'
 import RelayContainer from '../../components/Relay/RelayContainer'
 
+type Props = {
+  navigationState: Object,
+  onPressMenu: () => void,
+  onPushRoute: (props: Object, relay: Object) => void,
+  onPopRoute: () => void,
+  setDrawerLockMode: (lockMode: 'unlocked' | 'locked-closed' | 'locked-open') => void
+}
+interface CardPage<React$Element> {
+  onFocus: () => void
+}
+
 // Main Navigator of the app. Receives the whole app navigaiton state passed from props.
 export default class CardNavigator extends React.Component {
-  static propTypes = {
-    navigationState: PropTypes.object.isRequired,
-    onPressMenu: PropTypes.func.isRequired,
-    onPushRoute: PropTypes.func.isRequired,
-    onPopRoute: PropTypes.func.isRequired,
-    setDrawerLockMode: PropTypes.func.isRequired
-  }
-  _pages = {
+  static propTypes: Props
+  _cardStack: React$Element<NavigationCardStack>
+  _header: React$Element<MyHeader>
+  _pages: {[id: string]: CardPage<{}>}
+  _pages = {}
 
-  }
-
-  constructor (props, context) {
-    super(props, context)
+  constructor (props: Props) {
+    super(props)
     BackAndroid.addEventListener('hardwareBackPress', this.props.onPopRoute)
   }
 
@@ -53,7 +59,7 @@ export default class CardNavigator extends React.Component {
     )
   }
 
-  _renderScene (sceneProps: Object) {
+  _renderScene (sceneProps: Object): React$Element<{}> {
     const route = sceneProps.scene.route
     const {
       component: Component,
@@ -100,14 +106,14 @@ export default class CardNavigator extends React.Component {
         <Component
           ref={(comp) => {this._pages[key] = comp}}
           {...extraProps}
-          {...props}
         />
       </View>
     )
   }
 
-  _renderHeader (sceneProps: Object) {
+  _renderHeader (sceneProps: Object): ?React$Element<{}> {
     const route = sceneProps.scene.route
+    console.log(route)
     if (route.navBarHidden) { return null }
 
     return (
@@ -120,11 +126,34 @@ export default class CardNavigator extends React.Component {
     )
   }
 
-  onFocusChanged (key) {
-    const keyView = this._pages[key]
+  onFocusChanged (key: 'string') {
+    const keyView: CardPage<{}> = this._pages[key]
     if (keyView && keyView.onFocus) {
       keyView.onFocus()
     }
+  }
+
+  getTopPage (): ?React$Element<{}> {
+    const {navigationState} = this.props
+    const {index, routes} = navigationState
+    const key = routes[index].key
+    if (this._pages[key]) {
+      return this._pages[key]
+    }
+    return null
+  }
+
+  getAllPages (): React$Element<{}>[] {
+    const {navigationState} = this.props
+    const {routes} = navigationState
+    let pages = []
+    for (const route of routes) {
+      const page = this._pages[route.key]
+      if (page) {
+        pages.push(page)
+      }
+    }
+    return pages
   }
 }
 

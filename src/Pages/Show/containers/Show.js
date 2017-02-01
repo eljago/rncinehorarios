@@ -19,7 +19,7 @@ import MediaRowWithTitle from '../components/MediaRowWithTitle'
 import ScoresViews from '../components/ScoresViews'
 
 import {getImageVersion} from '../../../utils/ImageHelper'
-import {getShowTheatersRoute} from '../../../../data/routes'
+import {getShowShowtimesRoute} from '../../../../data/routes'
 import {getFavoriteTheaters} from '../../../utils/Favorites'
 
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
@@ -171,11 +171,10 @@ export default class Show extends React.Component {
           const theaterIds = Object.keys(favorites).map(t_id =>
             favorites[parseInt(t_id)].theater_id
           ).join(',')
-          this.props.onPushRoute(getShowTheatersRoute({
-            title: viewer.show.name
-          }, {
-            theater_ids: theaterIds,
-            show_id: viewer.show.show_id
+          this.props.onPushRoute(getShowShowtimesRoute({
+            title: viewer.show.name,
+            theaterIds: theaterIds,
+            showId: viewer.show.show_id
           }))
         }
       }

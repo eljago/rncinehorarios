@@ -15,11 +15,9 @@ import _ from 'lodash'
 import MyGiftedListView from '../../../components/MyGiftedListView'
 import MyHeaderListView from '../../../components/MyHeaderListView'
 import FunctionsCell from '../components/FunctionsCell'
-import Menu from '../components/Menu'
 import {getShowRoute} from '../../../../data/routes'
 import {toggleFavoriteTheater, isFavoriteTheater} from '../../../utils/Favorites'
-
-const PICKER_OFFSET = 100
+import DatesMenu from '../../../components/DatesMenu'
 
 export default class Functions extends React.Component {
   static propTypes = {
@@ -32,11 +30,10 @@ export default class Functions extends React.Component {
     moment.updateLocale('es', esLocale)
     this._isFavorite = false
     this._currentDate = moment()
-    this.pickerHidden = true
 
     this.state = {
       currentDate: this._currentDate.format('YYYY-MM-DD'),
-      pickerRight: new Animated.Value(0)
+      menuVisible: false
     }
     this._loadFavorites()
   }
@@ -58,31 +55,20 @@ export default class Functions extends React.Component {
     if (viewer == null) {
       return <View style={{flex: 1, backgroundColor: 'white'}} />
     }
-    const {currentDate, pickerRight} = this.state
     let dates = []
     for (var i = 0; i < 7; i++) {
       dates.push(moment().add(i, 'days'))
     }
     return (
-      <View style={{flex: 1, flexDirection: 'row'}}>
-        <Menu
-          menuOffset={PICKER_OFFSET}
+      <View style={{flex: 1}}>
+        {this._renderContent()}
+        <DatesMenu
+          visible={this.state.menuVisible}
           onPressMenuItem={this._onPressMenuItem.bind(this)}
-          currentDate={currentDate}
+          currentDate={this.state.currentDate}
           dates={dates}
+          onClose={() => {this.setState({menuVisible: false})}}
         />
-        <Animated.View
-          style={{
-            position: 'absolute',
-            top: 0,
-            bottom: 0,
-            right: pickerRight,
-            width: Dimensions.get('window').width,
-            backgroundColor: 'white'
-          }}
-        >
-          {this._renderContent()}
-        </Animated.View>
       </View>
     )
   }
@@ -160,14 +146,7 @@ export default class Functions extends React.Component {
   }
 
   onRightAction () {
-    Animated.spring(
-      this.state.pickerRight,
-      {
-        toValue: this.pickerHidden ? PICKER_OFFSET : 0,
-        friction: 7
-      }
-    ).start()
-    this.pickerHidden = !this.pickerHidden
+    this.setState({menuVisible: !this.state.menuVisible})
   }
 
   _renderRow (rowData, sectionID, rowID, highlightRow) {

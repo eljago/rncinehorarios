@@ -3,29 +3,18 @@
 
 import Relay from 'react-relay'
 import {Platform} from 'react-native'
-import moment from 'moment'
 
 import Cinemas from '../src/Pages/Cinemas'
 import Movies from '../src/Pages/Movies'
 import Theaters from '../src/Pages/Theaters'
 import Functions from '../src/Pages/Functions'
 import Show from '../src/Pages/Show'
-import ShowTheaters from '../src/Pages/ShowTheaters'
+import ShowShowtimes from '../src/Pages/ShowShowtimes'
 import Videos from '../src/Pages/Videos'
+import {ViewerQueryConfig, getCacheTime} from '../src/utils/ViewerQueryConfig'
 
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0;
-
-class ViewerQueryConfig extends Relay.Route {
-  static routeName = 'ViewerQueryConfig'
-  static queries = {
-    viewer: () => Relay.QL`
-      query Query {
-        viewer
-      }
-    `
-  }
-}
 
 function getMenuRoutes () {
   return [
@@ -140,26 +129,25 @@ function getShowRoute (props: Object, relayProps: Object) {
   })
 }
 
-function getShowTheatersRoute (props: Object, relayProps: Object): Object {
+function getShowShowtimesRoute (props: Object): Object {
   return ({
-    key: 'ShowTheaters',
+    key: 'ShowShowtimes',
     title: props.title,
-    screenView: 'ShowTheaters',
-    component: ShowTheaters,
-    relay: {
-      queryConfig: new ViewerQueryConfig({
-        cacheTime: getCacheTime(),
-        ...relayProps
-      })
+    screenView: 'ShowShowtimes',
+    component: ShowShowtimes,
+    props: props,
+    headerStyle: {
+      backgroundColor: 'rgba(0,0,0,0.9)'
     },
-    props: props
-  })
-}
+    headerTitleStyle: {
 
-function getCacheTime (): string {
-  const today = moment()
-  const minutes = parseInt(today.format('mm'))
-  return `${today.format('YYYY-MM-DD-hh-')}${Math.floor(minutes / 30)}`
+    },
+    headerTitleTextStyle: {
+      textAlign: 'left'
+    },
+    leftComponent: true,
+    rightComponent: true
+  })
 }
 
 export {
@@ -167,5 +155,5 @@ export {
   getTheatersRoute,
   getFunctionsRoute,
   getShowRoute,
-  getShowTheatersRoute
+  getShowShowtimesRoute
 }
