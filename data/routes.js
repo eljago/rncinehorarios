@@ -121,7 +121,7 @@ function getShowRoute (props: Object, relayProps: Object) {
       backgroundColor: 'rgba(0,0,0,0.5)'
     },
     headerTitleStyle: {
-      marginRight: -30
+      
     },
     headerTitleTextStyle: {
       textAlign: 'left'
