@@ -32,8 +32,10 @@ export default class CinemaCell extends React.Component {
           <MyListViewCell
             rowNumber={0}
             onPress={this.props.onPress}
+            style={this.props.style}
+            hideAccessoryView={this.props.hideAccessoryView}
           >
-            <View style={[styles.container, this.props.style]}>
+            <View style={styles.container}>
               <Image style={[styles.image, this.props.imageStyle]} source={image} />
               <Text style={[styles.text, this.props.textStyle]}> {cinema.name} </Text>
             </View>

@@ -5,7 +5,7 @@ import { Text, View, StyleSheet, Image } from 'react-native'
 
 import Colors from '../../../../data/Colors'
 import MyListViewCell from '../../../components/MyListViewCell'
-import ShowtimesView from '../../../components/ShowtimesView'
+import ShowtimesCell from '../../../components/ShowtimesCell'
 import {getImageVersion} from '../../../utils/ImageHelper'
 
 export default class FunctionCell extends React.Component {
@@ -15,11 +15,12 @@ export default class FunctionCell extends React.Component {
     cover: PropTypes.string,
     functions: PropTypes.array,
     rowNumber: PropTypes.number,
-    onPress: PropTypes.func
+    onPress: PropTypes.func,
+    currentDate: PropTypes.string
   };
 
   render () {
-    const {title, cover, functions, rowNumber, onPress} = this.props
+    const {title, cover, functions, rowNumber, onPress, currentDate} = this.props
     return (
       <MyListViewCell
         rowNumber={rowNumber}
@@ -33,46 +34,23 @@ export default class FunctionCell extends React.Component {
               source={{uri: getImageVersion(cover, 'smaller')}}
             />
           </View>
-          <View style={styles.textContainer}>
-            <Text style={styles.name}>
-              {title}
-            </Text>
-            {getFunctionsViews(functions)}
-          </View>
+          <ShowtimesCell
+            currentDate={currentDate}
+            rowNumber={rowNumber}
+            title={title}
+            functions={functions}
+            style={{paddingLeft: 10, paddingRight: 10}}
+          />
         </View>
       </MyListViewCell>
     )
   }
 }
 
-const getFunctionsViews = (functions) => {
-  return (
-    functions.map((func, index) => {
-      return (
-        <ShowtimesView
-          key={func.function_id}
-          functionTypes={func.function_types}
-          showtimes={func.showtimes}
-        />
-      )
-    })
-  )
-}
-
 const styles = StyleSheet.create({
   rowContainer: {
     flex: 1,
     flexDirection: 'row'
-  },
-  textContainer: {
-    flex: 1,
-    alignSelf: 'flex-start',
-    marginLeft: 10
-  },
-  name: {
-    fontSize: 22,
-    fontWeight: '400',
-    color: Colors.titleText
   },
   image: {
     flex: 1

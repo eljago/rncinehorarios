@@ -12,6 +12,7 @@ import Show from '../src/Pages/Show'
 import ShowShowtimes from '../src/Pages/ShowShowtimes'
 import Videos from '../src/Pages/Videos'
 import {ViewerQueryConfig, getCacheTime} from '../src/utils/ViewerQueryConfig'
+import Colors from './Colors'
 
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0;
@@ -137,7 +138,7 @@ function getShowShowtimesRoute (props: Object): Object {
     component: ShowShowtimes,
     props: props,
     headerStyle: {
-      backgroundColor: 'rgba(0,0,0,0.9)'
+      backgroundColor: Colors.tabBar
     },
     headerTitleStyle: {
 

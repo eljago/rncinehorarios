@@ -10,10 +10,10 @@ import {
 } from 'react-native'
 
 import CINEMAS from '../../../../data/Cinemas'
-import TheaterShowtimes from '../components/TheaterShowtimes'
+import ShowtimesCell from '../../../components/ShowtimesCell'
+import CinemaCell from '../../../components/CinemaCell'
 import ShowTheatersRelay from './ShowTheatersRelay'
 import {ViewerQueryConfig, getCacheTime} from '../../../utils/ViewerQueryConfig'
-import CinemaCell from '../../../components/CinemaCell'
 import {getFavoriteTheaters} from '../../../utils/Favorites'
 
 type Cinema = {
@@ -41,6 +41,13 @@ type Props = {
 type State = {
   dataSource: ?ListView.DataSource,
   currentDate: string
+}
+type RowData = {
+  cinema_id: number,
+  theater_id: number,
+  name: string,
+  functions: Func[],
+  rowNumber: number
 }
 
 export default class ShowTheaters extends React.Component {
@@ -109,10 +116,18 @@ export default class ShowTheaters extends React.Component {
     )
   }
 
-  _renderRow (rowData: Theater, sectionID: number, rowID: number,
+  _renderRow (rowData: RowData, sectionID: number, rowID: number,
     highlightRow: (sectionID: number, rowID: number) => void
   ) {
-    return <TheaterShowtimes theater={rowData} currentDate={this.state.currentDate} />
+    return (
+      <ShowtimesCell
+        currentDate={this.state.currentDate}
+        rowNumber={rowData.rowNumber + 1}
+        title={rowData.name}
+        functions={rowData.functions}
+        style={{padding: 10}}
+      />
+    )
   }
 
   _onPressCinema (cinema: Cinema) {
@@ -195,6 +210,16 @@ export default class ShowTheaters extends React.Component {
             return 0;
           })
           sortedRowIDs.push(rowIDs[sectionIDIndex])
+        }
+        // set RowData rowNumber:
+        for (const cinema_id of sortedSectionIDs) {
+          const sectionIDIndex = sectionIDs.indexOf(cinema_id)
+          if (sectionIDIndex > -1) {
+            let rowNumber = 0
+            for (const theater_id of rowIDs[sectionIDIndex]) {
+              dataBlob[`${cinema_id}:${theater_id}`].rowNumber = rowNumber++
+            }
+          }
         }
         this.setState({
           dataSource: this.state.dataSource.cloneWithRowsAndSections(dataBlob, sortedSectionIDs, sortedRowIDs)

@@ -9,7 +9,10 @@ import {
 } from 'react-native'
 import moment from 'moment'
 
-import TheaterShowtimes from '../components/TheaterShowtimes'
+import MyGiftedListView from '../../../components/MyGiftedListView'
+import ShowtimesCell from '../../../components/ShowtimesCell'
+import CinemaCell from '../../../components/CinemaCell'
+import Colors from '../../../../data/Colors'
 
 type Cinema = {
   name: string,
@@ -22,7 +25,6 @@ type Props = {
   cinema: Cinema
 }
 type State = {
-  dataSource: ListView.DataSource,
   currentDate: string
 }
 type Func = {
@@ -37,6 +39,13 @@ type Theater = {
   name: string,
   functions: Func[]
 }
+type RowData = {
+  cinema_id: number,
+  theater_id: number,
+  name: string,
+  functions: Func[],
+  rowNumber: number
+}
 
 export default class ShowTheaters extends React.Component {
   static propTypes: Props
@@ -45,34 +54,8 @@ export default class ShowTheaters extends React.Component {
 
   constructor (props: Props) {
     super(props)
-
-    const dataSource = new ListView.DataSource({
-      getSectionData: this._getSectionData,
-      getRowData: this._getRowData,
-      rowHasChanged: (row1, row2) => row1 !== row2,
-      sectionHeaderHasChanged : (s1, s2) => s1 !== s2
-    })
-    const {dataBlob, sectionIDs, rowIDs} = this._getDefaultDataSourceData()
     this.state = {
-      dataSource: dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs),
       currentDate: props.currentDate
-    }
-  }
-
-  componentDidMount () {
-    if (this.props.viewer != null) {
-      this._refreshTheaters()
-    }
-  }
-
-  componentDidUpdate (prevProps: Props, prevState: State) {
-    if (this.props.viewer != null) {
-      if (prevProps.viewer == null) {
-        this._refreshTheaters()
-      }
-      else if (this.state.currentDate !== prevState.currentDate) {
-        this._refreshTheaters()
-      }
     }
   }
 
@@ -80,84 +63,66 @@ export default class ShowTheaters extends React.Component {
     const {viewer} = this.props
     if (viewer != null && viewer.theaters) {
       return (
-        <ListView
-          enableEmptySections
-          renderRow={this._renderRow.bind(this)}
-          renderSectionHeader={this._renderSectionHeader.bind(this)}
-          dataSource={this.state.dataSource}
-        />
+        <View style={{flex: 1}}>
+          <CinemaCell
+            style={{flex: 0, height: 50}}
+            textStyle={{marginLeft: 4}}
+            cinemaId={this.props.cinema.cinema_id}
+            hideAccessoryView
+          />
+          {this._getList()}
+        </View>
       )
     }
     return null
   }
 
-  _getSectionData (dataBlob, sectionID) {
-    return dataBlob[sectionID];
-  }
-
-  _getRowData (dataBlob: Object, sectionID: number, rowID: number) {
-    return dataBlob[sectionID + ':' + rowID];
-  }
-
-  _renderSectionHeader (rowData: Theater, sectionID: number) {
-    return (
-      <View
-        style={{flex: 1, backgroundColor: 'white'}}
-      >
-        <Text style={{flex: 1, margin: 10, fontWeight: '600', fontSize: 20}}>
-          {rowData.name}
-        </Text>
-      </View>
-    )
-  }
-
-  _renderRow (rowData: Theater, sectionID: number, rowID: number,
-    highlightRow: (sectionID: number, rowID: number) => void
-  ) {
-    if (rowData != null) {
-      return <TheaterShowtimes theater={rowData} currentDate={this.state.currentDate} />
+  _getList () {
+    const dataRows = this._getDataRows()
+    if (dataRows.length > 0) {
+      return (
+        <MyGiftedListView
+          renderRow={this._renderRow.bind(this)}
+          dataRows={this._getDataRows()}
+        />
+      )
     }
     else {
       return (
-        <Text style={{flex: 1, fontSize: 20, textAlign: 'center'}}>
-          Sin funciones
-        </Text>
+        <View style={{flex: 1, justifyContent: 'center'}}>
+          <Text style={{fontSize: 20, textAlign: 'center'}}>
+            Sin funciones
+          </Text>
+        </View>
       )
     }
   }
 
-  _getDefaultDataSourceData (): {
-    dataBlob: Object,
-    sectionIDs: string[],
-    rowIDs: Array<Array<string>>
-  } {
-    return {
-      dataBlob: {
-        'cinema': this.props.cinema
-      },
-      sectionIDs: ['cinema'],
-      rowIDs: [[]]
-    }
+  _renderRow (rowData: RowData) {
+    return (
+      <ShowtimesCell
+        currentDate={this.state.currentDate}
+        rowNumber={rowData.rowNumber}
+        title={rowData.name}
+        functions={rowData.functions}
+        style={{padding: 10}}
+      />
+    )
   }
 
-  _refreshTheaters () {
-    const {viewer} = this.props
+  _getDataRows () {
+    const {viewer, cinema} = this.props
     if (viewer && viewer.theaters) {
-      const {dataBlob, sectionIDs, rowIDs} = this._getDefaultDataSourceData()
-      for (const theater of viewer.theaters) {
-        if (this.props.cinema.cinema_id === theater.cinema_id) {
-          dataBlob[`cinema:${theater.theater_id}`] = theater
-          rowIDs[0].push(`${theater.theater_id}`)
+      return viewer.theaters.filter((theater) => {
+        if (theater.cinema_id === cinema.cinema_id) {
+          const functionsDates = theater.functions.map(func => func.date)
+          if (functionsDates.includes(this.state.currentDate)) {
+            return true
+          }
         }
-      }
-      if (rowIDs[0].length === 0) {
-        dataBlob[`cinema:${-1}`] = null
-        rowIDs[0].push('-1')
-      }
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs)
       })
     }
+    return []
   }
 
   updateDate (currentDate: string) {

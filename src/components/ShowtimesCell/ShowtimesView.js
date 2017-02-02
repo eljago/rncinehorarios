@@ -5,7 +5,7 @@ import {
   StyleSheet
 } from 'react-native'
 
-import Colors from '../../data/Colors'
+import Colors from '../../../data/Colors'
 
 type Props = {
   functionTypes: string,

@@ -157,6 +157,7 @@ export default class Functions extends React.Component {
         cover={rowData.cover}
         functions={rowData.functions}
         onPress={this._onPress.bind(this, rowData)}
+        currentDate={this.state.currentDate}
       />
     )
   }

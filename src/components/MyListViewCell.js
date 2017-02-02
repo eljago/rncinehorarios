@@ -1,7 +1,7 @@
 'use strict'
 
 import React, { PropTypes } from 'react'
-import { TouchableHighlight, StyleSheet, View } from 'react-native'
+import { TouchableOpacity, StyleSheet, View } from 'react-native'
 
 import RightAccessoryView from './RightAccessoryView'
 
@@ -19,25 +19,21 @@ export default class MyListViewCell extends React.Component {
 
   render () {
     const {rowNumber, onPress, children, style} = this.props
-    const cellBackgroundColor = rowNumber % 2 === 0 ? 'white' : '#ECF0F1'
+    const cellBackgroundColor = rowNumber % 2 === 0 ? 'white' : '#f4f4f4'
 
     return (
-      <TouchableHighlight
-        style={styles.container}
+      <TouchableOpacity
+        style={[styles.container, {backgroundColor: cellBackgroundColor}, style]}
         onPress={onPress}
-        underlayColor={'black'}
+        activeOpacity={0.7}
       >
-        <View style={[
-          styles.rowContainer,
-          {backgroundColor: cellBackgroundColor},
-          style
-        ]}>
-          <View style={styles.container}>
+        <View style={[styles.rowContainer]}>
+          <View style={{flex: 1}}>
             {children}
           </View>
           {this._getAccessoryView()}
         </View>
-      </TouchableHighlight>
+      </TouchableOpacity>
     )
   }
 
@@ -52,12 +48,12 @@ export default class MyListViewCell extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    padding: 10
   },
   rowContainer: {
     flex: 1,
     flexDirection: 'row',
-    padding: 10,
     alignItems: 'center'
   }
 })
