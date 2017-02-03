@@ -113,7 +113,6 @@ export default class CardNavigator extends React.Component {
 
   _renderHeader (sceneProps: Object): ?React$Element<{}> {
     const route = sceneProps.scene.route
-    console.log(route)
     if (route.navBarHidden) { return null }
 
     return (
