@@ -78,19 +78,18 @@ export default class Functions extends React.Component {
     const {currentDate} = this.state
     const shows = viewer.shows
     const theatersData = getDataRows(currentDate, shows)
-    const theatersDataArray = Object.values(theatersData)
-    if (theatersDataArray.length > 1) {
+    if (theatersData.length > 1) {
       return (
         <MyHeaderListView
-          dataRows={theatersDataArray}
-          titles={theatersDataArray.map((theater) => theater.name)}
+          dataRows={theatersData}
+          titles={theatersData.map((theater) => theater.name)}
           renderPage={this._renderPage.bind(this)}
         />
       )
     }
-    else if (theatersDataArray.length == 1){
+    else if (theatersData.length == 1){
       return (
-        this._renderPage(theatersDataArray[0])
+        this._renderPage(theatersData[0])
       )
     }
   }
@@ -105,7 +104,7 @@ export default class Functions extends React.Component {
         key={currentDate}
         tabLabel={currentDate}
         renderRow={this._renderRow.bind(this)}
-        dataRows={Object.values(theater.shows)}
+        dataRows={theater.shows}
         forceFetch={relay.forceFetch}
       />
     )
@@ -204,6 +203,10 @@ export default class Functions extends React.Component {
 
 function getDataRows (date, shows) {
   let theaters = {}
+  shows = shows.map((show, index) => {
+    show.showNumber = index
+    return show
+  })
 
   for (const show of shows) {
     const {
@@ -211,7 +214,8 @@ function getDataRows (date, shows) {
       cover,
       show_id,
       functions,
-      has_functions
+      has_functions,
+      showNumber
     } = show
 
     for (const func of functions) {
@@ -232,6 +236,7 @@ function getDataRows (date, shows) {
             cover: cover,
             show_id: show_id,
             has_functions: has_functions,
+            showNumber: showNumber,
             functions: []
           }
         }
@@ -240,5 +245,15 @@ function getDataRows (date, shows) {
     }
   }
 
+  theaters = Object.values(theaters).map((theater) => {
+    theater.shows = Object.values(theater.shows).sort(compareShows)
+    return theater
+  })
   return theaters
+}
+
+function compareShows(s1, s2) {
+  if (s1.showNumber < s2.showNumber) return -1
+  if (s1.showNumber > s2.showNumber) return 1
+  return 0
 }
