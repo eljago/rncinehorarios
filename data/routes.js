@@ -121,7 +121,7 @@ function getShowRoute (props: Object, relayProps: Object) {
       backgroundColor: 'rgba(0,0,0,0.5)'
     },
     headerTitleStyle: {
-      
+
     },
     headerTitleTextStyle: {
       textAlign: 'left'
@@ -141,7 +141,7 @@ function getShowShowtimesRoute (props: Object): Object {
       backgroundColor: Colors.tabBar
     },
     headerTitleStyle: {
-
+      marginRight: 20
     },
     headerTitleTextStyle: {
       textAlign: 'left'
