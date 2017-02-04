@@ -6,7 +6,8 @@ import {
   View,
   Text,
   Image,
-  ListView
+  ListView,
+  StyleSheet
 } from 'react-native'
 
 import CINEMAS from '../../../../data/Cinemas'
@@ -19,7 +20,8 @@ import {getFavoriteTheaters} from '../../../utils/Favorites'
 type Cinema = {
   name: string,
   cinema_id: number,
-  images: number[]
+  images: number[],
+  hasFunctions: bool
 }
 type Func = {
   function_id: number,
@@ -36,10 +38,11 @@ type Theater = {
 type Props = {
   currentDate: string,
   showName: string,
-  showId: string
+  showId: string,
+  viewer: Viewer
 }
 type State = {
-  dataSource: ?ListView.DataSource,
+  dataSource: ListView.DataSource,
   currentDate: string
 }
 type RowData = {
@@ -48,6 +51,9 @@ type RowData = {
   name: string,
   functions: Func[],
   rowNumber: number
+}
+type Viewer = {
+  theaters: Theater[]
 }
 
 export default class ShowTheaters extends React.Component {
@@ -76,14 +82,15 @@ export default class ShowTheaters extends React.Component {
     }
   }
 
-  componentDidUpdate (prevProps: Props, prevState: State) {
-    if (this.props.viewer != null) {
-      if (prevProps.viewer == null) {
-        this._refreshFavorites()
-      }
-      else if (this.state.currentDate !== prevState.currentDate) {
-        this._refreshFavorites()
-      }
+  componentWillReceiveProps (nextProps: Props) {
+    if (nextProps.viewer != null && this.props.viewer == null) {
+      this._refreshFavorites(nextProps.viewer.theaters)
+    }
+  }
+
+  componentWillUpdate (nextProps: Props, nextState: State) {
+    if (this.props.viewer != null && this.state.currentDate !== nextState.currentDate) {
+      this._refreshFavorites(nextProps.viewer.theaters)
     }
   }
 
@@ -108,11 +115,13 @@ export default class ShowTheaters extends React.Component {
 
   _renderSectionHeader (rowData: Cinema, sectionID: number) {
     return (
-      <CinemaCell
-        textStyle={{marginLeft: 4}}
-        cinemaId={rowData.cinema_id}
-        onPress={this._onPressCinema.bind(this, rowData)}
-      />
+      <View style={styles.container}>
+        <CinemaCell
+          textStyle={styles.cinemaCellTextStyle}
+          cinemaId={rowData.cinema_id}
+          onPress={this._onPressCinema.bind(this, rowData)}
+        />
+      </View>
     )
   }
 
@@ -125,7 +134,7 @@ export default class ShowTheaters extends React.Component {
         rowNumber={rowData.rowNumber + 1}
         title={rowData.name}
         functions={rowData.functions}
-        style={{padding: 10}}
+        style={styles.showtimesCellStyle}
       />
     )
   }
@@ -152,16 +161,16 @@ export default class ShowTheaters extends React.Component {
 
   _getDefaultDataSourceData (): {
     dataBlob: Object,
-    sectionIDs: number[],
-    rowIDs: Array<Array<number>>
+    sectionIDs: string[],
+    rowIDs: Array<Array<string>>
   } {
     let dataBlob = {}
     let sectionIDs = []
     let rowIDs = []
-    for (const cinema of CINEMAS) {
+    for (let cinema of CINEMAS) {
       const {cinema_id} = cinema
-      dataBlob[cinema_id] = cinema
-      sectionIDs.push(cinema_id)
+      dataBlob[`${cinema_id}`] = cinema
+      sectionIDs.push(`${cinema_id}`)
       rowIDs.push([])
     }
     return {
@@ -171,54 +180,59 @@ export default class ShowTheaters extends React.Component {
     }
   }
 
-  _refreshFavorites () {
-    const {dataBlob, sectionIDs, rowIDs} = this._getDefaultDataSourceData()
+  _refreshFavorites (theaters) {
+    let {dataBlob, sectionIDs, rowIDs} = this._getDefaultDataSourceData()
     getFavoriteTheaters((result: bool, favorites: {[key: number]: Theater}) => {
-      const {theaters} = this.props.viewer
-      if (result === true && theaters) {
+      if (result === true && theaters && theaters.length > 0) {
         const favTheatersIds = Object.keys(favorites)
         for (const theater of theaters) {
-          if (favTheatersIds.includes(`${theater.theater_id}`) && theater.functions
-            && theater.functions.length > 0) {
-            const functionsDates = theater.functions.map(func => func.date)
-            // if this theater has a function for today, then add the data
-            if (functionsDates.includes(this.state.currentDate)) {
-              const {cinema_id, theater_id} = theater
-              const sectionIDIndex = sectionIDs.indexOf(cinema_id)
-              if (sectionIDIndex > -1) {
-                dataBlob[`${cinema_id}:${theater_id}`] = theater
-                rowIDs[sectionIDIndex].push(theater_id)
+          const {cinema_id, theater_id, name: theaterName} = theater
+          const sectionIDIndex = sectionIDs.indexOf(`${cinema_id}`)
+          if (favTheatersIds.includes(`${theater_id}`) &&
+            theater.functions && theater.functions.length > 0 && sectionIDIndex > -1
+          ) {
+            const functions = theater.functions.filter(func => func.date === this.state.currentDate)
+            if (functions.length > 0) {
+              dataBlob[`${cinema_id}:${theater_id}`] = {
+                cinema_id: cinema_id,
+                name: theaterName,
+                theater_id: theater_id,
+                functions: functions
               }
+              rowIDs[sectionIDIndex].push(`${theater_id}`)
             }
           }
         }
-        const sortedSectionIDs = sectionIDs.map((sectionID) => sectionID)
+        // SORT SECTIONS SO THE ONES WITH MORE THEATERS ARE ON TOP
+        let sortedSectionIDs = sectionIDs.map((cinema_id) => cinema_id)
         sortedSectionIDs.sort((cinema_id1, cinema_id2) => {
           const sectionIDIndex1 = sectionIDs.indexOf(cinema_id1)
           const sectionIDIndex2 = sectionIDs.indexOf(cinema_id2)
           return rowIDs[sectionIDIndex2].length - rowIDs[sectionIDIndex1].length
         })
+
         let sortedRowIDs = []
-        for (const sectionID of sortedSectionIDs) {
-          const sectionIDIndex = sectionIDs.indexOf(sectionID)
+        for (const cinema_id of sortedSectionIDs) {
+          const sectionIDIndex = sectionIDs.indexOf(cinema_id)
+          // SORT THEATERS BY NAME
           const sectionRows = rowIDs[sectionIDIndex]
           sectionRows.sort((theater_id1, theater_id2) => {
-            const theater1 = favorites[theater_id1]
-            const theater2 = favorites[theater_id2]
+            const theater1 = favorites[parseInt(theater_id1)]
+            const theater2 = favorites[parseInt(theater_id2)]
             if(theater1.name < theater2.name) return -1;
             if(theater1.name > theater2.name) return 1;
             return 0;
           })
-          sortedRowIDs.push(rowIDs[sectionIDIndex])
+          sortedRowIDs.push(sectionRows)
         }
-        // set RowData rowNumber:
+
+        // SET ROWDATA'S ROWNUMBER:
         for (const cinema_id of sortedSectionIDs) {
-          const sectionIDIndex = sectionIDs.indexOf(cinema_id)
-          if (sectionIDIndex > -1) {
-            let rowNumber = 0
-            for (const theater_id of rowIDs[sectionIDIndex]) {
-              dataBlob[`${cinema_id}:${theater_id}`].rowNumber = rowNumber++
-            }
+          const sectionIDIndex = sortedSectionIDs.indexOf(cinema_id)
+          let rowNumber = 0
+          for (const theater_id of sortedRowIDs[sectionIDIndex]) {
+            let theater = dataBlob[`${cinema_id}:${theater_id}`]
+            theater.rowNumber = rowNumber++
           }
         }
         this.setState({
@@ -232,3 +246,21 @@ export default class ShowTheaters extends React.Component {
     this.setState({currentDate})
   }
 }
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+  disabledOverlay: {
+    position: 'absolute',
+    top: 0, left: 0, right: 0, bottom: 0,
+    backgroundColor: 'rgba(241, 240, 240, 0.5)'
+  },
+  cinemaCellTextStyle: {
+    marginLeft: 4
+  },
+  showtimesCellStyle: {
+    padding: 10
+  }
+})

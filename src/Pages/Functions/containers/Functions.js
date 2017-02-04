@@ -218,7 +218,7 @@ function getDataRows (date, shows) {
       showNumber
     } = show
 
-    for (const func of functions) {
+    for (let func of functions) {
       const {theater} = func
       if (!Object.keys(theaters).includes(`${theater.theater_id}`)) {
         theaters[theater.theater_id] = {

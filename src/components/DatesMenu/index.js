@@ -40,7 +40,7 @@ export default class DatesMenu extends React.Component {
     }
   }
 
-  componentDidUpdate (prevProps: Props, prevState) {
+  componentDidUpdate (prevProps: Props) {
     if (prevProps.visible !== this.props.visible) {
       this._updateMenuPosition()
     }

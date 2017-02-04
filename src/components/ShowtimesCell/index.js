@@ -30,10 +30,12 @@ export default class ShowtimesCell extends React.Component {
 
   render () {
     const {title, rowNumber, functions, currentDate, style} = this.props
+    const viewStyle = typeof rowNumber === 'number' ?
+      {backgroundColor: rowNumber % 2 === 0 ? 'transparent' : '#f2f2f2'} : null
     return (
       <View style={[{
         flex: 1,
-        backgroundColor: rowNumber % 2 === 0 ? 'white' : '#f2f2f2'
+        ...viewStyle
       }, style]}>
         <Text key='showtimes' style={{fontSize: 18, fontWeight: '500', color: Colors.navBar}}>
           {title}:

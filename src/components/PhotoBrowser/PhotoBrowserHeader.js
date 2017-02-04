@@ -56,6 +56,22 @@ export default class PhotoBrowserHeader extends React.Component {
     }
   }
 
+  componentWillUpdate (nextProps: Props, nextState: Object) {
+    if (this.state.orientation !== nextState.orientation) {
+      if (nextState.orientation === 'PORTRAIT') {
+        this.setState({rotationValue: '0deg'})
+      }
+      if (nextState.orientation === 'PORTRAITUPSIDEDOWN') {
+        this.setState({rotationValue: '180deg'})
+      }
+      if (nextState.orientation === 'LANDSCAPE-LEFT') {
+        this.setState({rotationValue: '90deg'})
+      }
+      if (nextState.orientation === 'LANDSCAPE-RIGHT') {
+        this.setState({rotationValue: '-90deg'})
+      }
+    }
+  }
   componentDidUpdate (prevProps: Props, prevState: Object) {
     Animated.spring(
       this.state.headerOpacity,
@@ -65,20 +81,6 @@ export default class PhotoBrowserHeader extends React.Component {
         friction: 10
       }
     ).start()
-    if (this.state.orientation !== prevState.orientation) {
-      if (this.state.orientation === 'PORTRAIT') {
-        this.setState({rotationValue: '0deg'})
-      }
-      if (this.state.orientation === 'PORTRAITUPSIDEDOWN') {
-        this.setState({rotationValue: '180deg'})
-      }
-      if (this.state.orientation === 'LANDSCAPE-LEFT') {
-        this.setState({rotationValue: '90deg'})
-      }
-      if (this.state.orientation === 'LANDSCAPE-RIGHT') {
-        this.setState({rotationValue: '-90deg'})
-      }
-    }
   }
 
   render () {

@@ -5,7 +5,8 @@ import React from 'react'
 import {
   View,
   Text,
-  ListView
+  ListView,
+  StyleSheet
 } from 'react-native'
 import moment from 'moment'
 
@@ -54,19 +55,17 @@ export default class ShowTheaters extends React.Component {
 
   constructor (props: Props) {
     super(props)
-    this.state = {
-      currentDate: props.currentDate
-    }
+    this.state = {currentDate: props.currentDate}
   }
 
   render () {
     const {viewer} = this.props
     if (viewer != null && viewer.theaters) {
       return (
-        <View style={{flex: 1}}>
+        <View style={styles.container}>
           <CinemaCell
-            style={{flex: 0, height: 50}}
-            textStyle={{marginLeft: 4}}
+            style={styles.cinemaCellStyle}
+            textStyle={styles.cinemaCellTextStyle}
             cinemaId={this.props.cinema.cinema_id}
             hideAccessoryView
           />
@@ -83,14 +82,14 @@ export default class ShowTheaters extends React.Component {
       return (
         <MyGiftedListView
           renderRow={this._renderRow.bind(this)}
-          dataRows={this._getDataRows()}
+          dataRows={dataRows}
         />
       )
     }
     else {
       return (
-        <View style={{flex: 1, justifyContent: 'center'}}>
-          <Text style={{fontSize: 20, textAlign: 'center'}}>
+        <View style={styles.noFunctionsContainer}>
+          <Text style={styles.noFunctionsText}>
             Sin funciones
           </Text>
         </View>
@@ -102,10 +101,10 @@ export default class ShowTheaters extends React.Component {
     return (
       <ShowtimesCell
         currentDate={this.state.currentDate}
-        rowNumber={rowData.rowNumber}
+        rowNumber={rowData.rowNumber+1}
         title={rowData.name}
         functions={rowData.functions}
-        style={{padding: 10}}
+        style={styles.showtimesCellStyle}
       />
     )
   }
@@ -113,14 +112,19 @@ export default class ShowTheaters extends React.Component {
   _getDataRows () {
     const {viewer, cinema} = this.props
     if (viewer && viewer.theaters) {
-      return viewer.theaters.filter((theater) => {
-        if (theater.cinema_id === cinema.cinema_id) {
-          const functionsDates = theater.functions.map(func => func.date)
-          if (functionsDates.includes(this.state.currentDate)) {
-            return true
-          }
+      let theaters = []
+      for (const theater of viewer.theaters) {
+        const functions = theater.functions.filter((func) => {
+          return func.date === this.state.currentDate
+        })
+        if (functions.length > 0) {
+          theaters.push({
+            ...theater,
+            functions: functions
+          })
         }
-      })
+      }
+      return theaters
     }
     return []
   }
@@ -129,3 +133,27 @@ export default class ShowTheaters extends React.Component {
     this.setState({currentDate})
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+  showtimesCellStyle: {
+    padding: 10
+  },
+  noFunctionsContainer: {
+    flex: 1,
+    justifyContent: 'center'
+  },
+  noFunctionsText: {
+    fontSize: 20,
+    textAlign: 'center'
+  },
+  cinemaCellStyle: {
+    flex: 0,
+    height: 50
+  },
+  cinemaCellTextStyle: {
+    marginLeft: 4
+  }
+})

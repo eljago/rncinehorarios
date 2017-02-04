@@ -36,10 +36,9 @@ export default class FunctionCell extends React.Component {
           </View>
           <ShowtimesCell
             currentDate={currentDate}
-            rowNumber={rowNumber}
             title={title}
             functions={functions}
-            style={{paddingLeft: 10, paddingRight: 10}}
+            style={styles.showtimesCell}
           />
         </View>
       </MyListViewCell>
@@ -66,6 +65,9 @@ const styles = StyleSheet.create({
       width: 0, height: 0
     },
     backgroundColor: '#D1D1D1'
+  },
+  showtimesCell: {
+    paddingLeft: 10,
+    paddingRight: 10
   }
-
 })
