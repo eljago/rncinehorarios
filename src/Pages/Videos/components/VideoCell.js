@@ -15,7 +15,7 @@ import {getShowRoute} from '../../../../data/routes'
 import {goToVideo} from '../../../utils/VideoHelper'
 import MyListViewCell from '../../../components/MyListViewCell'
 
-const POSTERWIDTH = 80
+const POSTERWIDTH = 78
 
 export default class VideoCell extends React.Component {
   static propTypes = {
@@ -54,7 +54,7 @@ export default class VideoCell extends React.Component {
               <Image
                 source={{uri: getImageVersion(video.show.cover, 'small')}}
                 style={styles.container}
-                resizeMode='cover'
+                resizeMode='stretch'
               />
             </TouchableOpacity>
             <View style={{flex: 1}}>

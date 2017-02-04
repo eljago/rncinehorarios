@@ -50,6 +50,7 @@ export default class MyHeaderListView extends React.Component {
           dataSource={this.state.dataSource}
           renderRow={this._renderRow.bind(this)}
           onScroll={this._onScroll.bind(this)}
+          bounces={false}
         />
       </View>
     )

@@ -157,7 +157,7 @@ export default class Show extends React.Component {
     const header = this.props.getHeader()
     if (header) {
       header.rightComp.setup({
-        image: require('../../../../assets/Heart.png'),
+        image: require('../../../../assets/IconShowtimes.png'),
         onPress: this._onRightAction.bind(this)
       })
     }
