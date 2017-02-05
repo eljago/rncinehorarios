@@ -20,6 +20,7 @@ export default Relay.createContainer(ShowFavorites, {
           cinema_id
           theater_id
           name
+          parent_theater_id
           functions{
             function_id
             date

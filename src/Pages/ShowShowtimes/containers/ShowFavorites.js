@@ -32,6 +32,7 @@ type Func = {
 type Theater = {
   cinema_id: number,
   theater_id: number,
+  parent_theater_id: number,
   name: string,
   functions: Func[]
 }
@@ -78,7 +79,7 @@ export default class ShowTheaters extends React.Component {
 
   componentDidMount () {
     if (this.props.viewer != null) {
-      this._refreshFavorites()
+      this._refreshFavorites(this.props.viewer.theaters)
     }
   }
 
@@ -186,9 +187,10 @@ export default class ShowTheaters extends React.Component {
       if (result === true && theaters && theaters.length > 0) {
         const favTheatersIds = Object.keys(favorites)
         for (const theater of theaters) {
-          const {cinema_id, theater_id, name: theaterName} = theater
+          const {cinema_id, theater_id, parent_theater_id, name: theaterName} = theater
           const sectionIDIndex = sectionIDs.indexOf(`${cinema_id}`)
-          if (favTheatersIds.includes(`${theater_id}`) &&
+          if (favTheatersIds.includes(`${theater_id}`) ||
+            (parent_theater_id && favTheatersIds.includes(`${parent_theater_id}`)) &&
             theater.functions && theater.functions.length > 0 && sectionIDIndex > -1
           ) {
             const functions = theater.functions.filter(func => func.date === this.state.currentDate)

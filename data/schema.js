@@ -176,7 +176,7 @@ module.exports = {
                     "name": "String",
                     "ofType": null
                   },
-                  "defaultValue": null
+                  "defaultValue": "null"
                 },
                 {
                   "name": "order",
@@ -253,7 +253,7 @@ module.exports = {
                     "name": "Int",
                     "ofType": null
                   },
-                  "defaultValue": null
+                  "defaultValue": "null"
                 },
                 {
                   "name": "theater_ids",
@@ -263,7 +263,7 @@ module.exports = {
                     "name": "String",
                     "ofType": null
                   },
-                  "defaultValue": null
+                  "defaultValue": "null"
                 },
                 {
                   "name": "show_id",
@@ -350,7 +350,7 @@ module.exports = {
                     "name": "String",
                     "ofType": null
                   },
-                  "defaultValue": null
+                  "defaultValue": "null"
                 },
                 {
                   "name": "date",
@@ -447,6 +447,18 @@ module.exports = {
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "parent_theater_id",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -1233,7 +1245,7 @@ module.exports = {
         {
           "kind": "OBJECT",
           "name": "VideoConnection",
-          "description": null,
+          "description": "The connection type for Video.",
           "fields": [
             {
               "name": "edges",
