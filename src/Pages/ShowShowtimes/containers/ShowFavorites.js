@@ -199,6 +199,7 @@ export default class ShowTheaters extends React.Component {
                 cinema_id: cinema_id,
                 name: theaterName,
                 theater_id: theater_id,
+                parent_theater_id: parent_theater_id,
                 functions: functions
               }
               rowIDs[sectionIDIndex].push(`${theater_id}`)
@@ -219,8 +220,8 @@ export default class ShowTheaters extends React.Component {
           // SORT THEATERS BY NAME
           const sectionRows = rowIDs[sectionIDIndex]
           sectionRows.sort((theater_id1, theater_id2) => {
-            const theater1 = favorites[parseInt(theater_id1)]
-            const theater2 = favorites[parseInt(theater_id2)]
+            const theater1 = dataBlob[`${cinema_id}:${theater_id1}`]
+            const theater2 = dataBlob[`${cinema_id}:${theater_id2}`]
             if(theater1.name < theater2.name) return -1;
             if(theater1.name > theater2.name) return 1;
             return 0;
