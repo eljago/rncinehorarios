@@ -14,6 +14,7 @@ import CardNavigator from '../../../main/CardNavigator'
 import ShowFavoritesRelay from './ShowFavoritesRelay'
 import {ViewerQueryConfig, getCacheTime} from '../../../utils/ViewerQueryConfig'
 import DatesMenu from '../../../components/DatesMenu'
+import RelayContainer from '../../../components/Relay/RelayContainer'
 
 const {
   CardStack: NavigationCardStack,
@@ -38,7 +39,8 @@ type State = {
   navigationState: {index: number, routes: Array<Route>}
 }
 interface CardPage<React$Element> {
-  getTopPage: () => void
+  getTopPage: () => React$Element,
+  getAllPages: () => Array<RelayContainer>
 }
 
 export default class ShowShowtimes extends React.Component {
@@ -120,9 +122,10 @@ export default class ShowShowtimes extends React.Component {
     const currentDate = this._currentDate.format('YYYY-MM-DD')
     this.setState({currentDate})
     if (this._cardNav) {
-      const topView = this._cardNav.getTopPage()
-      if (topView && topView._comp) {
-        topView._comp.refs.component.updateDate(currentDate)
+      for (const cardNavView of this._cardNav.getAllPages()) {
+        if (cardNavView && cardNavView._comp) {
+          cardNavView._comp.refs.component.updateDate(currentDate)
+        }
       }
     }
   }
@@ -161,7 +164,7 @@ export default class ShowShowtimes extends React.Component {
       })
     }
   }
-  
+
 
   // LEFT COMPONENT
 
