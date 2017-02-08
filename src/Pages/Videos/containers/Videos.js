@@ -8,10 +8,8 @@ import update from 'react/lib/update'
 
 import MyHeaderListView from '../../../components/MyHeaderListView'
 import MyGiftedListView from '../../../components/MyGiftedListView'
-import VideoPlayer from '../../../components/VideoPlayer'
 import VideoCell from '../components/VideoCell'
-import {getShowRoute} from '../../../../data/routes'
-import {getVideoRoute} from '../../../../data/routes'
+import {getShowRoute, getVideoPlayerRoute} from '../../../../data/routes'
 
 export default class Videos extends React.Component {
   static propTypes = {
@@ -35,7 +33,6 @@ export default class Videos extends React.Component {
     } = viewer
     return (
       <View style={{flex: 1}}>
-        <VideoPlayer ref={(comp) => {this._videoPlayer = comp}} />
         <MyHeaderListView
           dataRows={[latestVideos.edges, billboardVideos.edges, comingSoonVideos.edges]}
           titles={['Últimos', 'Cartelera', 'Próximamente']}
@@ -69,7 +66,9 @@ export default class Videos extends React.Component {
   }
 
   _onGoToVideo (video) {
-    this._videoPlayer.open(video)
+    this.props.onPushRoute(getVideoPlayerRoute({
+      video: video
+    }))
   }
 
   _onGoToMovie (show) {

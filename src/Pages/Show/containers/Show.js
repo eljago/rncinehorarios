@@ -19,7 +19,7 @@ import MediaRowWithTitle from '../components/MediaRowWithTitle'
 import ScoresViews from '../components/ScoresViews'
 
 import {getImageVersion} from '../../../utils/ImageHelper'
-import {getShowShowtimesRoute} from '../../../../data/routes'
+import {getShowShowtimesRoute, getVideoPlayerRoute} from '../../../../data/routes'
 import {getFavoriteTheaters} from '../../../utils/Favorites'
 
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
@@ -146,11 +146,25 @@ export default class Show extends React.Component {
     if (videos.length > 0) {
       return (
         <MediaRowWithTitle title='Videos: '>
-          <ShowVideosRow videos={videos} setDrawerLockMode={this.props.setDrawerLockMode} />
+          <ShowVideosRow videos={videos} onPushVideo={this._onPushVideo.bind(this)} />
         </MediaRowWithTitle>
       )
     }
     return null;
+  }
+
+  _onPushVideo (video) {
+    const {viewer} = this.props
+    if (viewer && video && viewer.show) {
+      this.props.onPushRoute(getVideoPlayerRoute({
+        video: {
+          ...video,
+          show: {
+            name: viewer.show.name
+          }
+        }
+      }))
+    }
   }
 
   _updateRightComponent (): void {

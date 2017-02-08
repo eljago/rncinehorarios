@@ -14,14 +14,13 @@ import _ from 'lodash'
 
 import {getImageVersion} from '../../../utils/ImageHelper'
 import {goToVideo} from '../../../utils/VideoHelper'
-import VideoPlayer from '../../../components/VideoPlayer'
 
 const VIDEOROWHEIGHT = 100
 
 export default class ShowVideosRow extends React.Component {
   static propTypes = {
     videos: PropTypes.array,
-    setDrawerLockMode: PropTypes.func.isRequired
+    onPushVideo: PropTypes.func
   };
 
   constructor (props) {
@@ -44,11 +43,6 @@ export default class ShowVideosRow extends React.Component {
   render () {
     return (
       <View style={styles.container}>
-        <VideoPlayer
-          ref={(comp) => {this._videoPlayer = comp}}
-          onOpen={this._onOpenVideo.bind(this)}
-          onClose={this._onCloseVideo.bind(this)}
-        />
         <ListView
           style={styles.container}
           horizontal
@@ -63,7 +57,7 @@ export default class ShowVideosRow extends React.Component {
     return (
       <TouchableOpacity
         style={styles.cellContainer}
-        onPress={this._goToVideo.bind(this, video)}
+        onPress={this.props.onPushVideo.bind(this, video)}
         activeOpacity={0.85}
       >
         <View style={styles.imageContainer}>
@@ -86,18 +80,6 @@ export default class ShowVideosRow extends React.Component {
         </View>
       </TouchableOpacity>
     )
-  }
-
-  _goToVideo (video) {
-    this._videoPlayer.open(video)
-  }
-
-  _onOpenVideo () {
-    this.props.setDrawerLockMode('locked-closed')
-  }
-
-  _onCloseVideo () {
-    this.props.setDrawerLockMode('unlocked')
   }
 }
 

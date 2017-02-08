@@ -11,6 +11,7 @@ import Functions from '../src/Pages/Functions'
 import Show from '../src/Pages/Show'
 import ShowShowtimes from '../src/Pages/ShowShowtimes'
 import Videos from '../src/Pages/Videos'
+import VideoPlayer from '../src/Pages/VideoPlayer'
 import {ViewerQueryConfig, getCacheTime} from '../src/utils/ViewerQueryConfig'
 import Colors from './Colors'
 
@@ -91,7 +92,7 @@ function getFunctionsRoute (props: Object, relayProps: Object) {
     },
     props: props,
     headerTitleStyle: {
-      marginLeft: 40,
+      marginLeft: Platform.OS === 'ios' ? 40 : 60,
       marginRight: 30
     },
     leftComponent2: true,
@@ -118,7 +119,7 @@ function getShowRoute (props: Object, relayProps: Object) {
       paddingTop: APPBAR_HEIGHT + STATUSBAR_HEIGHT
     },
     headerStyle: {
-      backgroundColor: 'rgba(0,0,0,0.5)'
+      backgroundColor: Platform.OS === 'ios' ? 'rgba(0,0,0,0.5)' : 'black'
     },
     headerTitleStyle: {
 
@@ -151,10 +152,30 @@ function getShowShowtimesRoute (props: Object): Object {
   })
 }
 
+function getVideoPlayerRoute(props: Object): Object {
+  const {video} = props
+  const {show} = video
+  return ({
+    key: 'VideoPlayer',
+    title: `${show.name} - ${video.name}`,
+    screenView: 'VideoPlayer',
+    component: VideoPlayer,
+    props: props,
+    getStatusBar: () => null,
+    headerStyle: {
+      backgroundColor: Colors.tabBar
+    },
+    headerTitleStyle: {
+      marginRight: Platform.OS === 'ios' ? -35 : 0
+    }
+  })
+}
+
 export {
   getMenuRoutes,
   getTheatersRoute,
   getFunctionsRoute,
   getShowRoute,
-  getShowShowtimesRoute
+  getShowShowtimesRoute,
+  getVideoPlayerRoute
 }

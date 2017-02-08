@@ -27,7 +27,7 @@ export default class MyHeader extends React.Component {
     onPressMenu: PropTypes.func.isRequired
   };
 
-  render (): React.Element {
+  render (): React$Element {
     return (
       <NavigationHeader
         style={[styles.header, this.props.scene.route.headerStyle]}
@@ -40,14 +40,20 @@ export default class MyHeader extends React.Component {
     )
   }
 
-  _renderTitleComponent (props: Object): React.Element {
+  _renderTitleComponent (props: Object): React$Element<{}> {
     const route = props.scene.route
+    const title = route.title ? route.title : ''
+    const titleStyle = title.length > 65 ? {fontSize: 12} : null
+    const customTextStyle = {
+      ...titleStyle,
+      ...route.headerTitleTextStyle
+    }
     return (
       <NavigationHeader.Title
         style={route.headerTitleStyle}
-        textStyle={[styles.title, route.headerTitleTextStyle]}
+        textStyle={[styles.title, customTextStyle]}
       >
-        {route.title ? route.title : route.key}
+        {route.title ? route.title : ''}
       </NavigationHeader.Title>
     )
   }
@@ -56,7 +62,7 @@ export default class MyHeader extends React.Component {
     const {leftComponent, leftComponent2} = props.scene.route
     let childs = []
     if (leftComponent) {
-      childs.push(<HeaderButton key='lc1' ref={(comp) => { this.leftComp = comp }} />)
+      childs.push(<HeaderButton key='lc1' />)
     }
     else {
       if (props.scene.index === 0) {
